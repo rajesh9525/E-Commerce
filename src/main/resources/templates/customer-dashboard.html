@@ -1,81 +1,281 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <title>Customer Dashboard</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Shop – ShopSphere</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+	<style>
+		* {
+			font-family: 'Inter', sans-serif;
+		}
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+		body {
+			background: #0f0e17;
+			color: #fff;
+			display: flex;
+			min-height: 100vh;
+			margin: 0;
+		}
 
-    <style>
-        body {
-            background-color: #f5f6fa;
-        }
+		.sidebar {
+			width: 250px;
+			min-height: 100vh;
+			flex-shrink: 0;
+			background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+			border-right: 1px solid rgba(255, 255, 255, 0.07);
+			padding: 24px 16px;
+			display: flex;
+			flex-direction: column;
+			position: fixed;
+			top: 0;
+			left: 0;
+			height: 100%;
+			overflow-y: auto;
+		}
 
-        .sidebar {
-            height: 100vh;
-            background: #212529;
-            padding-top: 20px;
-        }
+		.sidebar .logo {
+			font-size: 22px;
+			font-weight: 800;
+			color: #fff;
+			padding: 8px 12px 24px;
+			border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+			margin-bottom: 20px;
+		}
 
-        .sidebar a {
-            color: white;
-            display: block;
-            padding: 12px;
-            text-decoration: none;
-            border-radius: 8px;
-            margin: 5px 10px;
-        }
+		.sidebar .logo span {
+			color: #6c63ff;
+		}
 
-        .sidebar a:hover {
-            background: #0d6efd;
-        }
+		.nav-label {
+			font-size: 10px;
+			font-weight: 700;
+			color: rgba(255, 255, 255, 0.3);
+			letter-spacing: 1.5px;
+			text-transform: uppercase;
+			padding: 0 12px;
+			margin: 16px 0 6px;
+		}
 
-        .content {
-            padding: 30px;
-        }
-    </style>
+		.sidebar a {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			color: rgba(255, 255, 255, 0.65);
+			text-decoration: none;
+			padding: 11px 14px;
+			border-radius: 12px;
+			font-size: 14px;
+			font-weight: 600;
+			transition: all 0.25s;
+			margin-bottom: 4px;
+		}
+
+		.sidebar a:hover,
+		.sidebar a.active {
+			background: rgba(108, 99, 255, 0.2);
+			color: #fff;
+		}
+
+		.sidebar a i {
+			font-size: 17px;
+			width: 22px;
+		}
+
+		.sidebar-footer {
+			margin-top: auto;
+			padding-top: 16px;
+			border-top: 1px solid rgba(255, 255, 255, 0.08);
+		}
+
+		.main {
+			margin-left: 250px;
+			flex: 1;
+		}
+
+		.topbar {
+			background: rgba(255, 255, 255, 0.04);
+			border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+			padding: 18px 32px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			position: sticky;
+			top: 0;
+			z-index: 10;
+		}
+
+		.topbar h5 {
+			margin: 0;
+			font-weight: 700;
+			font-size: 18px;
+		}
+
+		.customer-badge {
+			background: linear-gradient(135deg, #f7971e, #ffd200);
+			padding: 6px 16px;
+			border-radius: 20px;
+			font-size: 12px;
+			font-weight: 700;
+			color: #111;
+		}
+
+		.content-area {
+			padding: 28px 32px;
+		}
+
+		.page-header {
+			background: linear-gradient(135deg, rgba(247, 151, 30, 0.15), rgba(255, 210, 0, 0.05));
+			border: 1px solid rgba(247, 151, 30, 0.2);
+			border-radius: 18px;
+			padding: 24px 28px;
+			margin-bottom: 28px;
+		}
+
+		.page-header h4 {
+			margin: 0;
+			font-weight: 800;
+			font-size: 22px;
+		}
+
+		.page-header p {
+			margin: 4px 0 0;
+			color: rgba(255, 255, 255, 0.5);
+			font-size: 13px;
+		}
+
+		.products-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+			gap: 20px;
+		}
+
+		.product-card {
+			background: rgba(255, 255, 255, 0.05);
+			border: 1px solid rgba(255, 255, 255, 0.08);
+			border-radius: 18px;
+			overflow: hidden;
+			transition: all 0.3s;
+		}
+
+		.product-card:hover {
+			transform: translateY(-6px);
+			box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+			border-color: rgba(108, 99, 255, 0.3);
+		}
+
+		.product-card img {
+			width: 100%;
+			height: 180px;
+			object-fit: cover;
+		}
+
+		.product-card .no-img {
+			width: 100%;
+			height: 180px;
+			background: rgba(255, 255, 255, 0.04);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.product-card .no-img i {
+			font-size: 48px;
+			color: rgba(255, 255, 255, 0.15);
+		}
+
+		.product-body {
+			padding: 18px;
+		}
+
+		.product-name {
+			font-weight: 700;
+			font-size: 15px;
+			margin-bottom: 4px;
+		}
+
+		.product-price {
+			color: #38ef7d;
+			font-weight: 800;
+			font-size: 18px;
+			margin-bottom: 14px;
+		}
+
+		.btn-buy {
+			background: linear-gradient(135deg, #f7971e, #ffd200);
+			border: none;
+			border-radius: 10px;
+			padding: 10px 0;
+			font-weight: 700;
+			color: #111;
+			width: 100%;
+			font-size: 14px;
+			transition: all 0.3s;
+		}
+
+		.btn-buy:hover {
+			opacity: 0.9;
+			transform: translateY(-1px);
+		}
+
+		.empty-state {
+			text-align: center;
+			padding: 60px;
+			color: rgba(255, 255, 255, 0.25);
+		}
+
+		.empty-state i {
+			font-size: 56px;
+			margin-bottom: 14px;
+			display: block;
+		}
+	</style>
 </head>
 
 <body>
-
-	<div th:if="${session.role == 'CUSTOMER'}">
-
-	    <h4>Available Products</h4>
-
-	    <table class="table table-bordered mt-3">
-	        <thead class="table-dark">
-	            <tr>
-	                <th>Name</th>
-	                <th>Price</th>
-					<th>Image</th>
-	                <th>Action</th>
-					
-	            </tr>
-	        </thead>
-			<tbody>
-			    <tr th:each="product : ${products}">
-			        <td th:text="${product.productName}"></td>
-			        <td th:text="${product.productprice}"></td>
-					<td>
-					    <img th:src="@{'/product/image/' + ${product.id}}"
-					         width="80" height="80"
-					         class="rounded">
-					</td>
-			        <td>
-			          <form action="/orders/buy" method="post">
-			                <input type="hidden"
-			                       name="productId"
-			                       th:value="${product.id}" />
-			                <button class="btn btn-success btn-sm">
-			                    Buy
-			                </button>
-			            </form>
-			        </td>
-			    </tr>
-			</tbody>
-	    </table>
-
+	<div class="sidebar">
+		<div class="logo">Shop<span>Sphere</span></div>
+		<div class="nav-label">Shop</div>
+		<a href="/customer/view-products" class="active"><i class="bi bi-shop"></i> Browse Products</a>
+		<div class="sidebar-footer">
+			<a href="/logout"><i class="bi bi-box-arrow-right"></i> Logout</a>
+		</div>
 	</div>
-
+	<div class="main">
+		<div class="topbar">
+			<h5><i class="bi bi-shop me-2" style="color:#ffd200;"></i>Browse Products</h5>
+			<span class="customer-badge"><i class="bi bi-person-fill me-1"></i>CUSTOMER</span>
+		</div>
+		<div class="content-area">
+			<div class="page-header">
+				<h4>Available Products</h4>
+				<p>Discover products from our verified sellers</p>
+			</div>
+			<div th:if="${#lists.isEmpty(products)}">
+				<div class="empty-state"><i class="bi bi-bag-x"></i>
+					<p>No products available right now.</p>
+				</div>
+			</div>
+			<div class="products-grid">
+				<div class="product-card" th:each="product : ${products}">
+					<img th:if="${product.productimage != null}" th:src="@{'/product/image/' + ${product.id}}"
+						alt="product">
+					<div th:unless="${product.productimage != null}" class="no-img"><i class="bi bi-image"></i></div>
+					<div class="product-body">
+						<div class="product-name" th:text="${product.productName}"></div>
+						<div class="product-price" th:text="'₹' + ${product.productprice}"></div>
+						<form action="/orders/buy" method="post">
+							<input type="hidden" name="productId" th:value="${product.id}">
+							<button type="submit" class="btn-buy"><i class="bi bi-cart-plus me-2"></i>Buy Now</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
+
 </html>

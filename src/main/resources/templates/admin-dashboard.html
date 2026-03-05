@@ -1,206 +1,478 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <title>Admin Dashboard</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard – ShopSphere</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
         body {
+            background: #0f0e17;
+            color: #fff;
             display: flex;
-            background-color: #f4f6f9;
+            min-height: 100vh;
+            margin: 0;
         }
 
-        /* Sidebar */
         .sidebar {
-            width: 240px;
-            height: 100vh;
-            background: linear-gradient(180deg,#343a40,#212529);
-            color: white;
-            padding: 20px;
+            width: 250px;
+            min-height: 100vh;
+            flex-shrink: 0;
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+            border-right: 1px solid rgba(255, 255, 255, 0.07);
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
             position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            overflow-y: auto;
         }
 
-        .sidebar h4 {
-            text-align: center;
-            margin-bottom: 30px;
+        .sidebar .logo {
+            font-size: 22px;
+            font-weight: 800;
+            color: #fff;
+            padding: 8px 12px 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 20px;
+        }
+
+        .sidebar .logo span {
+            color: #6c63ff;
+        }
+
+        .nav-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 0 12px;
+            margin: 16px 0 6px;
         }
 
         .sidebar a {
-            display: block;
-            color: white;
-            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: rgba(255, 255, 255, 0.65);
             text-decoration: none;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            transition: 0.3s;
-        }
-
-        .sidebar a:hover {
-            background: #0d6efd;
-        }
-
-        /* Main Content */
-        .content {
-            margin-left: 260px;
-            padding: 30px;
-            width: 100%;
-        }
-
-        .card-box {
-            background: white;
-            padding: 20px;
+            padding: 11px 14px;
             border-radius: 12px;
-            box-shadow: 0px 4px 15px rgba(0,0,0,0.08);
-            margin-bottom: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.25s;
+            margin-bottom: 4px;
+            cursor: pointer;
         }
 
-        table {
-            background: white;
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: rgba(108, 99, 255, 0.2);
+            color: #fff;
         }
 
-        th {
-            background-color: #0d6efd;
-            color: white;
+        .sidebar a i {
+            font-size: 17px;
+            width: 22px;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .main {
+            margin-left: 250px;
+            flex: 1;
+        }
+
+        .topbar {
+            background: rgba(255, 255, 255, 0.04);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            padding: 18px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .topbar h5 {
+            margin: 0;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .admin-badge {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .content-area {
+            padding: 28px 32px;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: #6c63ff;
+        }
+
+        /* Table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table thead th {
+            background: rgba(108, 99, 255, 0.15);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 14px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .data-table tbody tr {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: background 0.2s;
+        }
+
+        .data-table tbody tr:hover {
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .data-table td {
+            padding: 14px 16px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.85);
+            vertical-align: middle;
+        }
+
+        .card-table {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 18px;
+            overflow: hidden;
+        }
+
+        /* Badges */
+        .badge-pending {
+            background: rgba(255, 193, 7, 0.15);
+            color: #ffc107;
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .badge-approved {
+            background: rgba(56, 239, 125, 0.15);
+            color: #38ef7d;
+            border: 1px solid rgba(56, 239, 125, 0.3);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .badge-rejected {
+            background: rgba(255, 107, 107, 0.15);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .badge-role {
+            background: rgba(108, 99, 255, 0.15);
+            color: #a5a0ff;
+            border: 1px solid rgba(108, 99, 255, 0.25);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        /* Buttons */
+        .btn-approve {
+            background: rgba(56, 239, 125, 0.15);
+            color: #38ef7d;
+            border: 1px solid rgba(56, 239, 125, 0.3);
+            border-radius: 8px;
+            padding: 5px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-approve:hover {
+            background: rgba(56, 239, 125, 0.3);
+            color: #38ef7d;
+        }
+
+        .btn-reject {
+            background: rgba(255, 107, 107, 0.15);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            border-radius: 8px;
+            padding: 5px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-reject:hover {
+            background: rgba(255, 107, 107, 0.3);
+            color: #ff6b6b;
+        }
+
+        .btn-block {
+            background: rgba(255, 193, 7, 0.12);
+            color: #ffc107;
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            border-radius: 8px;
+            padding: 5px 12px;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-block:hover {
+            background: rgba(255, 193, 7, 0.25);
+            color: #ffc107;
+        }
+
+        .btn-del {
+            background: rgba(255, 107, 107, 0.12);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 107, 107, 0.25);
+            border-radius: 8px;
+            padding: 5px 12px;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-del:hover {
+            background: rgba(255, 107, 107, 0.25);
+            color: #ff6b6b;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 48px;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .product-img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
     </style>
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
-<div class="sidebar">
-    <h4>Admin Panel</h4>
-	<a href="#" onclick="showSection('users')">Manage Users</a>
-	<a href="#" onclick="showSection('products')">Seller Products</a>
-	<a href="#" onclick="showSection('activity')">User Activity</a>
-</div>
-
-<!-- CONTENT -->
-<div class="content">
-
-    <!-- USERS -->
-   <div class="card-box section" id="users">
-        <h4 class="mb-3">Manage Users</h4>
-
-        <table class="table table-bordered table-hover">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Login Date</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-
-            <tbody>
-            <tr th:each="u : ${users}">
-                <td th:text="${u.name}"></td>
-                <td th:text="${u.email}"></td>
-                <td th:text="${u.logintype}"></td>
-                <td th:text="${u.logindate}"></td>
-
-                <td>
-                    <a class="btn btn-warning btn-sm"
-                       th:href="@{/admin/block/{id}(id=${u.id})}">
-                        Block
-                    </a>
-
-                    <a class="btn btn-danger btn-sm"
-                       th:href="@{/admin/delete/{id}(id=${u.id})}">
-                        Delete
-                    </a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <div class="logo">Shop<span>Sphere</span></div>
+        <div class="nav-label">Admin Panel</div>
+        <a href="#" onclick="showSection('users')" id="nav-users"><i class="bi bi-people-fill"></i> Manage Users</a>
+        <a href="#" onclick="showSection('products')" id="nav-products"><i class="bi bi-bag-check-fill"></i> Product
+            Requests</a>
+        <a href="#" onclick="showSection('activity')" id="nav-activity"><i class="bi bi-activity"></i> User Activity</a>
+        <div class="sidebar-footer">
+            <a href="/logout"><i class="bi bi-box-arrow-right"></i> Logout</a>
+        </div>
     </div>
 
-    <!-- PRODUCT REQUEST -->
-   <div class="card-box section" id="products">
-        <h4 class="mb-3">Seller Product Requests</h4>
+    <!-- MAIN -->
+    <div class="main">
+        <div class="topbar">
+            <h5><i class="bi bi-speedometer2 me-2" style="color:#6c63ff;"></i>Admin Dashboard</h5>
+            <span class="admin-badge"><i class="bi bi-shield-fill me-1"></i>ADMIN</span>
+        </div>
 
-        <table class="table table-bordered table-hover">
-            <thead>
-            <tr>
-                <th>Product Name</th>
-                <th>Seller</th>
-				<th>Image</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-            </thead>
+        <div class="content-area">
 
-            <tbody>
-            <tr th:each="req : ${requests}">
-                <td th:text="${req.productname}"></td>
-                <td th:text="${req.sellername}"></td>
-				<td>
-				    <img th:if="${req.productimage != null}"
-				         th:src="@{'/request/image/' + ${req.id}}"
-				         width="80"
-				         class="rounded">
-				    <span th:unless="${req.productimage != null}" class="text-muted small">No image</span>
-				</td>
-                <td th:text="${req.status}"></td>
-				<td>
-				    <a class="btn btn-success btn-sm"
-				       th:href="@{/admin/approve-product/{id}(id=${req.id})}">
-				        Approve
-				    </a>
+            <!-- USERS -->
+            <div class="section" id="users">
+                <div class="section-title"><i class="bi bi-people-fill"></i> Manage Users</div>
+                <div class="card-table">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Joined</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${#lists.isEmpty(users)}">
+                                <td colspan="5">
+                                    <div class="empty-state"><i class="bi bi-person-x"></i>No users found</div>
+                                </td>
+                            </tr>
+                            <tr th:each="u : ${users}">
+                                <td><b th:text="${u.name}"></b></td>
+                                <td><span style="color:rgba(255,255,255,0.55);" th:text="${u.email}"></span></td>
+                                <td><span class="badge-role" th:text="${u.logintype}"></span></td>
+                                <td><span style="color:rgba(255,255,255,0.5); font-size:13px;"
+                                        th:text="${u.logindate}"></span></td>
+                                <td>
+                                    <a class="btn-block" th:href="@{/admin/block/{id}(id=${u.id})}"><i
+                                            class="bi bi-slash-circle me-1"></i>Block</a>
+                                    <a class="btn-del ms-1" th:href="@{/admin/delete/{id}(id=${u.id})}"><i
+                                            class="bi bi-trash me-1"></i>Delete</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-				    <a class="btn btn-danger btn-sm"
-				       th:href="@{/admin/reject-product/{id}(id=${req.id})}">
-				        Reject
-				    </a>
-				</td>
-            </tr>
-            </tbody>
-        </table>
+            <!-- PRODUCT REQUESTS -->
+            <div class="section" id="products">
+                <div class="section-title"><i class="bi bi-bag-check-fill"></i> Seller Product Requests</div>
+                <div class="card-table">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Seller</th>
+                                <th>Image</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${#lists.isEmpty(requests)}">
+                                <td colspan="6">
+                                    <div class="empty-state"><i class="bi bi-inbox"></i>No product requests pending
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr th:each="req : ${requests}">
+                                <td><b th:text="${req.productname}"></b></td>
+                                <td><span style="color:rgba(255,255,255,0.55);" th:text="${req.sellername}"></span></td>
+                                <td>
+                                    <img th:if="${req.productimage != null}" th:src="@{'/request/image/' + ${req.id}}"
+                                        class="product-img" alt="product">
+                                    <span th:unless="${req.productimage != null}"
+                                        style="color:rgba(255,255,255,0.3); font-size:12px;">No image</span>
+                                </td>
+                                <td><span style="color:#38ef7d; font-weight:700;"
+                                        th:text="'₹' + ${req.productprice}"></span></td>
+                                <td>
+                                    <span th:if="${req.status == 'PENDING'}" class="badge-pending">PENDING</span>
+                                    <span th:if="${req.status == 'APPROVED'}" class="badge-approved">APPROVED</span>
+                                    <span th:if="${req.status == 'REJECTED'}" class="badge-rejected">REJECTED</span>
+                                </td>
+                                <td>
+                                    <a class="btn-approve" th:href="@{/admin/approve-product/{id}(id=${req.id})}"><i
+                                            class="bi bi-check-circle me-1"></i>Approve</a>
+                                    <a class="btn-reject ms-1" th:href="@{/admin/reject-product/{id}(id=${req.id})}"><i
+                                            class="bi bi-x-circle me-1"></i>Reject</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ACTIVITY -->
+            <div class="section" id="activity">
+                <div class="section-title"><i class="bi bi-activity"></i> User Activity</div>
+                <div class="card-table">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Action</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${#lists.isEmpty(activity)}">
+                                <td colspan="3">
+                                    <div class="empty-state"><i class="bi bi-clock-history"></i>No activity yet</div>
+                                </td>
+                            </tr>
+                            <tr th:each="a : ${activity}">
+                                <td><b th:text="${a.name}"></b></td>
+                                <td><span th:text="${a.action}"></span></td>
+                                <td><span style="color:rgba(255,255,255,0.5); font-size:13px;"
+                                        th:text="${a.time}"></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
     </div>
 
-    <!-- ACTIVITY -->
-   <div class="card-box section" id="activity">
-        <h4 class="mb-3">User Activity</h4>
-
-        <table class="table table-bordered table-hover">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Action</th>
-                <th>Time</th>
-            </tr>
-            </thead>
-
-            <tbody>
-            <tr th:each="a : ${activity}">
-                <td th:text="${a.name}"></td>
-                <td th:text="${a.action}"></td>
-                <td th:text="${a.time}"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
-</div>
-<script>
-    function showSection(id) {
-
-        let sections = document.querySelectorAll(".section");
-
-        sections.forEach(function(section) {
-            section.style.display = "none";
-        });
-
-        document.getElementById(id).style.display = "block";
-    }
-
-    // Show Users section by default
-    window.onload = function() {
-        showSection("users");
-    }
-</script>
+    <script>
+        function showSection(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.getElementById('nav-' + id).classList.add('active');
+        }
+        window.onload = function () { showSection('users'); }
+    </script>
 </body>
+
 </html>

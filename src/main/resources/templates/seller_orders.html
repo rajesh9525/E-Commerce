@@ -1,70 +1,292 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <title>Seller Orders</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Orders – ShopSphere</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: #0f0e17;
+            color: #fff;
+            display: flex;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .sidebar {
+            width: 250px;
+            min-height: 100vh;
+            flex-shrink: 0;
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+            border-right: 1px solid rgba(255, 255, 255, 0.07);
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .sidebar .logo {
+            font-size: 22px;
+            font-weight: 800;
+            color: #fff;
+            padding: 8px 12px 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 20px;
+        }
+
+        .sidebar .logo span {
+            color: #6c63ff;
+        }
+
+        .nav-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 0 12px;
+            margin: 16px 0 6px;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: rgba(255, 255, 255, 0.65);
+            text-decoration: none;
+            padding: 11px 14px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.25s;
+            margin-bottom: 4px;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: rgba(108, 99, 255, 0.2);
+            color: #fff;
+        }
+
+        .sidebar a i {
+            font-size: 17px;
+            width: 22px;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .main {
+            margin-left: 250px;
+            flex: 1;
+        }
+
+        .topbar {
+            background: rgba(255, 255, 255, 0.04);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            padding: 18px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .topbar h5 {
+            margin: 0;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .seller-badge {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #111;
+        }
+
+        .content-area {
+            padding: 28px 32px;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, rgba(56, 239, 125, 0.1), rgba(108, 99, 255, 0.08));
+            border: 1px solid rgba(56, 239, 125, 0.2);
+            border-radius: 18px;
+            padding: 24px 28px;
+            margin-bottom: 24px;
+        }
+
+        .page-header h4 {
+            margin: 0;
+            font-weight: 800;
+        }
+
+        .page-header p {
+            margin: 4px 0 0;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 13px;
+        }
+
+        .card-table {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 18px;
+            overflow: hidden;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table thead th {
+            background: rgba(56, 239, 125, 0.08);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 14px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .data-table tbody tr {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: background 0.2s;
+        }
+
+        .data-table tbody tr:hover {
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .data-table td {
+            padding: 14px 16px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.85);
+            vertical-align: middle;
+        }
+
+        .form-select {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            color: #fff;
+            padding: 8px 12px;
+            font-size: 13px;
+        }
+
+        .form-select option {
+            background: #1a1a2e;
+        }
+
+        .btn-assign {
+            background: rgba(108, 99, 255, 0.2);
+            color: #a5a0ff;
+            border: 1px solid rgba(108, 99, 255, 0.3);
+            border-radius: 8px;
+            padding: 7px 16px;
+            font-size: 12px;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+
+        .btn-assign:hover {
+            background: rgba(108, 99, 255, 0.35);
+            color: #fff;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 48px;
+            color: rgba(255, 255, 255, 0.25);
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 12px;
+            display: block;
+        }
+    </style>
 </head>
 
-<body class="bg-light">
-
-<div class="container mt-5">
-
-    <div class="card p-4 shadow">
-
-        <h2 class="text-primary text-center mb-4">Seller Orders</h2>
-
-        <table class="table table-bordered table-striped text-center">
-
-            <thead class="table-dark">
-                <tr>
-                    <th>Order ID</th>
-                    <th>Status</th>
-                    <th>Delivery Man</th>
-                    <th>Assign</th>
-                </tr>
-            </thead>
-
-            <tbody>
-
-                <tr th:if="${#lists.isEmpty(orders)}">
-                    <td colspan="4" class="text-danger">
-                        No Orders Found
-                    </td>
-                </tr>
-
-                <tr th:each="o : ${orders}">
-                    <td th:text="${o.id}"></td>
-                    <td th:text="${o.status}"></td>
-
-                    <td th:text="${o.deliveryMan != null ? o.deliveryMan.name : 'Not Assigned'}"></td>
-
-                    <td>
-                        <form th:action="@{'/orders/assign/' + ${o.id}}" method="post">
-
-                            <select name="deliveryId" class="form-select mb-2">
-                                <option th:each="d : ${deliveryList}"
-                                        th:value="${d.id}"
-                                        th:text="${d.name}">
-                                </option>
-                            </select>
-
-                            <button class="btn btn-sm btn-primary">
-                                Assign
-                            </button>
-
-                        </form>
-                    </td>
-
-                </tr>
-
-            </tbody>
-
-        </table>
-
+<body>
+    <div class="sidebar">
+        <div class="logo">Shop<span>Sphere</span></div>
+        <div class="nav-label">Seller Menu</div>
+        <a href="/sellerdashboard"><i class="bi bi-grid-3x3-gap-fill"></i> My Products</a>
+        <a href="/product/add"><i class="bi bi-plus-circle-fill"></i> Add Product</a>
+        <a href="/orders/seller" class="active"><i class="bi bi-bag-fill"></i> My Orders</a>
+        <div class="sidebar-footer">
+            <a href="/logout"><i class="bi bi-box-arrow-right"></i> Logout</a>
+        </div>
     </div>
-
-</div>
-
+    <div class="main">
+        <div class="topbar">
+            <h5><i class="bi bi-bag-fill me-2" style="color:#38ef7d;"></i>Seller Orders</h5>
+            <span class="seller-badge"><i class="bi bi-shop me-1"></i>SELLER</span>
+        </div>
+        <div class="content-area">
+            <div class="page-header">
+                <h4>Manage Orders</h4>
+                <p>Assign delivery partners to your customer orders</p>
+            </div>
+            <div class="card-table">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Status</th>
+                            <th>Delivery Partner</th>
+                            <th>Assign Delivery</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:if="${#lists.isEmpty(orders)}">
+                            <td colspan="4">
+                                <div class="empty-state"><i class="bi bi-inbox"></i>
+                                    <p>No orders yet</p>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr th:each="o : ${orders}">
+                            <td><b>#<span th:text="${o.id}"></span></b></td>
+                            <td><span th:text="${o.status}" style="color:rgba(255,255,255,0.6); font-size:13px;"></span>
+                            </td>
+                            <td><span th:text="${o.deliveryMan != null ? o.deliveryMan.name : 'Not Assigned'}"
+                                    style="color:rgba(255,255,255,0.55);"></span></td>
+                            <td>
+                                <form th:action="@{'/orders/assign/' + ${o.id}}" method="post"
+                                    class="d-flex align-items-center gap-2">
+                                    <select name="deliveryId" class="form-select">
+                                        <option th:each="d : ${deliveryList}" th:value="${d.id}" th:text="${d.name}">
+                                        </option>
+                                    </select>
+                                    <button type="submit" class="btn-assign"><i
+                                            class="bi bi-person-check me-1"></i>Assign</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>

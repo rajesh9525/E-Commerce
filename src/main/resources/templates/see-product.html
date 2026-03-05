@@ -1,29 +1,157 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <title>View Product</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Detail – ShopSphere</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: #0f0e17;
+            color: #fff;
+            display: flex;
+            min-height: 100vh;
+            margin: 0;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .detail-card {
+            width: 100%;
+            max-width: 540px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            border-radius: 24px;
+            overflow: hidden;
+            animation: fadeIn 0.5s ease-out;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .detail-card img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+        }
+
+        .detail-card .no-img {
+            width: 100%;
+            height: 260px;
+            background: rgba(255, 255, 255, 0.04);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .detail-card .no-img i {
+            font-size: 64px;
+            color: rgba(255, 255, 255, 0.1);
+        }
+
+        .detail-body {
+            padding: 32px;
+        }
+
+        .detail-body h3 {
+            font-weight: 800;
+            font-size: 22px;
+            margin-bottom: 6px;
+        }
+
+        .price-tag {
+            font-size: 28px;
+            font-weight: 800;
+            color: #38ef7d;
+            margin: 12px 0 20px;
+        }
+
+        .detail-field {
+            margin-bottom: 14px;
+        }
+
+        .detail-field label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: rgba(255, 255, 255, 0.35);
+        }
+
+        .detail-field p {
+            margin: 4px 0 0;
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 14px;
+        }
+
+        .divider {
+            border-color: rgba(255, 255, 255, 0.08);
+            margin: 20px 0;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 10px 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-back:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+        }
+    </style>
 </head>
 
-<body class="bg-light">
-
-<div class="container mt-5">
-
-    <div class="card p-4 shadow">
-
-        <h3 class="text-primary mb-3">Product Details</h3>
-
-        <p><strong>ID:</strong> <span th:text="${p.id}"></span></p>
-        <p><strong>Name:</strong> <span th:text="${p.productName}"></span></p>
-        <p><strong>Details:</strong> <span th:text="${p.productdetails}"></span></p>
-        <p><strong>Price:</strong> ₹ <span th:text="${p.productprice}"></span></p>
-
-        <a href="/product/all" class="btn btn-secondary">Back</a>
-
+<body>
+    <div class="detail-card">
+        <img th:if="${p.productimage != null}" th:src="@{'/product/image/' + ${p.id}}" alt="Product Image">
+        <div th:unless="${p.productimage != null}" class="no-img"><i class="bi bi-image"></i></div>
+        <div class="detail-body">
+            <h3 th:text="${p.productName}">Product Name</h3>
+            <div class="price-tag" th:text="'₹' + ${p.productprice}">₹ 0.00</div>
+            <hr class="divider">
+            <div class="detail-field">
+                <label>Description</label>
+                <p th:text="${p.productdetails}">Product description here...</p>
+            </div>
+            <div class="detail-field">
+                <label>Product ID</label>
+                <p th:text="${p.id}">0</p>
+            </div>
+            <div class="detail-field">
+                <label>Status</label>
+                <p th:text="${p.status}" style="color:#6c63ff; font-weight:700;">PENDING</p>
+            </div>
+            <hr class="divider">
+            <a href="/sellerdashboard" class="btn-back"><i class="bi bi-arrow-left"></i> Back to Dashboard</a>
+        </div>
     </div>
-
-</div>
-
 </body>
+
 </html>
