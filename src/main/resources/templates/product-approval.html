@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Product Requests</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h4>Seller Product Requests</h4>
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered table-hover text-center">
+                <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Product Name</th>
+                    <th>Details</th>
+                    <th>Price</th>
+                    <th>Seller</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="req : ${request}">
+                    <td th:text="${req.id}"></td>
+                    <td th:text="${req.productName}"></td>
+                    <td th:text="${req.productDetails}"></td>
+                    <td th:text="${req.productPrice}"></td>
+                    <td th:text="${req.sellerName}"></td>
+                    <td>
+                        <span class="badge bg-warning"
+                              th:text="${req.status}"></span>
+                    </td>
+
+                    <td>
+                        <a class="btn btn-success btn-sm"
+                           th:href="@{/admin/approve-product/{id}(id=${req.id})}">
+                            Approve
+                        </a>
+
+                        <a class="btn btn-danger btn-sm"
+                           th:href="@{/admin/reject-product/{id}(id=${req.id})}">
+                            Reject
+                        </a>
+                    </td>
+                </tr>
+
+                <tr th:if="${#lists.isEmpty(requests)}">
+                    <td colspan="7" class="text-danger">
+                        No Pending Product Requests
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
