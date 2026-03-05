@@ -4,10 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Detail – NexaMart</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <title>Product Details – NexaMart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <style>
+        :root {
+            --y: #FFE500;
+            --b: #111111;
+            --g: #22C55E;
+            --t: #6B7280;
+            --bdr: #E5E7EB;
+            --bg: #FAFAFA;
+            --r: #EF4444;
+        }
+
         *,
         *::before,
         *::after {
@@ -17,197 +28,298 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: #07070f;
-            color: #fff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg);
+            color: var(--b);
+            display: flex;
             min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 260px;
+            min-height: 100vh;
+            background: #fff;
+            border-right: 2px solid var(--bdr);
+            padding: 28px 20px;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
-        }
-
-        .detail {
-            width: 100%;
-            max-width: 560px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 24px;
-            overflow: hidden;
-            animation: up 0.5s ease-out;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
-        }
-
-        @keyframes up {
-            from {
-                opacity: 0;
-                transform: translateY(24px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .detail img {
-            width: 100%;
-            height: 280px;
-            object-fit: cover;
-        }
-
-        .detail .no-img {
-            width: 100%;
-            height: 280px;
-            background: rgba(255, 255, 255, 0.03);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .detail .no-img i {
-            font-size: 72px;
-            color: rgba(255, 255, 255, 0.08);
-        }
-
-        .body {
-            padding: 32px;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            z-index: 100;
         }
 
         .brand {
-            font-size: 14px;
+            font-size: 24px;
             font-weight: 900;
+            padding: 8px 10px 26px;
+            border-bottom: 2px solid var(--bdr);
+            margin-bottom: 22px;
+        }
+
+        .brand span {
+            background: var(--y);
+            padding: 2px 8px;
+            border-radius: 6px;
+            color: var(--b);
+        }
+
+        .nav-sec {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--t);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0 10px;
+            margin: 16px 0 8px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--t);
+            text-decoration: none;
+            padding: 12px 14px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            transition: all 0.2s;
+            margin-bottom: 4px;
+        }
+
+        .nav-link:hover {
+            background: var(--bg);
+            color: var(--b);
+        }
+
+        .nav-link.active {
+            background: var(--y);
+            color: var(--b);
+            box-shadow: 4px 4px 0 var(--b);
+            border: 2px solid var(--b);
+        }
+
+        .nav-link i {
+            font-size: 18px;
+        }
+
+        .sidebar-foot {
+            margin-top: auto;
+            padding-top: 16px;
+            border-top: 2px solid var(--bdr);
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 260px;
+            flex: 1;
+        }
+
+        .topbar {
+            padding: 20px 40px;
+            border-bottom: 2px solid var(--bdr);
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 90;
+        }
+
+        .topbar h5 {
+            font-size: 18px;
+            font-weight: 900;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--b);
+        }
+
+        .badge-role {
+            background: var(--b);
+            color: var(--y);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-weight: 900;
+            font-size: 12px;
+            border: 2px solid var(--b);
+        }
+
+        .content {
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .p-view-card {
+            width: 100%;
+            max-width: 800px;
+            background: #fff;
+            border: 2px solid var(--b);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 8px 8px 0 var(--y);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .img-sec {
+            width: 100%;
+            height: 350px;
+            background: var(--bg);
+            border-bottom: 2px solid var(--bdr);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .img-sec img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 20px;
+        }
+
+        .img-sec i {
+            font-size: 100px;
+            color: var(--bdr);
+        }
+
+        .info-sec {
+            padding: 40px;
+        }
+
+        .p-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
             margin-bottom: 20px;
         }
 
-        .brand .n {
-            color: #fff;
-        }
-
-        .brand .x {
-            background: linear-gradient(135deg, #7c3aed, #06b6d4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        h3 {
-            font-size: 26px;
+        .p-head h1 {
+            font-size: 32px;
             font-weight: 900;
+            line-height: 1.2;
             margin-bottom: 8px;
         }
 
+        .stat-chip {
+            display: inline-flex;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 800;
+            border: 2px solid;
+            text-transform: uppercase;
+        }
+
+        .stat-PENDING {
+            background: #FEF3C7;
+            color: #D97706;
+            border-color: #FCD34D;
+        }
+
+        .stat-APPROVED {
+            background: #D1FAE5;
+            color: #059669;
+            border-color: #6EE7B7;
+        }
+
+        .stat-REJECTED {
+            background: #FEE2E2;
+            color: #DC2626;
+            border-color: #FCA5A5;
+        }
+
         .price {
-            font-size: 32px;
+            font-size: 40px;
             font-weight: 900;
-            color: #6ee7b7;
-            margin: 14px 0 24px;
+            color: var(--g);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        hr {
-            border: none;
-            border-top: 1px solid rgba(255, 255, 255, 0.07);
-            margin: 20px 0;
-        }
-
-        .meta {
-            display: grid;
-            gap: 16px;
-        }
-
-        .meta-item label {
-            font-size: 10px;
+        .price span {
+            font-size: 14px;
+            color: var(--t);
+            text-decoration: line-through;
             font-weight: 700;
+        }
+
+        .lbl {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--t);
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: rgba(255, 255, 255, 0.3);
-            display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
         }
 
-        .meta-item span {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.75);
-        }
-
-        .chip {
-            display: inline-block;
-            padding: 5px 14px;
-            border-radius: 50px;
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .chip-pending {
-            background: rgba(245, 158, 11, 0.12);
-            color: #fcd34d;
-            border: 1px solid rgba(245, 158, 11, 0.25);
-        }
-
-        .chip-approved {
-            background: rgba(16, 185, 129, 0.12);
-            color: #6ee7b7;
-            border: 1px solid rgba(16, 185, 129, 0.25);
-        }
-
-        .chip-rejected {
-            background: rgba(239, 68, 68, 0.12);
-            color: #fca5a5;
-            border: 1px solid rgba(239, 68, 68, 0.25);
-        }
-
-        .btn-back {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 22px;
+        .desc {
+            font-size: 15px;
+            color: var(--b);
+            line-height: 1.7;
+            background: var(--bg);
+            padding: 20px;
             border-radius: 12px;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.6);
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 14px;
-            transition: all 0.2s;
-            margin-top: 24px;
-        }
-
-        .btn-back:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
+            border: 1px solid var(--bdr);
         }
     </style>
 </head>
 
 <body>
-    <div class="detail">
-        <img th:if="${p.productimage != null}" th:src="@{'/product/image/' + ${p.id}}" alt="Product">
-        <div th:unless="${p.productimage != null}" class="no-img"><i class="bi bi-image"></i></div>
-        <div class="body">
-            <div class="brand"><span class="n">Nexa</span><span class="x">Mart</span></div>
-            <h3 th:text="${p.productName}">Product Name</h3>
-            <div class="price" th:text="'₹' + ${p.productprice}">₹0</div>
-            <hr>
-            <div class="meta">
-                <div class="meta-item">
-                    <label>Description</label>
-                    <span th:text="${p.productdetails}">—</span>
-                </div>
-                <div class="meta-item">
-                    <label>Product ID</label>
-                    <span style="color:#a78bfa;font-weight:700;" th:text="'#' + ${p.id}">—</span>
-                </div>
-                <div class="meta-item">
-                    <label>Approval Status</label>
-                    <span th:if="${p.status == 'PENDING'}" class="chip chip-pending">PENDING</span>
-                    <span th:if="${p.status == 'APPROVED'}" class="chip chip-approved">APPROVED</span>
-                    <span th:if="${p.status == 'REJECTED'}" class="chip chip-rejected">REJECTED</span>
-                </div>
-            </div>
-            <a href="/sellerdashboard" class="btn-back"><i class="bi bi-arrow-left-circle-fill"></i> Back to
-                Dashboard</a>
+
+    <div class="sidebar">
+        <div class="brand">Nexa<span>Mart</span></div>
+        <div class="nav-sec">Admin Hub</div>
+        <a href="/admin/dashboard" class="nav-link"><i class="bi bi-people-fill"></i> Users</a>
+        <a href="/admin/product-requests" class="nav-link"><i class="bi bi-box-seam-fill"></i> Requests</a>
+        <a href="/product/view/all" class="nav-link active"><i class="bi bi-pencil-square"></i> Inventory</a>
+        <div class="sidebar-foot">
+            <a href="/logout" class="nav-link" style="color:var(--r);"><i class="bi bi-box-arrow-right"></i> Sign
+                Out</a>
         </div>
     </div>
+
+    <div class="main">
+        <div class="topbar">
+            <h5><a href="/product/view/all" style="color:var(--t);text-decoration:none;"><i
+                        class="bi bi-arrow-left"></i> Back to Inventory</a></h5>
+            <div class="badge-role">ADMIN 🛡️</div>
+        </div>
+
+        <div class="content">
+            <div class="p-view-card">
+                <div class="img-sec">
+                    <img th:if="${p.productimage != null}" th:src="@{'/product/image/' + ${p.id}}">
+                    <i th:unless="${p.productimage != null}" class="bi bi-image"></i>
+                </div>
+                <div class="info-sec">
+                    <div class="p-head">
+                        <h1><span th:text="${p.productName}"></span></h1>
+                        <span th:class="'stat-chip stat-' + ${p.status}" th:text="${p.status}"></span>
+                    </div>
+
+                    <div class="price">
+                        <span th:text="'₹' + (${p.productprice} * 1.5)"></span>
+                        ₹<span th:text="${p.productprice}"></span>
+                    </div>
+
+                    <div class="lbl">Product Description</div>
+                    <div class="desc" th:text="${p.productdetails}"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 
 </html>

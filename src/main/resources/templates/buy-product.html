@@ -1,13 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Place Order – NexaMart</title>
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+	<title>Secure Checkout – NexaMart</title>
+	<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
+		rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 	<style>
+		:root {
+			--y: #FFE500;
+			--b: #111111;
+			--g: #22C55E;
+			--t: #6B7280;
+			--bdr: #E5E7EB;
+			--bg: #FAFAFA;
+			--r: #EF4444;
+		}
+
 		*,
 		*::before,
 		*::after {
@@ -17,141 +28,323 @@
 		}
 
 		body {
-			font-family: 'Inter', sans-serif;
-			background: #07070f;
-			color: #fff;
-			min-height: 100vh;
+			font-family: 'Plus Jakarta Sans', sans-serif;
+			background: var(--bg);
+			color: var(--b);
 			display: flex;
-			align-items: center;
-			justify-content: center;
-			padding: 40px 20px;
+			min-height: 100vh;
 		}
 
-		.card {
-			width: 100%;
-			max-width: 480px;
-			background: rgba(255, 255, 255, 0.03);
-			border: 1px solid rgba(255, 255, 255, 0.08);
-			border-radius: 26px;
-			padding: 44px 40px;
-			animation: up 0.5s ease-out;
-			position: relative;
-			overflow: hidden;
-		}
-
-		.card::before {
-			content: '';
-			position: absolute;
-			top: -100px;
-			right: -60px;
-			width: 250px;
-			height: 250px;
-			border-radius: 50%;
-			background: radial-gradient(circle, rgba(245, 158, 11, 0.12), transparent);
-			pointer-events: none;
-		}
-
-		@keyframes up {
-			from {
-				opacity: 0;
-				transform: translateY(20px);
-			}
-
-			to {
-				opacity: 1;
-				transform: translateY(0);
-			}
+		/* SIDEBAR */
+		.sidebar {
+			width: 260px;
+			min-height: 100vh;
+			background: #fff;
+			border-right: 2px solid var(--bdr);
+			padding: 28px 20px;
+			display: flex;
+			flex-direction: column;
+			position: fixed;
+			top: 0;
+			left: 0;
+			height: 100%;
+			z-index: 100;
 		}
 
 		.brand {
-			font-size: 20px;
-			font-weight: 900;
-			margin-bottom: 28px;
-			display: flex;
-			align-items: center;
-			gap: 10px;
-		}
-
-		.brand .n {
-			color: #fff;
-		}
-
-		.brand .x {
-			background: linear-gradient(135deg, #7c3aed, #06b6d4);
-			-webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;
-			background-clip: text;
-		}
-
-		h3 {
 			font-size: 24px;
 			font-weight: 900;
-			margin-bottom: 6px;
+			padding: 8px 10px 26px;
+			border-bottom: 2px solid var(--bdr);
+			margin-bottom: 22px;
+		}
+
+		.brand span {
+			background: var(--y);
+			padding: 2px 8px;
+			border-radius: 6px;
+			color: var(--b);
+		}
+
+		.nav-sec {
+			font-size: 11px;
+			font-weight: 800;
+			color: var(--t);
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			padding: 0 10px;
+			margin: 16px 0 8px;
+		}
+
+		.nav-link {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			color: var(--t);
+			text-decoration: none;
+			padding: 12px 14px;
+			border-radius: 12px;
+			font-size: 14px;
+			font-weight: 700;
+			transition: all 0.2s;
+			margin-bottom: 4px;
+		}
+
+		.nav-link:hover {
+			background: var(--bg);
+			color: var(--b);
+		}
+
+		.nav-link.active {
+			background: var(--y);
+			color: var(--b);
+			box-shadow: 4px 4px 0 var(--b);
+			border: 2px solid var(--b);
+		}
+
+		.nav-link i {
+			font-size: 18px;
+		}
+
+		.sidebar-foot {
+			margin-top: auto;
+			padding-top: 16px;
+			border-top: 2px solid var(--bdr);
+		}
+
+		/* MAIN */
+		.main {
+			margin-left: 260px;
+			flex: 1;
+		}
+
+		.topbar {
+			padding: 20px 40px;
+			border-bottom: 2px solid var(--bdr);
+			background: #fff;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			position: sticky;
+			top: 0;
+			z-index: 90;
+		}
+
+		.topbar h5 {
+			font-size: 18px;
+			font-weight: 900;
+			margin: 0;
 			display: flex;
 			align-items: center;
 			gap: 10px;
+			color: var(--t);
 		}
 
-		.sub {
-			color: rgba(255, 255, 255, 0.38);
-			font-size: 13px;
-			margin-bottom: 30px;
+		.topbar h5 a {
+			color: var(--t);
+			text-decoration: none;
 		}
 
+		.topbar h5 a:hover {
+			color: var(--b);
+		}
+
+		.badge-role {
+			background: var(--b);
+			color: var(--y);
+			padding: 6px 14px;
+			border-radius: 8px;
+			font-weight: 900;
+			font-size: 12px;
+			border: 2px solid var(--b);
+		}
+
+		.content {
+			padding: 40px;
+			display: flex;
+			justify-content: center;
+			align-items: flex-start;
+			gap: 32px;
+		}
+
+		.checkout-box {
+			flex: 1;
+			max-width: 560px;
+			background: #fff;
+			border: 2px solid var(--b);
+			border-radius: 24px;
+			padding: 40px;
+			box-shadow: 8px 8px 0 var(--y);
+		}
+
+		.checkout-head {
+			margin-bottom: 32px;
+			display: flex;
+			align-items: center;
+			gap: 12px;
+		}
+
+		.checkout-head i {
+			font-size: 32px;
+			color: var(--g);
+		}
+
+		.checkout-head h2 {
+			font-size: 26px;
+			font-weight: 900;
+		}
+
+		.checkout-head p {
+			color: var(--t);
+			font-size: 14px;
+			font-weight: 500;
+		}
+
+		/* ITEM PREVIEW */
+		.item-prev {
+			display: flex;
+			align-items: center;
+			gap: 16px;
+			background: var(--bg);
+			border: 2px solid var(--bdr);
+			border-radius: 16px;
+			padding: 16px;
+			margin-bottom: 24px;
+		}
+
+		.item-img {
+			width: 64px;
+			height: 64px;
+			border-radius: 10px;
+			background: #fff;
+			border: 1px solid var(--bdr);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			overflow: hidden;
+		}
+
+		.item-img img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+
+		.item-img i {
+			font-size: 24px;
+			color: var(--bdr);
+		}
+
+		.item-deets {
+			flex: 1;
+		}
+
+		.item-name {
+			font-size: 16px;
+			font-weight: 800;
+			margin-bottom: 4px;
+		}
+
+		.item-price {
+			font-size: 18px;
+			font-weight: 900;
+			color: var(--g);
+		}
+
+		/* FORM */
 		.field {
-			margin-bottom: 18px;
+			margin-bottom: 20px;
 		}
 
 		.field label {
 			display: block;
-			font-size: 11px;
-			font-weight: 700;
+			font-size: 12px;
+			font-weight: 800;
 			text-transform: uppercase;
-			letter-spacing: 0.9px;
-			color: rgba(255, 255, 255, 0.4);
-			margin-bottom: 7px;
+			letter-spacing: 1px;
+			color: var(--b);
+			margin-bottom: 8px;
 		}
 
-		.inp {
+		.input-wrap {
+			position: relative;
+		}
+
+		.input-wrap i {
+			position: absolute;
+			left: 14px;
+			top: 15px;
+			color: var(--t);
+			font-size: 15px;
+		}
+
+		.input-wrap input,
+		.input-wrap textarea {
 			width: 100%;
-			padding: 13px 16px;
-			background: rgba(255, 255, 255, 0.05);
-			border: 1px solid rgba(255, 255, 255, 0.1);
-			border-radius: 13px;
-			color: #fff;
+			padding: 14px 14px 14px 40px;
+			border: 2px solid var(--bdr);
+			border-radius: 12px;
+			font-family: 'Plus Jakarta Sans', sans-serif;
 			font-size: 14px;
-			font-family: 'Inter', sans-serif;
-			transition: all 0.3s;
+			color: var(--b);
+			background: #fff;
+			transition: all 0.25s;
 			outline: none;
 		}
 
-		.inp:focus {
-			border-color: #f59e0b;
-			background: rgba(245, 158, 11, 0.06);
-			box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+		.input-wrap textarea {
+			min-height: 80px;
+			resize: vertical;
 		}
 
-		.inp::placeholder {
-			color: rgba(255, 255, 255, 0.2);
+		.input-wrap input:focus,
+		.input-wrap textarea:focus {
+			border-color: var(--b);
+			box-shadow: 4px 4px 0 var(--y);
 		}
 
-		textarea.inp {
-			resize: none;
+		.g-row {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 16px;
 		}
 
-		.btn-buy {
-			width: 100%;
-			padding: 15px;
-			border: none;
-			border-radius: 14px;
-			margin-top: 8px;
-			background: linear-gradient(135deg, #f59e0b, #d97706);
-			color: #111;
-			font-size: 16px;
+		.summary-box {
+			border: 2px dashed var(--bdr);
+			border-radius: 16px;
+			padding: 20px;
+			margin-bottom: 24px;
+		}
+
+		.s-row {
+			display: flex;
+			justify-content: space-between;
+			font-size: 14px;
+			font-weight: 600;
+			margin-bottom: 12px;
+			color: var(--t);
+		}
+
+		.s-row.tot {
+			font-size: 20px;
 			font-weight: 900;
-			font-family: 'Inter', sans-serif;
+			color: var(--b);
+			margin-bottom: 0;
+			padding-top: 12px;
+			border-top: 2px solid var(--bdr);
+		}
+
+		.btn-confirm {
+			width: 100%;
+			padding: 18px;
+			border: 2px solid var(--b);
+			border-radius: 12px;
+			background: var(--y);
+			color: var(--b);
+			font-size: 18px;
+			font-weight: 900;
+			font-family: 'Plus Jakarta Sans', sans-serif;
 			cursor: pointer;
-			box-shadow: 0 0 25px rgba(245, 158, 11, 0.35);
 			transition: all 0.3s;
 			display: flex;
 			align-items: center;
@@ -159,53 +352,104 @@
 			gap: 10px;
 		}
 
-		.btn-buy:hover {
-			transform: translateY(-2px);
-			box-shadow: 0 0 45px rgba(245, 158, 11, 0.55);
-		}
-
-		.back-link {
-			display: inline-flex;
-			align-items: center;
-			gap: 7px;
-			color: rgba(255, 255, 255, 0.35);
-			text-decoration: none;
-			font-size: 13px;
-			font-weight: 600;
-			margin-bottom: 20px;
-			transition: color 0.2s;
-		}
-
-		.back-link:hover {
-			color: #fcd34d;
+		.btn-confirm:hover {
+			background: var(--b);
+			color: #fff;
+			box-shadow: 6px 6px 0 var(--y);
 		}
 	</style>
 </head>
 
 <body>
-	<div class="card">
-		<div class="brand"><span class="n">Nexa</span><span class="x">Mart</span></div>
-		<a href="/customer/view-products" class="back-link"><i class="bi bi-arrow-left-circle-fill"></i> Back to
-			Shop</a>
-		<h3><i class="bi bi-bag-fill" style="color:#fcd34d;"></i> Place Order</h3>
-		<p class="sub">Fill in your delivery details to complete the purchase.</p>
-		<form action="/orders/buy" method="post">
-			<div class="field">
-				<label>Product Name</label>
-				<input type="text" name="productName" class="inp" placeholder="Product name">
-			</div>
-			<div class="field">
-				<label>Quantity</label>
-				<input type="number" name="quantity" class="inp" placeholder="1" min="1">
-			</div>
-			<div class="field">
-				<label>Delivery Address</label>
-				<textarea name="address" class="inp" rows="3"
-					placeholder="Enter your full delivery address..."></textarea>
-			</div>
-			<button type="submit" class="btn-buy"><i class="bi bi-cart-check-fill"></i> Confirm Purchase</button>
-		</form>
+
+	<div class="sidebar">
+		<div class="brand">Nexa<span>Mart</span></div>
+		<div class="nav-sec">Shopping</div>
+		<a href="/customer/view-products" class="nav-link"><i class="bi bi-grid-fill"></i> Browse Shop</a>
+		<div class="nav-link active"><i class="bi bi-cart-check-fill"></i> Checkout</div>
+		<div class="sidebar-foot">
+			<a href="/logout" class="nav-link" style="color:var(--r);"><i class="bi bi-box-arrow-right"></i> Sign
+				Out</a>
+		</div>
 	</div>
+
+	<div class="main">
+		<div class="topbar">
+			<h5><a href="/customer/view-products"><i class="bi bi-arrow-left"></i> Back to Shop</a></h5>
+			<div class="badge-role">CUSTOMER 🛍️</div>
+		</div>
+
+		<div class="content">
+			<div class="checkout-box">
+				<div class="checkout-head">
+					<i class="bi bi-shield-lock-fill"></i>
+					<div>
+						<h2>Secure Checkout</h2>
+						<p>Provide shipping details to complete order</p>
+					</div>
+				</div>
+
+				<div class="item-prev">
+					<div class="item-img">
+						<img th:if="${p.productimage != null}" th:src="@{'/product/image/' + ${p.id}}">
+						<i th:unless="${p.productimage != null}" class="bi bi-image"></i>
+					</div>
+					<div class="item-deets">
+						<div class="item-name" th:text="${p.productName}"></div>
+						<div class="item-price" th:text="'₹' + ${p.productprice}"></div>
+					</div>
+				</div>
+
+				<form action="/orders/confirm" method="post">
+					<input type="hidden" name="productId" th:value="${p.id}">
+
+					<div class="field">
+						<label>Full Name</label>
+						<div class="input-wrap">
+							<i class="bi bi-person"></i>
+							<input type="text" name="customerName" th:value="${session.username}" required>
+						</div>
+					</div>
+
+					<div class="field">
+						<label>Delivery Address</label>
+						<div class="input-wrap">
+							<i class="bi bi-geo-alt"></i>
+							<textarea name="address" placeholder="House no, Street, Landmark..." required></textarea>
+						</div>
+					</div>
+
+					<div class="g-row">
+						<div class="field">
+							<label>City</label>
+							<div class="input-wrap">
+								<i class="bi bi-buildings"></i>
+								<input type="text" name="city" placeholder="e.g. Mumbai" required>
+							</div>
+						</div>
+						<div class="field">
+							<label>PIN Code</label>
+							<div class="input-wrap">
+								<i class="bi bi-mailbox"></i>
+								<input type="text" name="pinCode" placeholder="6 digits" pattern="[0-9]{6}" required>
+							</div>
+						</div>
+					</div>
+
+					<div class="summary-box">
+						<div class="s-row"><span>Item Subtotal</span><span th:text="'₹' + ${p.productprice}"></span>
+						</div>
+						<div class="s-row"><span>Shipping</span><span style="color:var(--g);">FREE</span></div>
+						<div class="s-row tot"><span>Total</span><span th:text="'₹' + ${p.productprice}"></span></div>
+					</div>
+
+					<button type="submit" class="btn-confirm">Cash on Delivery — Place Order <i
+							class="bi bi-arrow-right"></i></button>
+				</form>
+			</div>
+		</div>
+	</div>
+
 </body>
 
 </html>

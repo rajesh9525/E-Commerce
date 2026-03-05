@@ -5,9 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In – NexaMart</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <style>
+        :root {
+            --y: #FFE500;
+            --b: #111;
+            --t: #6B7280;
+            --bdr: #E5E7EB;
+        }
+
         *,
         *::before,
         *::after {
@@ -17,163 +25,126 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             min-height: 100vh;
-            background: #07070f;
             display: flex;
-            position: relative;
-            overflow: hidden;
+            background: #fff;
         }
 
-        /* Left art panel */
-        .art-panel {
+        .left {
             width: 45%;
+            background: var(--b);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #0f0a2e 0%, #1a0f3c 50%, #0d1f3c 100%);
             padding: 60px;
             position: relative;
             overflow: hidden;
         }
 
-        .art-panel::before {
+        .left::before {
             content: '';
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 600px;
-            height: 600px;
+            bottom: -100px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(124, 58, 237, 0.2) 0%, transparent 70%);
+            background: var(--y);
+            opacity: 0.08;
         }
 
-        .art-panel .brand {
-            font-size: 36px;
+        .left::after {
+            content: '';
+            position: absolute;
+            top: -80px;
+            left: -80px;
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: var(--y);
+            opacity: 0.06;
+        }
+
+        .brand {
+            font-size: 32px;
             font-weight: 900;
-            text-align: center;
-            margin-bottom: 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .art-panel .brand .n {
             color: #fff;
+            margin-bottom: 14px;
         }
 
-        .art-panel .brand .x {
-            background: linear-gradient(135deg, #7c3aed, #06b6d4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .brand span {
+            background: var(--y);
+            color: var(--b);
+            padding: 2px 10px;
+            border-radius: 7px;
         }
 
-        .art-panel .tagline {
+        .left-tag {
             color: rgba(255, 255, 255, 0.5);
             font-size: 15px;
             text-align: center;
-            position: relative;
-            z-index: 1;
+            margin-bottom: 50px;
             line-height: 1.7;
         }
 
-        .glowing-ring {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 350px;
-            height: 350px;
-            border-radius: 50%;
-            border: 1px solid rgba(124, 58, 237, 0.2);
-            animation: pulse 4s ease-in-out infinite;
-        }
-
-        .glowing-ring:nth-child(2) {
-            width: 280px;
-            height: 280px;
-            animation-delay: 1s;
-            border-color: rgba(6, 182, 212, 0.15);
-        }
-
-        .glowing-ring:nth-child(3) {
-            width: 210px;
-            height: 210px;
-            animation-delay: 2s;
-            border-color: rgba(124, 58, 237, 0.3);
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 0.3;
-            }
-
-            50% {
-                opacity: 1;
-            }
-        }
-
-        .art-features {
+        .feat-list {
             display: flex;
             flex-direction: column;
-            gap: 16px;
-            margin-top: 40px;
-            position: relative;
-            z-index: 1;
+            gap: 14px;
+            width: 100%;
         }
 
-        .art-feat {
+        .feat-item {
             display: flex;
             align-items: center;
             gap: 12px;
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.7);
             font-size: 14px;
             font-weight: 600;
         }
 
-        .art-feat i {
+        .feat-item .dot {
             width: 36px;
             height: 36px;
-            background: rgba(124, 58, 237, 0.15);
-            border: 1px solid rgba(124, 58, 237, 0.3);
             border-radius: 10px;
+            background: var(--y);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #a78bfa;
+            color: var(--b);
             font-size: 16px;
+            flex-shrink: 0;
         }
 
-        /* Right form panel */
-        .form-panel {
+        .right {
             flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 60px 40px;
-            background: #07070f;
         }
 
         .form-box {
             width: 100%;
             max-width: 400px;
-            animation: slideIn 0.6s ease-out;
         }
 
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(20px);
-            }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--t);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 32px;
+            transition: color 0.2s;
+        }
 
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+        .back-link:hover {
+            color: var(--b);
         }
 
         .form-box h2 {
@@ -183,23 +154,23 @@
         }
 
         .form-box .sub {
-            color: rgba(255, 255, 255, 0.4);
+            color: var(--t);
             font-size: 14px;
-            margin-bottom: 36px;
+            margin-bottom: 32px;
         }
 
         .field {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         .field label {
             display: block;
             font-size: 12px;
-            font-weight: 700;
+            font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.8px;
-            color: rgba(255, 255, 255, 0.5);
-            margin-bottom: 8px;
+            color: var(--b);
+            margin-bottom: 7px;
         }
 
         .input-wrap {
@@ -208,66 +179,65 @@
 
         .input-wrap i {
             position: absolute;
-            left: 16px;
+            left: 15px;
             top: 50%;
             transform: translateY(-50%);
-            color: rgba(255, 255, 255, 0.3);
+            color: var(--t);
             font-size: 16px;
         }
 
         .input-wrap input {
             width: 100%;
-            padding: 14px 16px 14px 44px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 14px;
-            color: #fff;
+            padding: 14px 14px 14px 44px;
+            border: 2px solid var(--bdr);
+            border-radius: 12px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             font-size: 15px;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.3s;
+            color: var(--b);
+            background: #fff;
+            transition: all 0.25s;
             outline: none;
         }
 
         .input-wrap input:focus {
-            border-color: #7c3aed;
-            background: rgba(124, 58, 237, 0.08);
-            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+            border-color: var(--b);
+            box-shadow: 4px 4px 0 var(--y);
         }
 
         .input-wrap input::placeholder {
-            color: rgba(255, 255, 255, 0.2);
+            color: #C4C4C4;
         }
 
         .btn-login {
             width: 100%;
             padding: 15px;
-            border: none;
-            border-radius: 14px;
-            background: linear-gradient(135deg, #7c3aed, #5b21b6);
-            color: #fff;
+            border: 2px solid var(--b);
+            border-radius: 12px;
+            background: var(--y);
+            color: var(--b);
             font-size: 16px;
-            font-weight: 800;
-            font-family: 'Inter', sans-serif;
+            font-weight: 900;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             cursor: pointer;
-            box-shadow: 0 0 25px rgba(124, 58, 237, 0.4);
             transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            margin-top: 8px;
+            margin-top: 4px;
         }
 
         .btn-login:hover {
-            box-shadow: 0 0 45px rgba(124, 58, 237, 0.6);
-            transform: translateY(-2px);
+            background: var(--b);
+            color: #fff;
+            box-shadow: 4px 4px 0 var(--y);
         }
 
         .divider {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin: 24px 0;
+            margin: 22px 0;
         }
 
         .divider::before,
@@ -275,61 +245,60 @@
             content: '';
             flex: 1;
             height: 1px;
-            background: rgba(255, 255, 255, 0.08);
+            background: var(--bdr);
         }
 
         .divider span {
             font-size: 12px;
-            color: rgba(255, 255, 255, 0.3);
-            font-weight: 600;
+            color: var(--t);
+            font-weight: 700;
         }
 
         .link-row {
             text-align: center;
             font-size: 14px;
-            color: rgba(255, 255, 255, 0.4);
+            color: var(--t);
         }
 
         .link-row a {
-            color: #a78bfa;
-            font-weight: 700;
+            color: var(--b);
+            font-weight: 800;
             text-decoration: none;
-        }
-
-        .link-row a:hover {
-            text-decoration: underline;
+            border-bottom: 2px solid var(--y);
         }
     </style>
 </head>
 
 <body>
-
-    <!-- LEFT PANEL -->
-    <div class="art-panel">
-        <div class="glowing-ring"></div>
-        <div class="glowing-ring"></div>
-        <div class="glowing-ring"></div>
-        <div class="brand"><span class="n">Nexa</span><span class="x">Mart</span></div>
-        <p class="tagline">India's smartest role-based e-commerce platform. Shop, sell, and deliver with confidence.</p>
-        <div class="art-features">
-            <div class="art-feat"><i class="bi bi-shield-fill-check"></i> Secure role-based access</div>
-            <div class="art-feat"><i class="bi bi-lightning-charge-fill"></i> Lightning-fast checkout</div>
-            <div class="art-feat"><i class="bi bi-truck"></i> Real-time delivery tracking</div>
-            <div class="art-feat"><i class="bi bi-graph-up-arrow"></i> Seller analytics dashboard</div>
+    <div class="left">
+        <div class="brand">Nexa<span>Mart</span></div>
+        <p class="left-tag">India's smartest role-based<br>e-commerce platform 🛍️</p>
+        <div class="feat-list">
+            <div class="feat-item">
+                <div class="dot"><i class="bi bi-shield-check"></i></div> Secure role-based access
+            </div>
+            <div class="feat-item">
+                <div class="dot"><i class="bi bi-lightning-charge-fill"></i></div> Lightning-fast checkout
+            </div>
+            <div class="feat-item">
+                <div class="dot"><i class="bi bi-truck"></i></div> Real-time delivery tracking
+            </div>
+            <div class="feat-item">
+                <div class="dot"><i class="bi bi-graph-up-arrow"></i></div> Admin analytics dashboard
+            </div>
         </div>
     </div>
-
-    <!-- RIGHT FORM -->
-    <div class="form-panel">
+    <div class="right">
         <div class="form-box">
-            <h2>Welcome back 👋</h2>
+            <a href="/home" class="back-link"><i class="bi bi-arrow-left"></i> Back to Home</a>
+            <h2>Welcome Back 👋</h2>
             <p class="sub">Sign in to your NexaMart account</p>
             <form action="/user/login" method="post">
                 <div class="field">
                     <label>Email Address</label>
                     <div class="input-wrap">
                         <i class="bi bi-envelope-fill"></i>
-                        <input type="email" name="email" placeholder="you@example.com" required>
+                        <input type="email" name="email" placeholder="you@email.com" required>
                     </div>
                 </div>
                 <div class="field">
@@ -343,10 +312,9 @@
                     NexaMart</button>
             </form>
             <div class="divider"><span>or</span></div>
-            <div class="link-row">New to NexaMart? <a href="/register">Create an account →</a></div>
+            <div class="link-row">New to NexaMart? <a href="/register">Create Account →</a></div>
         </div>
     </div>
-
 </body>
 
 </html>

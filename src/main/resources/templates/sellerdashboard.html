@@ -5,16 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seller Dashboard – NexaMart</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         :root {
-            --p: #7c3aed;
-            --g: #10b981;
-            --gold: #f59e0b;
-            --bg: #07070f;
-            --card: rgba(255, 255, 255, 0.04);
-            --brd: rgba(255, 255, 255, 0.08);
+            --y: #FFE500;
+            --b: #111111;
+            --g: #22C55E;
+            --t: #6B7280;
+            --bdr: #E5E7EB;
+            --bg: #FAFAFA;
+            --r: #EF4444;
         }
 
         *,
@@ -26,182 +28,192 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             background: var(--bg);
-            color: #fff;
+            color: var(--b);
             display: flex;
             min-height: 100vh;
         }
 
+        /* SIDEBAR */
         .sidebar {
             width: 260px;
             min-height: 100vh;
-            background: rgba(255, 255, 255, 0.02);
-            border-right: 1px solid var(--brd);
-            padding: 28px 16px;
+            background: #fff;
+            border-right: 2px solid var(--bdr);
+            padding: 28px 20px;
             display: flex;
             flex-direction: column;
             position: fixed;
             top: 0;
             left: 0;
             height: 100%;
-            overflow-y: auto;
+            z-index: 100;
         }
 
         .brand {
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 900;
-            padding: 8px 14px 26px;
-            border-bottom: 1px solid var(--brd);
+            padding: 8px 10px 26px;
+            border-bottom: 2px solid var(--bdr);
             margin-bottom: 22px;
         }
 
-        .brand .n {
-            color: #fff;
-        }
-
-        .brand .x {
-            background: linear-gradient(135deg, #7c3aed, #06b6d4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .brand span {
+            background: var(--y);
+            padding: 2px 8px;
+            border-radius: 6px;
+            color: var(--b);
         }
 
         .nav-sec {
-            font-size: 10px;
-            font-weight: 700;
-            color: rgba(255, 255, 255, 0.25);
-            letter-spacing: 1.8px;
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--t);
             text-transform: uppercase;
-            padding: 0 14px;
+            letter-spacing: 1px;
+            padding: 0 10px;
             margin: 16px 0 8px;
         }
 
         .nav-link {
             display: flex;
             align-items: center;
-            gap: 11px;
-            color: rgba(255, 255, 255, 0.55);
+            gap: 12px;
+            color: var(--t);
             text-decoration: none;
-            padding: 11px 14px;
-            border-radius: 13px;
+            padding: 12px 14px;
+            border-radius: 12px;
             font-size: 14px;
-            font-weight: 600;
-            transition: all 0.25s;
-            margin-bottom: 3px;
-            border: 1px solid transparent;
+            font-weight: 700;
+            transition: all 0.2s;
+            margin-bottom: 4px;
         }
 
-        .nav-link:hover,
+        .nav-link:hover {
+            background: var(--bg);
+            color: var(--b);
+        }
+
         .nav-link.active {
-            background: rgba(16, 185, 129, 0.1);
-            border-color: rgba(16, 185, 129, 0.2);
-            color: #6ee7b7;
+            background: var(--y);
+            color: var(--b);
+            box-shadow: 4px 4px 0 var(--b);
+            border: 2px solid var(--b);
         }
 
         .nav-link i {
             font-size: 18px;
-            width: 24px;
         }
 
         .sidebar-foot {
             margin-top: auto;
             padding-top: 16px;
-            border-top: 1px solid var(--brd);
+            border-top: 2px solid var(--bdr);
         }
 
+        /* MAIN */
         .main {
             margin-left: 260px;
             flex: 1;
         }
 
         .topbar {
-            padding: 20px 36px;
-            border-bottom: 1px solid var(--brd);
-            background: rgba(255, 255, 255, 0.02);
+            padding: 20px 40px;
+            border-bottom: 2px solid var(--bdr);
+            background: #fff;
             display: flex;
             align-items: center;
             justify-content: space-between;
             position: sticky;
             top: 0;
-            z-index: 10;
-            backdrop-filter: blur(20px);
+            z-index: 90;
         }
 
         .topbar h5 {
             font-size: 18px;
-            font-weight: 800;
+            font-weight: 900;
             margin: 0;
             display: flex;
             align-items: center;
             gap: 10px;
+            color: var(--b);
         }
 
-        .seller-chip {
-            padding: 7px 18px;
-            border-radius: 50px;
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(6, 182, 212, 0.15));
-            border: 1px solid rgba(16, 185, 129, 0.3);
+        .badge-role {
+            background: var(--b);
+            color: var(--y);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-weight: 900;
             font-size: 12px;
-            font-weight: 800;
-            color: #6ee7b7;
+            border: 2px solid var(--b);
         }
 
         .content {
-            padding: 32px 36px;
+            padding: 40px;
         }
 
         .page-banner {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(6, 182, 212, 0.05));
-            border: 1px solid rgba(16, 185, 129, 0.18);
-            border-radius: 22px;
-            padding: 28px 32px;
-            margin-bottom: 28px;
+            background: #fff;
+            border: 2px solid var(--b);
+            border-radius: 20px;
+            padding: 28px 40px;
+            margin-bottom: 32px;
+            box-shadow: 8px 8px 0 var(--y);
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
+            background-image: radial-gradient(var(--bdr) 1px, transparent 1px);
+            background-size: 20px 20px;
         }
 
         .page-banner h4 {
-            font-size: 22px;
+            font-size: 28px;
             font-weight: 900;
             margin-bottom: 4px;
+            background: #fff;
+            display: inline-block;
+            padding-right: 10px;
         }
 
         .page-banner p {
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 13px;
-            margin: 0;
+            color: var(--t);
+            font-size: 14px;
+            font-weight: 600;
+            background: #fff;
+            display: inline-block;
+            padding-right: 10px;
         }
 
         .btn-add {
-            padding: 12px 26px;
-            border-radius: 13px;
-            background: linear-gradient(135deg, #10b981, #059669);
-            border: none;
-            color: #fff;
+            padding: 12px 24px;
+            border: 2px solid var(--b);
+            border-radius: 12px;
+            background: var(--y);
+            color: var(--b);
             font-weight: 800;
             font-size: 14px;
             text-decoration: none;
-            display: inline-flex;
+            transition: all 0.3s;
+            display: flex;
             align-items: center;
             gap: 8px;
-            cursor: pointer;
-            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
-            transition: all 0.3s;
         }
 
         .btn-add:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 35px rgba(16, 185, 129, 0.45);
+            background: var(--b);
             color: #fff;
+            box-shadow: 4px 4px 0 var(--y);
         }
 
+        /* TABLE */
         .table-wrap {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--brd);
+            background: #fff;
+            border: 2px solid var(--bdr);
             border-radius: 20px;
             overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
         }
 
         table {
@@ -210,23 +222,24 @@
         }
 
         thead th {
-            background: rgba(16, 185, 129, 0.07);
-            color: rgba(255, 255, 255, 0.45);
-            font-size: 10.5px;
-            font-weight: 700;
+            background: var(--bg);
+            color: var(--t);
+            font-size: 11px;
+            font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 1px;
-            padding: 14px 18px;
-            border-bottom: 1px solid var(--brd);
+            padding: 16px 20px;
+            border-bottom: 2px solid var(--bdr);
+            text-align: left;
         }
 
         tbody tr {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            border-bottom: 1px solid var(--bdr);
             transition: background 0.2s;
         }
 
         tbody tr:hover {
-            background: rgba(255, 255, 255, 0.025);
+            background: var(--bg);
         }
 
         tbody tr:last-child {
@@ -234,102 +247,96 @@
         }
 
         td {
-            padding: 15px 18px;
+            padding: 16px 20px;
             font-size: 14px;
             vertical-align: middle;
+            font-weight: 600;
         }
 
         .pimg {
-            width: 56px;
-            height: 56px;
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
             object-fit: cover;
-            border-radius: 12px;
-            border: 1px solid var(--brd);
+            border: 2px solid var(--bdr);
         }
 
-        .chip {
+        .stat-chip {
             display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 5px 13px;
-            border-radius: 50px;
+            padding: 5px 12px;
+            border-radius: 8px;
             font-size: 11px;
-            font-weight: 700;
-        }
-
-        .chip-pending {
-            background: rgba(245, 158, 11, 0.12);
-            color: #fcd34d;
-            border: 1px solid rgba(245, 158, 11, 0.25);
-        }
-
-        .chip-approved {
-            background: rgba(16, 185, 129, 0.12);
-            color: #6ee7b7;
-            border: 1px solid rgba(16, 185, 129, 0.25);
-        }
-
-        .chip-rejected {
-            background: rgba(239, 68, 68, 0.12);
-            color: #fca5a5;
-            border: 1px solid rgba(239, 68, 68, 0.25);
-        }
-
-        .price {
-            color: #6ee7b7;
             font-weight: 800;
+            border: 2px solid;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .stat-PENDING {
+            background: #FEF3C7;
+            color: #D97706;
+            border-color: #FCD34D;
+        }
+
+        .stat-APPROVED {
+            background: #D1FAE5;
+            color: #059669;
+            border-color: #6EE7B7;
+        }
+
+        .stat-REJECTED {
+            background: #FEE2E2;
+            color: #DC2626;
+            border-color: #FCA5A5;
         }
 
         .empty {
             text-align: center;
-            padding: 60px;
-            color: rgba(255, 255, 255, 0.2);
+            padding: 60px 20px;
+            color: var(--t);
         }
 
         .empty i {
-            font-size: 56px;
-            display: block;
-            margin-bottom: 14px;
+            font-size: 48px;
+            color: var(--bdr);
+            margin-bottom: 16px;
         }
 
         .empty p {
-            margin: 0;
-            font-size: 14px;
-        }
-
-        .note {
-            color: rgba(255, 255, 255, 0.3);
-            font-size: 12px;
-            font-style: italic;
+            font-weight: 700;
         }
     </style>
 </head>
 
 <body>
+
     <div class="sidebar">
-        <div class="brand"><span class="n">Nexa</span><span class="x">Mart</span></div>
-        <div class="nav-sec">Seller</div>
-        <a href="/sellerdashboard" class="nav-link active"><i class="bi bi-grid-3x3-gap-fill"></i> My Products</a>
-        <a href="/product/add" class="nav-link"><i class="bi bi-plus-circle-fill"></i> Add Product</a>
-        <a href="/orders/seller" class="nav-link"><i class="bi bi-bag-fill"></i> Orders</a>
+        <div class="brand">Nexa<span>Mart</span></div>
+        <div class="nav-sec">Seller Dashboard</div>
+        <a href="/sellerdashboard" class="nav-link active"><i class="bi bi-shop-window"></i> My Products</a>
+        <a href="/product/add" class="nav-link"><i class="bi bi-plus-square"></i> Add Product</a>
+        <a href="/orders/seller" class="nav-link"><i class="bi bi-bag"></i> Orders</a>
         <div class="sidebar-foot">
-            <a href="/logout" class="nav-link" style="color:rgba(255,107,107,0.7);"><i
-                    class="bi bi-box-arrow-right"></i> Logout</a>
+            <a href="/logout" class="nav-link" style="color:var(--r);"><i class="bi bi-box-arrow-right"></i> Sign
+                Out</a>
         </div>
     </div>
+
     <div class="main">
         <div class="topbar">
-            <h5><i class="bi bi-grid-3x3-gap-fill" style="color:#6ee7b7;"></i>Seller Dashboard</h5>
-            <span class="seller-chip"><i class="bi bi-shop-window me-1"></i>SELLER</span>
+            <h5>Seller Workspace</h5>
+            <div class="badge-role">SELLER 🏪</div>
         </div>
+
         <div class="content">
             <div class="page-banner">
                 <div>
                     <h4>Your Products</h4>
-                    <p>All product requests you've submitted for admin review</p>
+                    <p>Manage your catalogue and track approval status</p>
                 </div>
-                <a href="/product/add" class="btn-add"><i class="bi bi-plus-lg"></i> Add Product</a>
+                <a href="/product/add" class="btn-add"><i class="bi bi-plus-lg"></i> Add New Product</a>
             </div>
+
             <div class="table-wrap">
                 <table>
                     <thead>
@@ -346,38 +353,35 @@
                         <tr th:if="${#lists.isEmpty(products)}">
                             <td colspan="6">
                                 <div class="empty"><i class="bi bi-box-seam"></i>
-                                    <p>No products yet. <a href="/product/add"
-                                            style="color:#6ee7b7;text-decoration:none;font-weight:700;">Add one →</a>
-                                    </p>
+                                    <p>You haven't added any products yet.</p>
                                 </div>
                             </td>
                         </tr>
                         <tr th:each="p : ${products}">
-                            <td><strong th:text="${p.productname}"></strong></td>
-                            <td style="color:rgba(255,255,255,0.45);font-size:13px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"
-                                th:text="${p.productdetails}"></td>
-                            <td><span class="price" th:text="'₹' + ${p.productprice}"></span></td>
+                            <td th:text="${p.productname}" style="color:var(--b);font-weight:800;"></td>
+                            <td th:text="${p.productdetails}"
+                                style="color:var(--t);font-size:12px;max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                            </td>
+                            <td th:text="'₹' + ${p.productprice}" style="color:var(--g);font-weight:800;"></td>
                             <td>
                                 <img th:if="${p.productimage != null}" th:src="@{'/request/image/' + ${p.id}}"
-                                    class="pimg" alt="img">
-                                <span th:unless="${p.productimage != null}"
-                                    style="color:rgba(255,255,255,0.2);font-size:12px;">—</span>
+                                    class="pimg">
+                                <span th:unless="${p.productimage != null}" style="color:var(--bdr);font-size:12px;">No
+                                    img</span>
                             </td>
-                            <td>
-                                <span th:if="${p.status == 'PENDING'}" class="chip chip-pending"><i
-                                        class="bi bi-hourglass-split"></i>PENDING</span>
-                                <span th:if="${p.status == 'APPROVED'}" class="chip chip-approved"><i
-                                        class="bi bi-check-circle-fill"></i>APPROVED</span>
-                                <span th:if="${p.status == 'REJECTED'}" class="chip chip-rejected"><i
-                                        class="bi bi-x-circle-fill"></i>REJECTED</span>
+                            <td><span th:class="'stat-chip stat-' + ${p.status}" th:text="${p.status}"></span></td>
+                            <td style="font-size:12px;color:var(--t);font-weight:500;">
+                                <span th:if="${p.status == 'PENDING'}">In admin review queue</span>
+                                <span th:if="${p.status == 'APPROVED'}">Live on store</span>
+                                <span th:if="${p.status == 'REJECTED'}">Does not meet guidelines</span>
                             </td>
-                            <td><span class="note">Awaiting admin review</span></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+
 </body>
 
 </html>

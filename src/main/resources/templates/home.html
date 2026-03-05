@@ -4,20 +4,19 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>NexaMart – Shop Smarter</title>
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap"
+	<title>NexaMart – Shop Smarter, Live Better</title>
+	<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
 		rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 	<style>
 		:root {
-			--primary: #7c3aed;
-			--primary-glow: rgba(124, 58, 237, 0.4);
-			--accent: #06b6d4;
-			--gold: #f59e0b;
-			--green: #10b981;
-			--bg: #07070f;
-			--card: rgba(255, 255, 255, 0.04);
-			--border: rgba(255, 255, 255, 0.08);
+			--y: #FFE500;
+			--yd: #FFCC00;
+			--b: #111111;
+			--g: #22C55E;
+			--t: #6B7280;
+			--bdr: #E5E7EB;
+			--bg: #FAFAFA;
 		}
 
 		*,
@@ -29,457 +28,553 @@
 		}
 
 		body {
-			font-family: 'Inter', sans-serif;
-			background: var(--bg);
-			color: #fff;
+			font-family: 'Plus Jakarta Sans', sans-serif;
+			background: #fff;
+			color: var(--b);
 			overflow-x: hidden;
 		}
 
-		/* ── NAV ── */
+		/* NAV */
 		nav {
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
 			padding: 20px 60px;
-			background: rgba(0, 0, 0, 0.3);
-			backdrop-filter: blur(20px);
-			border-bottom: 1px solid var(--border);
+			background: #fff;
+			border-bottom: 2px solid var(--b);
 			position: sticky;
 			top: 0;
 			z-index: 100;
 		}
 
 		.brand {
-			font-size: 24px;
+			font-size: 26px;
 			font-weight: 900;
-			letter-spacing: -0.5px;
+			letter-spacing: -1px;
+			color: var(--b);
 		}
 
-		.brand span.n {
-			color: #fff;
-		}
-
-		.brand span.x {
-			background: linear-gradient(135deg, #7c3aed, #06b6d4);
-			-webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;
-			background-clip: text;
+		.brand span {
+			background: var(--y);
+			padding: 2px 8px;
+			border-radius: 6px;
 		}
 
 		.nav-links {
 			display: flex;
-			gap: 12px;
+			align-items: center;
+			gap: 32px;
+		}
+
+		.nav-links a {
+			font-size: 14px;
+			font-weight: 600;
+			color: var(--b);
+			text-decoration: none;
+			transition: color 0.2s;
+		}
+
+		.nav-links a:hover {
+			color: var(--t);
 		}
 
 		.btn-nav {
-			padding: 10px 24px;
+			padding: 11px 26px;
 			border-radius: 50px;
-			font-weight: 700;
+			font-weight: 800;
 			font-size: 14px;
 			cursor: pointer;
 			text-decoration: none;
 			transition: all 0.3s;
-			border: none;
+			border: 2px solid var(--b);
 		}
 
 		.btn-outline {
-			background: transparent;
-			border: 1.5px solid rgba(255, 255, 255, 0.2);
-			color: #fff;
+			background: #fff;
+			color: var(--b);
 		}
 
 		.btn-outline:hover {
-			border-color: #7c3aed;
-			color: #a78bfa;
-		}
-
-		.btn-glow {
-			background: linear-gradient(135deg, #7c3aed, #5b21b6);
+			background: var(--b);
 			color: #fff;
-			box-shadow: 0 0 20px var(--primary-glow);
 		}
 
-		.btn-glow:hover {
-			box-shadow: 0 0 35px var(--primary-glow);
+		.btn-filled {
+			background: var(--y);
+			color: var(--b);
+		}
+
+		.btn-filled:hover {
+			background: var(--yd);
 			transform: translateY(-2px);
+			box-shadow: 0 8px 20px rgba(255, 229, 0, 0.4);
 		}
 
-		/* ── HERO ── */
+		/* HERO */
 		.hero {
-			min-height: 90vh;
-			display: flex;
+			display: grid;
+			grid-template-columns: 1fr 1fr;
 			align-items: center;
-			justify-content: center;
-			flex-direction: column;
-			text-align: center;
-			padding: 40px 20px;
-			position: relative;
-			overflow: hidden;
+			min-height: 88vh;
+			padding: 60px 60px 40px;
+			gap: 40px;
+			background: #fff;
 		}
 
-		.hero::before {
-			content: '';
-			position: absolute;
-			top: -200px;
-			left: 50%;
-			transform: translateX(-50%);
-			width: 900px;
-			height: 900px;
-			border-radius: 50%;
-			background: radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, transparent 70%);
-			pointer-events: none;
-		}
+		.hero-left {}
 
-		.hero::after {
-			content: '';
-			position: absolute;
-			bottom: -100px;
-			right: -100px;
-			width: 500px;
-			height: 500px;
-			border-radius: 50%;
-			background: radial-gradient(circle, rgba(6, 182, 212, 0.08) 0%, transparent 70%);
-			pointer-events: none;
-		}
-
-		.hero-eyebrow {
-			font-size: 12px;
-			font-weight: 700;
-			letter-spacing: 3px;
-			text-transform: uppercase;
-			color: var(--accent);
-			margin-bottom: 20px;
-			display: flex;
+		.badge {
+			display: inline-flex;
 			align-items: center;
-			justify-content: center;
 			gap: 8px;
+			background: var(--y);
+			color: var(--b);
+			font-size: 12px;
+			font-weight: 800;
+			padding: 7px 16px;
+			border-radius: 50px;
+			margin-bottom: 24px;
+			border: 2px solid var(--b);
 		}
 
-		.hero-eyebrow::before,
-		.hero-eyebrow::after {
-			content: '';
-			width: 30px;
-			height: 1px;
-			background: var(--accent);
-		}
-
-		.hero h1 {
-			font-size: clamp(44px, 8vw, 88px);
+		.hero-left h1 {
+			font-size: clamp(48px, 6vw, 80px);
 			font-weight: 900;
 			line-height: 1.05;
 			letter-spacing: -2px;
-			margin-bottom: 24px;
+			margin-bottom: 22px;
 		}
 
-		.hero h1 .hi {
-			background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
-			-webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;
-			background-clip: text;
+		.hero-left h1 .hl {
+			background: var(--y);
+			padding: 0 8px;
 		}
 
-		.hero h1 .gradient {
-			background: linear-gradient(135deg, #7c3aed, #06b6d4, #f59e0b);
-			-webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;
-			background-clip: text;
-		}
-
-		.hero p {
-			font-size: 18px;
-			color: rgba(255, 255, 255, 0.5);
-			max-width: 520px;
-			margin: 0 auto 40px;
-			line-height: 1.7;
+		.hero-left p {
+			font-size: 17px;
+			color: var(--t);
+			line-height: 1.8;
+			max-width: 480px;
+			margin-bottom: 36px;
 		}
 
 		.hero-btns {
 			display: flex;
-			gap: 16px;
-			justify-content: center;
+			gap: 14px;
 			flex-wrap: wrap;
-			margin-bottom: 60px;
+			margin-bottom: 48px;
 		}
 
-		.btn-hero-primary {
-			padding: 16px 40px;
-			border-radius: 50px;
-			font-weight: 800;
-			font-size: 16px;
-			background: linear-gradient(135deg, #7c3aed, #5b21b6);
-			color: #fff;
-			text-decoration: none;
-			border: none;
-			box-shadow: 0 0 30px var(--primary-glow);
-			transition: all 0.3s;
-			cursor: pointer;
-			display: inline-flex;
-			align-items: center;
-			gap: 10px;
-		}
-
-		.btn-hero-primary:hover {
-			transform: translateY(-3px);
-			box-shadow: 0 0 50px var(--primary-glow);
-			color: #fff;
-		}
-
-		.btn-hero-secondary {
-			padding: 16px 40px;
-			border-radius: 50px;
-			font-weight: 700;
-			font-size: 16px;
-			background: transparent;
-			color: #fff;
-			text-decoration: none;
-			border: 2px solid rgba(255, 255, 255, 0.15);
-			transition: all 0.3s;
-		}
-
-		.btn-hero-secondary:hover {
-			border-color: #7c3aed;
-			color: #a78bfa;
-			transform: translateY(-3px);
-		}
-
-		/* ── STATS ── */
-		.stats-bar {
+		.hero-stats {
 			display: flex;
-			gap: 0;
-			justify-content: center;
-			margin-bottom: 80px;
-		}
-
-		.stat {
-			padding: 16px 40px;
-			text-align: center;
-			border-right: 1px solid var(--border);
-		}
-
-		.stat:last-child {
-			border-right: none;
+			gap: 32px;
 		}
 
 		.stat .num {
 			font-size: 28px;
 			font-weight: 900;
-			background: linear-gradient(135deg, #7c3aed, #06b6d4);
-			-webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;
-			background-clip: text;
 		}
 
 		.stat .lbl {
 			font-size: 12px;
-			color: rgba(255, 255, 255, 0.4);
+			color: var(--t);
 			font-weight: 600;
-			text-transform: uppercase;
-			letter-spacing: 0.8px;
-			margin-top: 4px;
 		}
 
-		/* ── ROLE CARDS ── */
-		.roles {
-			padding: 40px 60px 80px;
+		.hero-right {
+			position: relative;
+			display: flex;
+			justify-content: center;
 		}
 
-		.roles h2 {
+		.phone-frame {
+			width: 280px;
+			height: 480px;
+			background: var(--b);
+			border-radius: 40px;
+			border: 4px solid var(--b);
+			position: relative;
+			overflow: hidden;
+			box-shadow: 12px 12px 0 var(--y);
+			display: flex;
+			flex-direction: column;
+		}
+
+		.phone-screen {
+			flex: 1;
+			background: #fff;
+			margin: 8px;
+			border-radius: 34px;
+			overflow: hidden;
+			display: flex;
+			flex-direction: column;
+		}
+
+		.phone-top {
+			background: var(--y);
+			padding: 10px 16px;
+			font-size: 11px;
+			font-weight: 800;
+			border-bottom: 2px solid var(--b);
+		}
+
+		.product-grid {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 8px;
+			padding: 8px;
+			flex: 1;
+		}
+
+		.mini-card {
+			background: var(--bg);
+			border: 1.5px solid var(--bdr);
+			border-radius: 10px;
+			padding: 8px;
 			text-align: center;
-			font-size: 36px;
+		}
+
+		.mini-card .icon {
+			font-size: 28px;
+			margin-bottom: 4px;
+		}
+
+		.mini-card .name {
+			font-size: 9px;
+			font-weight: 700;
+			margin-bottom: 3px;
+		}
+
+		.mini-card .price {
+			font-size: 10px;
 			font-weight: 900;
+			color: var(--b);
+		}
+
+		.floating {
+			position: absolute;
+		}
+
+		.badge-discount {
+			top: -20px;
+			right: -20px;
+			width: 80px;
+			height: 80px;
+			background: var(--y);
+			border: 3px solid var(--b);
+			border-radius: 50%;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			font-weight: 900;
+			transform: rotate(12deg);
+		}
+
+		.badge-discount .pct {
+			font-size: 22px;
+			line-height: 1;
+		}
+
+		.badge-discount .txt {
+			font-size: 9px;
+			font-weight: 800;
+		}
+
+		.cart-float {
+			bottom: 40px;
+			left: -50px;
+			background: #fff;
+			border: 2px solid var(--b);
+			border-radius: 16px;
+			padding: 10px 14px;
+			box-shadow: 4px 4px 0 var(--y);
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			font-size: 12px;
+			font-weight: 700;
+		}
+
+		/* FEATURES */
+		.features {
+			padding: 80px 60px;
+			background: var(--b);
+		}
+
+		.features h2 {
+			font-size: 40px;
+			font-weight: 900;
+			color: #fff;
+			text-align: center;
+			margin-bottom: 12px;
+		}
+
+		.features .sub {
+			color: rgba(255, 255, 255, 0.5);
+			text-align: center;
+			font-size: 15px;
 			margin-bottom: 50px;
 		}
 
-		.roles h2 span {
-			background: linear-gradient(135deg, #7c3aed, #06b6d4);
-			-webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;
-			background-clip: text;
+		.feat-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+			gap: 20px;
+		}
+
+		.feat-card {
+			background: rgba(255, 255, 255, 0.05);
+			border: 1px solid rgba(255, 255, 255, 0.12);
+			border-radius: 20px;
+			padding: 28px;
+			transition: all 0.3s;
+		}
+
+		.feat-card:hover {
+			background: var(--y);
+			border-color: var(--y);
+			transform: translateY(-6px);
+		}
+
+		.feat-card:hover * {
+			color: var(--b) !important;
+		}
+
+		.feat-card .icon {
+			font-size: 32px;
+			margin-bottom: 16px;
+			display: block;
+		}
+
+		.feat-card h3 {
+			font-size: 18px;
+			font-weight: 800;
+			color: #fff;
+			margin-bottom: 8px;
+		}
+
+		.feat-card p {
+			font-size: 14px;
+			color: rgba(255, 255, 255, 0.5);
+			line-height: 1.6;
+		}
+
+		/* ROLES */
+		.roles {
+			padding: 80px 60px;
+			background: #fff;
+		}
+
+		.roles h2 {
+			font-size: 40px;
+			font-weight: 900;
+			text-align: center;
+			margin-bottom: 12px;
+		}
+
+		.roles .sub {
+			color: var(--t);
+			text-align: center;
+			font-size: 15px;
+			margin-bottom: 50px;
 		}
 
 		.roles-grid {
 			display: grid;
-			grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-			gap: 24px;
+			grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+			gap: 20px;
 		}
 
 		.role-card {
-			background: var(--card);
-			border: 1px solid var(--border);
-			border-radius: 24px;
-			padding: 36px 28px;
-			transition: all 0.4s;
-			position: relative;
-			overflow: hidden;
-		}
-
-		.role-card::before {
-			content: '';
-			position: absolute;
-			top: 0;
-			left: 0;
-			right: 0;
-			height: 3px;
-			background: var(--gradient);
+			border: 2px solid var(--bdr);
+			border-radius: 20px;
+			padding: 28px;
+			transition: all 0.3s;
+			cursor: default;
 		}
 
 		.role-card:hover {
-			transform: translateY(-8px);
-			border-color: rgba(124, 58, 237, 0.4);
-			box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+			border-color: var(--b);
+			box-shadow: 6px 6px 0 var(--y);
+			transform: translateY(-4px);
 		}
 
 		.role-card .icon {
-			width: 64px;
-			height: 64px;
-			border-radius: 18px;
+			width: 56px;
+			height: 56px;
+			border-radius: 14px;
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			font-size: 28px;
-			margin-bottom: 20px;
+			font-size: 26px;
+			margin-bottom: 18px;
+			border: 2px solid var(--b);
 		}
 
 		.role-card h3 {
-			font-size: 22px;
+			font-size: 20px;
 			font-weight: 800;
-			margin-bottom: 10px;
+			margin-bottom: 8px;
 		}
 
 		.role-card p {
-			color: rgba(255, 255, 255, 0.5);
 			font-size: 14px;
+			color: var(--t);
 			line-height: 1.7;
 		}
 
-		/* ── FOOTER ── */
+		/* FOOTER */
 		footer {
+			background: var(--b);
+			color: #fff;
 			text-align: center;
 			padding: 32px;
-			border-top: 1px solid var(--border);
-			color: rgba(255, 255, 255, 0.3);
 			font-size: 13px;
 		}
 
-		footer .brand-foot {
-			font-weight: 800;
-			color: #fff;
-			margin-bottom: 6px;
+		footer .brand-f {
+			font-size: 20px;
+			font-weight: 900;
+			margin-bottom: 8px;
 		}
 
-		footer .brand-foot span {
-			background: linear-gradient(135deg, #7c3aed, #06b6d4);
-			-webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;
-			background-clip: text;
-		}
-
-		/* Orbs */
-		.orb {
-			position: fixed;
-			border-radius: 50%;
-			pointer-events: none;
-			z-index: 0;
-			filter: blur(80px);
-		}
-
-		.orb1 {
-			width: 400px;
-			height: 400px;
-			background: rgba(124, 58, 237, 0.1);
-			top: -100px;
-			right: -100px;
-		}
-
-		.orb2 {
-			width: 300px;
-			height: 300px;
-			background: rgba(6, 182, 212, 0.08);
-			bottom: -50px;
-			left: -50px;
+		footer .brand-f span {
+			background: var(--y);
+			color: var(--b);
+			padding: 2px 8px;
+			border-radius: 5px;
 		}
 	</style>
 </head>
 
 <body>
 
-	<div class="orb orb1"></div>
-	<div class="orb orb2"></div>
-
 	<!-- NAV -->
 	<nav>
-		<div class="brand"><span class="n">Nexa</span><span class="x">Mart</span></div>
+		<div class="brand">Nexa<span>Mart</span></div>
 		<div class="nav-links">
+			<a href="/home">Home</a>
+			<a href="/login">Sign In</a>
+			<a href="/register">Register</a>
+		</div>
+		<div style="display:flex;gap:10px;">
 			<a href="/login" class="btn-nav btn-outline">Sign In</a>
-			<a href="/register" class="btn-nav btn-glow">Get Started</a>
+			<a href="/register" class="btn-nav btn-filled">Get Started →</a>
 		</div>
 	</nav>
 
 	<!-- HERO -->
 	<section class="hero">
-		<h1>
-			<span class="hi">Buy, Sell &</span><br>
-			<span class="gradient">Deliver Smarter</span>
-		</h1>
-		<div class="hero-btns">
-			<a href="/register" class="btn-hero-primary"><i class="bi bi-rocket-takeoff-fill"></i> Start for Free</a>
-			<a href="/login" class="btn-hero-secondary">Sign In <i class="bi bi-arrow-right ms-1"></i></a>
+		<div class="hero-left">
+			<h1>Online <span class="hl">Shopping</span><br>Made Smarter</h1>
+			<p>Buy, sell and deliver with confidence. NexaMart connects verified sellers, smart customers and fast
+				delivery partners under one powerful platform.</p>
+			<div class="hero-stats">
+				<div class="stat">
+					<div class="num">10K+</div>
+					<div class="lbl">Products</div>
+				</div>
+				<div class="stat">
+					<div class="num">500+</div>
+					<div class="lbl">Verified Sellers</div>
+				</div>
+				<div class="stat">
+					<div class="num">50K+</div>
+					<div class="lbl">Happy Customers</div>
+				</div>
+			</div>
 		</div>
-		<div class="stats-bar">
-			<div class="stat">
-				<div class="num">10K+</div>
-				<div class="lbl">Products</div>
+		<div class="hero-right">
+			<div class="badge-discount floating"><span class="pct">50%</span><span class="txt">OFF</span></div>
+			<div class="phone-frame">
+				<div class="phone-screen">
+					<div class="phone-top">🛍️ NexaMart Shop</div>
+					<div class="product-grid">
+						<div class="mini-card">
+							<div class="icon">👗</div>
+							<div class="name">Dress</div>
+							<div class="price">₹499</div>
+						</div>
+						<div class="mini-card">
+							<div class="icon">👖</div>
+							<div class="name">Jeans</div>
+							<div class="price">₹899</div>
+						</div>
+						<div class="mini-card">
+							<div class="icon">👟</div>
+							<div class="name">Shoes</div>
+							<div class="price">₹1299</div>
+						</div>
+						<div class="mini-card">
+							<div class="icon">📱</div>
+							<div class="name">Phone</div>
+							<div class="price">₹9999</div>
+						</div>
+					</div>
+				</div>
 			</div>
-			<div class="stat">
-				<div class="num">500+</div>
-				<div class="lbl">Sellers</div>
+			<div class="cart-float floating"><i class="bi bi-cart-check-fill" style="color:#22C55E;font-size:18px;"></i>
+				3 items added!</div>
+		</div>
+	</section>
+
+	<!-- FEATURES -->
+	<section class="features">
+		<h2>Why NexaMart?</h2>
+		<p class="sub">Built for speed, trust and growth</p>
+		<div class="feat-grid">
+			<div class="feat-card"><span class="icon">🤖</span>
+				<h3>AI Recommendations</h3>
+				<p>Smart product suggestions based on customer behaviour and trends.</p>
 			</div>
-			<div class="stat">
-				<div class="num">50K+</div>
-				<div class="lbl">Customers</div>
+			<div class="feat-card"><span class="icon">🌱</span>
+				<h3>Eco-Friendly</h3>
+				<p>Support sustainable sellers and biodegradable packaging options.</p>
 			</div>
-			<div class="stat">
-				<div class="num">99.9%</div>
-				<div class="lbl">Uptime</div>
+			<div class="feat-card"><span class="icon">🔒</span>
+				<h3>Role-Based Security</h3>
+				<p>Separate access for Admin, Seller, Customer and Delivery partners.</p>
+			</div>
+			<div class="feat-card"><span class="icon">🚀</span>
+				<h3>Fast Delivery</h3>
+				<p>Real-time order tracking with dedicated delivery partner network.</p>
 			</div>
 		</div>
 	</section>
 
 	<!-- ROLES -->
 	<section class="roles">
-		<h2>Built for <span>Every Role</span></h2>
+		<h2>Built for Every Role</h2>
+		<p class="sub">One platform, four powerful roles</p>
 		<div class="roles-grid">
-			<div class="role-card" style="--gradient:linear-gradient(135deg,#7c3aed,#a78bfa);">
-				<div class="icon" style="background:rgba(124,58,237,0.15); color:#a78bfa;"><i
-						class="bi bi-shield-fill-check"></i></div>
+			<div class="role-card">
+				<div class="icon" style="background:#FFE500;">🛡️</div>
 				<h3>Admin</h3>
-				<p>Full control — manage users, approve seller products, monitor all activity across the platform.</p>
+				<p>Full control — manage users, approve products and monitor platform activity.</p>
 			</div>
-			<div class="role-card" style="--gradient:linear-gradient(135deg,#10b981,#34d399);">
-				<div class="icon" style="background:rgba(16,185,129,0.15); color:#34d399;"><i
-						class="bi bi-shop-window"></i></div>
+			<div class="role-card">
+				<div class="icon" style="background:#D1FAE5;">🏪</div>
 				<h3>Seller</h3>
-				<p>Add products, submit for approval, manage your own orders and track delivery partners.</p>
+				<p>Add products, submit for approval, manage your orders and grow your business.</p>
 			</div>
-			<div class="role-card" style="--gradient:linear-gradient(135deg,#f59e0b,#fcd34d);">
-				<div class="icon" style="background:rgba(245,158,11,0.15); color:#fcd34d;"><i
-						class="bi bi-bag-heart-fill"></i></div>
+			<div class="role-card">
+				<div class="icon" style="background:#FEF3C7;">🛍️</div>
 				<h3>Customer</h3>
-				<p>Browse approved products, purchase with one click and get doorstep delivery.</p>
+				<p>Browse verified products, buy with one click and get doorstep delivery.</p>
 			</div>
-			<div class="role-card" style="--gradient:linear-gradient(135deg,#06b6d4,#67e8f9);">
-				<div class="icon" style="background:rgba(6,182,212,0.15); color:#67e8f9;"><i class="bi bi-truck"></i>
-				</div>
+			<div class="role-card">
+				<div class="icon" style="background:#DBEAFE;">🚚</div>
 				<h3>Delivery</h3>
-				<p>View assigned orders, update delivery status and keep customers informed in real-time.</p>
+				<p>View assigned orders and update delivery status in real time.</p>
 			</div>
 		</div>
 	</section>
 
 	<!-- FOOTER -->
 	<footer>
-		<div class="brand-foot">Nexa<span>Mart</span></div>
-		<p>© 2026 NexaMart. All rights reserved. Built with ❤️ in India.</p>
+		<div class="brand-f">Nexa<span>Mart</span></div>
+		<p>© 2026 NexaMart — Buy Smart. Sell Smart. Live Better.</p>
 	</footer>
 
 </body>

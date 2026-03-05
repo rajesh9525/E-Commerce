@@ -5,18 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard – NexaMart</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         :root {
-            --p: #7c3aed;
-            --c: #06b6d4;
-            --g: #10b981;
-            --r: #ef4444;
-            --gold: #f59e0b;
-            --bg: #07070f;
-            --card: rgba(255, 255, 255, 0.04);
-            --brd: rgba(255, 255, 255, 0.08);
+            --y: #FFE500;
+            --b: #111111;
+            --g: #22C55E;
+            --t: #6B7280;
+            --bdr: #E5E7EB;
+            --bg: #FAFAFA;
+            --r: #EF4444;
         }
 
         *,
@@ -28,143 +28,143 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             background: var(--bg);
-            color: #fff;
+            color: var(--b);
             display: flex;
             min-height: 100vh;
         }
 
+        /* SIDEBAR */
         .sidebar {
             width: 260px;
             min-height: 100vh;
-            background: rgba(255, 255, 255, 0.02);
-            border-right: 1px solid var(--brd);
-            padding: 28px 16px;
+            background: #fff;
+            border-right: 2px solid var(--bdr);
+            padding: 28px 20px;
             display: flex;
             flex-direction: column;
             position: fixed;
             top: 0;
             left: 0;
             height: 100%;
-            overflow-y: auto;
+            z-index: 100;
         }
 
         .brand {
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 900;
-            padding: 8px 14px 26px;
-            border-bottom: 1px solid var(--brd);
+            padding: 8px 10px 26px;
+            border-bottom: 2px solid var(--bdr);
             margin-bottom: 22px;
         }
 
-        .brand .n {
-            color: #fff;
-        }
-
-        .brand .x {
-            background: linear-gradient(135deg, #7c3aed, #06b6d4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .brand span {
+            background: var(--y);
+            padding: 2px 8px;
+            border-radius: 6px;
+            color: var(--b);
         }
 
         .nav-sec {
-            font-size: 10px;
-            font-weight: 700;
-            color: rgba(255, 255, 255, 0.25);
-            letter-spacing: 1.8px;
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--t);
             text-transform: uppercase;
-            padding: 0 14px;
+            letter-spacing: 1px;
+            padding: 0 10px;
             margin: 16px 0 8px;
         }
 
         .nav-link {
             display: flex;
             align-items: center;
-            gap: 11px;
-            color: rgba(255, 255, 255, 0.55);
+            gap: 12px;
+            color: var(--t);
             text-decoration: none;
-            padding: 11px 14px;
-            border-radius: 13px;
+            padding: 12px 14px;
+            border-radius: 12px;
             font-size: 14px;
-            font-weight: 600;
-            transition: all 0.25s;
-            margin-bottom: 3px;
-            border: 1px solid transparent;
+            font-weight: 700;
+            transition: all 0.2s;
+            margin-bottom: 4px;
             cursor: pointer;
-            background: none;
         }
 
-        .nav-link:hover,
+        .nav-link:hover {
+            background: var(--bg);
+            color: var(--b);
+        }
+
         .nav-link.active {
-            background: rgba(124, 58, 237, 0.12);
-            border-color: rgba(124, 58, 237, 0.2);
-            color: #fff;
+            background: var(--y);
+            color: var(--b);
+            box-shadow: 4px 4px 0 var(--b);
+            border: 2px solid var(--b);
         }
 
         .nav-link i {
             font-size: 18px;
-            width: 24px;
         }
 
         .sidebar-foot {
             margin-top: auto;
             padding-top: 16px;
-            border-top: 1px solid var(--brd);
+            border-top: 2px solid var(--bdr);
         }
 
+        /* MAIN */
         .main {
             margin-left: 260px;
             flex: 1;
         }
 
         .topbar {
-            padding: 20px 36px;
-            border-bottom: 1px solid var(--brd);
-            background: rgba(255, 255, 255, 0.02);
+            padding: 20px 40px;
+            border-bottom: 2px solid var(--bdr);
+            background: #fff;
             display: flex;
             align-items: center;
             justify-content: space-between;
             position: sticky;
             top: 0;
-            z-index: 10;
-            backdrop-filter: blur(20px);
+            z-index: 90;
         }
 
         .topbar h5 {
             font-size: 18px;
-            font-weight: 800;
+            font-weight: 900;
             margin: 0;
             display: flex;
             align-items: center;
             gap: 10px;
+            color: var(--b);
         }
 
-        .admin-chip {
-            padding: 7px 18px;
-            border-radius: 50px;
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(124, 58, 237, 0.2));
-            border: 1px solid rgba(239, 68, 68, 0.3);
+        .badge-role {
+            background: var(--b);
+            color: var(--y);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-weight: 900;
             font-size: 12px;
-            font-weight: 800;
-            color: #fca5a5;
+            border: 2px solid var(--b);
         }
 
         .content {
-            padding: 32px 36px;
+            padding: 40px;
         }
 
         .section {
             display: none;
-            animation: fadeIn 0.4s ease-out;
+            animation: fade 0.3s ease-out;
         }
 
         .section.active {
             display: block;
         }
 
-        @keyframes fadeIn {
+        @keyframes fade {
             from {
                 opacity: 0;
                 transform: translateY(10px);
@@ -177,26 +177,21 @@
         }
 
         .sec-head {
-            font-size: 20px;
+            font-size: 24px;
             font-weight: 900;
-            margin-bottom: 22px;
+            margin-bottom: 24px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .sec-head::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--brd);
-        }
-
+        /* TABLE */
         .table-wrap {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--brd);
+            background: #fff;
+            border: 2px solid var(--bdr);
             border-radius: 20px;
             overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
         }
 
         table {
@@ -205,23 +200,24 @@
         }
 
         thead th {
-            background: rgba(124, 58, 237, 0.08);
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 10.5px;
-            font-weight: 700;
+            background: var(--bg);
+            color: var(--t);
+            font-size: 11px;
+            font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 1px;
-            padding: 14px 18px;
-            border-bottom: 1px solid var(--brd);
+            padding: 16px 20px;
+            border-bottom: 2px solid var(--bdr);
+            text-align: left;
         }
 
         tbody tr {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            border-bottom: 1px solid var(--bdr);
             transition: background 0.2s;
         }
 
         tbody tr:hover {
-            background: rgba(255, 255, 255, 0.03);
+            background: var(--bg);
         }
 
         tbody tr:last-child {
@@ -229,163 +225,152 @@
         }
 
         td {
-            padding: 15px 18px;
+            padding: 16px 20px;
             font-size: 14px;
             vertical-align: middle;
+            font-weight: 600;
         }
 
-        .avatar {
+        /* CHIPS */
+        .role-chip {
+            display: inline-flex;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 800;
+            border: 2px solid var(--bdr);
+            background: #fff;
+        }
+
+        .stat-chip {
+            display: inline-flex;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 800;
+            border: 2px solid;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .stat-PENDING {
+            background: #FEF3C7;
+            color: #D97706;
+            border-color: #FCD34D;
+        }
+
+        .stat-APPROVED {
+            background: #D1FAE5;
+            color: #059669;
+            border-color: #6EE7B7;
+        }
+
+        .stat-REJECTED {
+            background: #FEE2E2;
+            color: #DC2626;
+            border-color: #FCA5A5;
+        }
+
+        /* AVATAR */
+        .av {
             width: 36px;
             height: 36px;
-            border-radius: 10px;
+            border-radius: 50%;
+            background: var(--y);
+            border: 2px solid var(--b);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 800;
+            font-weight: 900;
+            color: var(--b);
             font-size: 14px;
         }
 
-        .pimg {
-            width: 56px;
-            height: 56px;
-            object-fit: cover;
-            border-radius: 12px;
-            border: 1px solid var(--brd);
+        .u-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
-        .chip {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 50px;
-            font-size: 11px;
-            font-weight: 700;
-        }
-
-        .chip-pending {
-            background: rgba(245, 158, 11, 0.12);
-            color: #fcd34d;
-            border: 1px solid rgba(245, 158, 11, 0.25);
-        }
-
-        .chip-approved {
-            background: rgba(16, 185, 129, 0.12);
-            color: #6ee7b7;
-            border: 1px solid rgba(16, 185, 129, 0.25);
-        }
-
-        .chip-rejected {
-            background: rgba(239, 68, 68, 0.12);
-            color: #fca5a5;
-            border: 1px solid rgba(239, 68, 68, 0.25);
-        }
-
-        .chip-role {
-            background: rgba(124, 58, 237, 0.12);
-            color: #c4b5fd;
-            border: 1px solid rgba(124, 58, 237, 0.2);
-        }
-
-        .btn-t {
+        /* BTNS */
+        .btn-act {
             display: inline-flex;
             align-items: center;
-            gap: 5px;
-            padding: 6px 14px;
+            gap: 6px;
+            padding: 8px 14px;
             border-radius: 8px;
             font-size: 12px;
-            font-weight: 700;
+            font-weight: 800;
             text-decoration: none;
-            border: none;
-            cursor: pointer;
+            border: 2px solid var(--bdr);
+            background: #fff;
+            color: var(--b);
             transition: all 0.2s;
         }
 
-        .btn-approve {
-            background: rgba(16, 185, 129, 0.12);
-            color: #6ee7b7;
-            border: 1px solid rgba(16, 185, 129, 0.25);
+        .btn-act:hover {
+            border-color: var(--b);
+            box-shadow: 3px 3px 0 var(--y);
+            transform: translateY(-2px);
         }
 
-        .btn-approve:hover {
-            background: rgba(16, 185, 129, 0.25);
-            color: #a7f3d0;
+        .btn-act.red:hover {
+            box-shadow: 3px 3px 0 var(--r);
         }
 
-        .btn-reject {
-            background: rgba(239, 68, 68, 0.12);
-            color: #fca5a5;
-            border: 1px solid rgba(239, 68, 68, 0.25);
-        }
-
-        .btn-reject:hover {
-            background: rgba(239, 68, 68, 0.25);
-            color: #fecaca;
-        }
-
-        .btn-block {
-            background: rgba(245, 158, 11, 0.1);
-            color: #fcd34d;
-            border: 1px solid rgba(245, 158, 11, 0.2);
-        }
-
-        .btn-block:hover {
-            background: rgba(245, 158, 11, 0.2);
-            color: #fde68a;
-        }
-
-        .btn-del {
-            background: rgba(239, 68, 68, 0.1);
-            color: #fca5a5;
-            border: 1px solid rgba(239, 68, 68, 0.2);
-        }
-
-        .btn-del:hover {
-            background: rgba(239, 68, 68, 0.2);
+        .btn-act.green:hover {
+            box-shadow: 3px 3px 0 var(--g);
         }
 
         .empty {
             text-align: center;
-            padding: 56px;
-            color: rgba(255, 255, 255, 0.2);
+            padding: 60px 20px;
+            color: var(--t);
         }
 
         .empty i {
-            font-size: 52px;
-            display: block;
-            margin-bottom: 14px;
+            font-size: 48px;
+            color: var(--bdr);
+            margin-bottom: 16px;
         }
 
-        .price {
-            color: #6ee7b7;
-            font-weight: 800;
+        .empty p {
+            font-weight: 700;
+        }
+
+        .pimg {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 2px solid var(--bdr);
         }
     </style>
 </head>
 
 <body>
     <div class="sidebar">
-        <div class="brand"><span class="n">Nexa</span><span class="x">Mart</span></div>
-        <div class="nav-sec">Admin Panel</div>
-        <button class="nav-link" id="n-users" onclick="show('users')"><i class="bi bi-people-fill"></i> Manage
-            Users</button>
-        <button class="nav-link" id="n-products" onclick="show('products')"><i class="bi bi-bag-check-fill"></i> Product
-            Requests</button>
-        <button class="nav-link" id="n-activity" onclick="show('activity')"><i class="bi bi-activity"></i> User
-            Activity</button>
+        <div class="brand">Nexa<span>Mart</span></div>
+        <div class="nav-sec">Admin Hub</div>
+        <div class="nav-link active" id="n-users" onclick="show('users')"><i class="bi bi-people-fill"></i> Users</div>
+        <div class="nav-link" id="n-reqs" onclick="show('reqs')"><i class="bi bi-box-seam-fill"></i> Requests</div>
+        <div class="nav-link" id="n-act" onclick="show('act')"><i class="bi bi-activity"></i> Activity</div>
         <div class="sidebar-foot">
-            <a href="/logout" class="nav-link" style="color:rgba(255,107,107,0.7);"><i
-                    class="bi bi-box-arrow-right"></i> Logout</a>
+            <a href="/logout" class="nav-link" style="color:var(--r);"><i class="bi bi-box-arrow-right"></i> Sign
+                Out</a>
         </div>
     </div>
+
     <div class="main">
         <div class="topbar">
-            <h5><i class="bi bi-speedometer2" style="color:#a78bfa;"></i>Admin Dashboard</h5>
-            <span class="admin-chip"><i class="bi bi-shield-fill me-1"></i>ADMIN</span>
+            <h5>Admin Control Center</h5>
+            <div class="badge-role">ADMIN 🛡️</div>
         </div>
-        <div class="content">
 
-            <!-- USERS -->
-            <div class="section" id="users">
-                <div class="sec-head"><i class="bi bi-people-fill" style="color:#a78bfa;"></i> Manage Users</div>
+        <div class="content">
+            <!-- USERS SECTION -->
+            <div class="section active" id="users">
+                <div class="sec-head">👥 Manage Users</div>
                 <div class="table-wrap">
                     <table>
                         <thead>
@@ -393,32 +378,33 @@
                                 <th>User</th>
                                 <th>Email</th>
                                 <th>Role</th>
-                                <th>Joined</th>
+                                <th>Status</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr th:if="${#lists.isEmpty(users)}">
                                 <td colspan="5">
-                                    <div class="empty"><i class="bi bi-person-x"></i>No users found</div>
+                                    <div class="empty"><i class="bi bi-people"></i>
+                                        <p>No users found</p>
+                                    </div>
                                 </td>
                             </tr>
                             <tr th:each="u : ${users}">
                                 <td>
-                                    <div style="display:flex;align-items:center;gap:10px;">
-                                        <div class="avatar" style="background:rgba(124,58,237,0.15);color:#a78bfa;"
-                                            th:text="${#strings.substring(u.name,0,1)}">A</div>
-                                        <span style="font-weight:700;" th:text="${u.name}"></span>
+                                    <div class="u-cell">
+                                        <div class="av" th:text="${#strings.substring(u.name,0,1)}"></div><span
+                                            th:text="${u.name}"></span>
                                     </div>
                                 </td>
-                                <td style="color:rgba(255,255,255,0.45); font-size:13px;" th:text="${u.email}"></td>
-                                <td><span class="chip chip-role" th:text="${u.logintype}"></span></td>
-                                <td style="color:rgba(255,255,255,0.35); font-size:13px;" th:text="${u.logindate}"></td>
-                                <td>
-                                    <a class="btn-t btn-block" th:href="@{/admin/block/{id}(id=${u.id})}"><i
+                                <td th:text="${u.email}"></td>
+                                <td><span class="role-chip" th:text="${u.logintype}"></span></td>
+                                <td th:text="${u.status}"></td>
+                                <td style="display:flex;gap:8px;">
+                                    <a class="btn-act" th:href="@{/admin/block/{id}(id=${u.id})}"><i
                                             class="bi bi-slash-circle"></i> Block</a>
-                                    <a class="btn-t btn-del" th:href="@{/admin/delete/{id}(id=${u.id})}"><i
-                                            class="bi bi-trash"></i> Delete</a>
+                                    <a class="btn-act red" th:href="@{/admin/delete/{id}(id=${u.id})}"><i
+                                            class="bi bi-trash3-fill"></i> Delete</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -426,49 +412,48 @@
                 </div>
             </div>
 
-            <!-- PRODUCTS -->
-            <div class="section" id="products">
-                <div class="sec-head"><i class="bi bi-bag-check-fill" style="color:#6ee7b7;"></i> Seller Product
-                    Requests</div>
+            <!-- PRODUCT REQUESTS -->
+            <div class="section" id="reqs">
+                <div class="sec-head">📦 Product Requests</div>
                 <div class="table-wrap">
                     <table>
                         <thead>
                             <tr>
                                 <th>Product</th>
-                                <th>Seller</th>
-                                <th>Image</th>
+                                <th>Details</th>
                                 <th>Price</th>
+                                <th>Img</th>
                                 <th>Status</th>
-                                <th>Actions</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr th:if="${#lists.isEmpty(requests)}">
                                 <td colspan="6">
-                                    <div class="empty"><i class="bi bi-inbox"></i>No pending requests</div>
+                                    <div class="empty"><i class="bi bi-inbox"></i>
+                                        <p>No pending requests</p>
+                                    </div>
                                 </td>
                             </tr>
                             <tr th:each="req : ${requests}">
-                                <td><span style="font-weight:700;" th:text="${req.productname}"></span></td>
-                                <td style="color:rgba(255,255,255,0.45);" th:text="${req.sellername}"></td>
+                                <td th:text="${req.productname}"></td>
+                                <td th:text="${req.productdetails}"
+                                    style="color:var(--t);font-size:13px;max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                                </td>
+                                <td th:text="'₹' + ${req.productprice}"></td>
                                 <td>
                                     <img th:if="${req.productimage != null}" th:src="@{'/request/image/' + ${req.id}}"
-                                        class="pimg" alt="img">
+                                        class="pimg">
                                     <span th:unless="${req.productimage != null}"
-                                        style="color:rgba(255,255,255,0.2);font-size:12px;">—</span>
+                                        style="color:var(--t);font-size:12px;">No Img</span>
                                 </td>
-                                <td><span class="price" th:text="'₹' + ${req.productprice}"></span></td>
-                                <td>
-                                    <span th:if="${req.status == 'PENDING'}" class="chip chip-pending">PENDING</span>
-                                    <span th:if="${req.status == 'APPROVED'}" class="chip chip-approved">APPROVED</span>
-                                    <span th:if="${req.status == 'REJECTED'}" class="chip chip-rejected">REJECTED</span>
+                                <td><span th:class="'stat-chip stat-' + ${req.status}" th:text="${req.status}"></span>
                                 </td>
-                                <td>
-                                    <a class="btn-t btn-approve"
-                                        th:href="@{/admin/approve-product/{id}(id=${req.id})}"><i
-                                            class="bi bi-check-circle"></i> Approve</a>
-                                    <a class="btn-t btn-reject" th:href="@{/admin/reject-product/{id}(id=${req.id})}"><i
-                                            class="bi bi-x-circle"></i> Reject</a>
+                                <td style="display:flex;gap:8px;">
+                                    <a class="btn-act green" th:href="@{/admin/approve-product/{id}(id=${req.id})}"><i
+                                            class="bi bi-check-lg"></i></a>
+                                    <a class="btn-act red" th:href="@{/admin/reject-product/{id}(id=${req.id})}"><i
+                                            class="bi bi-x-lg"></i></a>
                                 </td>
                             </tr>
                         </tbody>
@@ -477,27 +462,29 @@
             </div>
 
             <!-- ACTIVITY -->
-            <div class="section" id="activity">
-                <div class="sec-head"><i class="bi bi-activity" style="color:#67e8f9;"></i> User Activity</div>
+            <div class="section" id="act">
+                <div class="sec-head">⚡ User Activity</div>
                 <div class="table-wrap">
                     <table>
                         <thead>
                             <tr>
                                 <th>User</th>
-                                <th>Action</th>
-                                <th>Time</th>
+                                <th>Action Taken</th>
+                                <th>Timestamp</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr th:if="${#lists.isEmpty(activity)}">
                                 <td colspan="3">
-                                    <div class="empty"><i class="bi bi-clock-history"></i>No activity yet</div>
+                                    <div class="empty"><i class="bi bi-clock-history"></i>
+                                        <p>No activity yet</p>
+                                    </div>
                                 </td>
                             </tr>
                             <tr th:each="a : ${activity}">
-                                <td style="font-weight:700;" th:text="${a.username}"></td>
-                                <td th:text="${a.action}"></td>
-                                <td style="color:rgba(255,255,255,0.35);font-size:13px;" th:text="${a.time}"></td>
+                                <td th:text="${a.username}" style="color:var(--b);"></td>
+                                <td th:text="${a.action}" style="color:var(--t);"></td>
+                                <td th:text="${a.time}" style="font-size:12px;color:var(--t);"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -506,10 +493,11 @@
 
         </div>
     </div>
+
     <script>
         function show(id) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             document.getElementById('n-' + id).classList.add('active');
         }

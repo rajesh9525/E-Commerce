@@ -5,13 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Product – NexaMart</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         :root {
-            --gold: #f59e0b;
-            --bg: #07070f;
-            --brd: rgba(255, 255, 255, 0.08);
+            --y: #FFE500;
+            --b: #111111;
+            --g: #22C55E;
+            --t: #6B7280;
+            --bdr: #E5E7EB;
+            --bg: #FAFAFA;
+            --r: #EF4444;
         }
 
         *,
@@ -23,221 +28,265 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             background: var(--bg);
-            color: #fff;
+            color: var(--b);
             display: flex;
             min-height: 100vh;
         }
 
+        /* SIDEBAR */
         .sidebar {
             width: 260px;
             min-height: 100vh;
-            background: rgba(255, 255, 255, 0.02);
-            border-right: 1px solid var(--brd);
-            padding: 28px 16px;
+            background: #fff;
+            border-right: 2px solid var(--bdr);
+            padding: 28px 20px;
             display: flex;
             flex-direction: column;
             position: fixed;
             top: 0;
             left: 0;
             height: 100%;
-            overflow-y: auto;
+            z-index: 100;
         }
 
         .brand {
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 900;
-            padding: 8px 14px 26px;
-            border-bottom: 1px solid var(--brd);
+            padding: 8px 10px 26px;
+            border-bottom: 2px solid var(--bdr);
             margin-bottom: 22px;
         }
 
-        .brand .n {
-            color: #fff;
-        }
-
-        .brand .x {
-            background: linear-gradient(135deg, #7c3aed, #06b6d4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .brand span {
+            background: var(--y);
+            padding: 2px 8px;
+            border-radius: 6px;
+            color: var(--b);
         }
 
         .nav-sec {
-            font-size: 10px;
-            font-weight: 700;
-            color: rgba(255, 255, 255, 0.25);
-            letter-spacing: 1.8px;
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--t);
             text-transform: uppercase;
-            padding: 0 14px;
+            letter-spacing: 1px;
+            padding: 0 10px;
             margin: 16px 0 8px;
         }
 
         .nav-link {
             display: flex;
             align-items: center;
-            gap: 11px;
-            color: rgba(255, 255, 255, 0.55);
+            gap: 12px;
+            color: var(--t);
             text-decoration: none;
-            padding: 11px 14px;
-            border-radius: 13px;
+            padding: 12px 14px;
+            border-radius: 12px;
             font-size: 14px;
-            font-weight: 600;
-            transition: all 0.25s;
-            margin-bottom: 3px;
-            border: 1px solid transparent;
+            font-weight: 700;
+            transition: all 0.2s;
+            margin-bottom: 4px;
         }
 
-        .nav-link:hover,
+        .nav-link:hover {
+            background: var(--bg);
+            color: var(--b);
+        }
+
         .nav-link.active {
-            background: rgba(16, 185, 129, 0.1);
-            border-color: rgba(16, 185, 129, 0.2);
-            color: #6ee7b7;
+            background: var(--y);
+            color: var(--b);
+            box-shadow: 4px 4px 0 var(--b);
+            border: 2px solid var(--b);
         }
 
         .nav-link i {
             font-size: 18px;
-            width: 24px;
         }
 
         .sidebar-foot {
             margin-top: auto;
             padding-top: 16px;
-            border-top: 1px solid var(--brd);
+            border-top: 2px solid var(--bdr);
         }
 
+        /* MAIN */
         .main {
             margin-left: 260px;
             flex: 1;
+        }
+
+        .topbar {
+            padding: 20px 40px;
+            border-bottom: 2px solid var(--bdr);
+            background: #fff;
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 90;
+        }
+
+        .topbar h5 {
+            font-size: 18px;
+            font-weight: 900;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--b);
+        }
+
+        .badge-role {
+            background: var(--b);
+            color: var(--y);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-weight: 900;
+            font-size: 12px;
+            border: 2px solid var(--b);
+        }
+
+        .content {
             padding: 40px;
+            display: flex;
+            justify-content: center;
         }
 
         .form-card {
             width: 100%;
-            max-width: 560px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--brd);
-            border-radius: 26px;
-            padding: 44px 40px;
-            animation: up 0.5s ease-out;
-            position: relative;
-            overflow: hidden;
+            max-width: 600px;
+            background: #fff;
+            border: 2px solid var(--b);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 8px 8px 0 var(--y);
         }
 
-        .form-card::before {
-            content: '';
-            position: absolute;
-            top: -100px;
-            right: -80px;
-            width: 280px;
-            height: 280px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(245, 158, 11, 0.1), transparent);
-            pointer-events: none;
+        .form-head {
+            margin-bottom: 32px;
         }
 
-        @keyframes up {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            color: rgba(255, 255, 255, 0.35);
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 22px;
-            transition: color 0.2s;
-        }
-
-        .back-link:hover {
-            color: #fcd34d;
-        }
-
-        h3 {
-            font-size: 24px;
+        .form-head h2 {
+            font-size: 26px;
             font-weight: 900;
             margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
 
-        .sub {
-            color: rgba(255, 255, 255, 0.38);
-            font-size: 13px;
-            margin-bottom: 30px;
+        .form-head p {
+            color: var(--t);
+            font-size: 14px;
+            font-weight: 500;
         }
 
         .field {
-            margin-bottom: 18px;
+            margin-bottom: 20px;
         }
 
         .field label {
             display: block;
-            font-size: 11px;
-            font-weight: 700;
+            font-size: 12px;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.9px;
-            color: rgba(255, 255, 255, 0.4);
-            margin-bottom: 7px;
+            letter-spacing: 1px;
+            color: var(--b);
+            margin-bottom: 8px;
         }
 
-        .inp {
-            width: 100%;
-            padding: 13px 16px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 13px;
-            color: #fff;
-            font-size: 14px;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.3s;
-            outline: none;
-        }
-
-        .inp:focus {
-            border-color: #f59e0b;
-            background: rgba(245, 158, 11, 0.06);
-            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
-        }
-
-        .inp::placeholder {
-            color: rgba(255, 255, 255, 0.2);
-        }
-
-        textarea.inp {
-            resize: none;
-        }
-
-        .drop-zone {
-            border: 2px dashed rgba(245, 158, 11, 0.3);
-            border-radius: 16px;
-            padding: 24px;
-            text-align: center;
-            background: rgba(245, 158, 11, 0.04);
-            cursor: pointer;
-            transition: all 0.3s;
+        .input-wrap {
             position: relative;
         }
 
+        .input-wrap i {
+            position: absolute;
+            left: 14px;
+            top: 15px;
+            color: var(--t);
+            font-size: 15px;
+        }
+
+        .input-wrap input,
+        .input-wrap textarea {
+            width: 100%;
+            padding: 14px 14px 14px 40px;
+            border: 2px solid var(--bdr);
+            border-radius: 12px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 14px;
+            color: var(--b);
+            background: #fff;
+            transition: all 0.25s;
+            outline: none;
+        }
+
+        .input-wrap textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .input-wrap input:focus,
+        .input-wrap textarea:focus {
+            border-color: var(--b);
+            box-shadow: 4px 4px 0 var(--y);
+        }
+
+        .curr-img {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: var(--bg);
+            border: 2px solid var(--bdr);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .curr-img img {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid var(--bdr);
+        }
+
+        .curr-img span {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--t);
+        }
+
+        .drop-zone {
+            border: 2px dashed var(--bdr);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            background: var(--bg);
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
         .drop-zone:hover {
-            border-color: #f59e0b;
-            background: rgba(245, 158, 11, 0.08);
+            border-color: var(--b);
+            background: #fff;
+        }
+
+        .drop-zone i {
+            font-size: 24px;
+            color: var(--y);
+        }
+
+        .drop-zone span {
+            font-size: 13px;
+            font-weight: 700;
         }
 
         .drop-zone input {
@@ -247,95 +296,118 @@
             cursor: pointer;
         }
 
-        .drop-zone i {
-            font-size: 36px;
-            color: #fcd34d;
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        .drop-zone p {
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .btn-update {
+        .btn-submit {
             width: 100%;
-            padding: 15px;
-            border: none;
-            border-radius: 14px;
-            margin-top: 10px;
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            color: #111;
+            padding: 16px;
+            border: 2px solid var(--b);
+            border-radius: 12px;
+            background: var(--y);
+            color: var(--b);
             font-size: 16px;
             font-weight: 900;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             cursor: pointer;
-            box-shadow: 0 0 25px rgba(245, 158, 11, 0.35);
             transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
+            margin-top: 12px;
         }
 
-        .btn-update:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 45px rgba(245, 158, 11, 0.55);
+        .btn-submit:hover {
+            background: var(--b);
+            color: #fff;
+            box-shadow: 5px 5px 0 var(--y);
         }
     </style>
 </head>
 
 <body>
+
     <div class="sidebar">
-        <div class="brand"><span class="n">Nexa</span><span class="x">Mart</span></div>
-        <div class="nav-sec">Seller</div>
-        <a href="/sellerdashboard" class="nav-link"><i class="bi bi-grid-3x3-gap-fill"></i> My Products</a>
-        <a href="/product/add" class="nav-link"><i class="bi bi-plus-circle-fill"></i> Add Product</a>
-        <a href="/orders/seller" class="nav-link"><i class="bi bi-bag-fill"></i> Orders</a>
+        <div class="brand">Nexa<span>Mart</span></div>
+        <div class="nav-sec">Admin Hub</div>
+        <a href="/admin/dashboard" class="nav-link"><i class="bi bi-people-fill"></i> Users</a>
+        <a href="/admin/product-requests" class="nav-link"><i class="bi bi-box-seam-fill"></i> Requests</a>
+        <a href="/product/view/all" class="nav-link active"><i class="bi bi-pencil-square"></i> Inventory</a>
         <div class="sidebar-foot">
-            <a href="/logout" class="nav-link" style="color:rgba(255,107,107,0.7);"><i
-                    class="bi bi-box-arrow-right"></i> Logout</a>
+            <a href="/logout" class="nav-link" style="color:var(--r);"><i class="bi bi-box-arrow-right"></i> Sign
+                Out</a>
         </div>
     </div>
+
     <div class="main">
-        <div class="form-card">
-            <a href="/product/all" class="back-link"><i class="bi bi-arrow-left-circle-fill"></i> Back</a>
-            <h3><i class="bi bi-pencil-square" style="color:#fcd34d;"></i>Edit Product</h3>
-            <p class="sub">Update the details for this product.</p>
-            <form th:action="@{/product/update}" method="post" th:object="${product}" enctype="multipart/form-data">
-                <input type="hidden" th:field="*{id}">
-                <div class="field">
-                    <label>Product Name</label>
-                    <input type="text" name="productName" th:value="*{productName}" class="inp"
-                        placeholder="Product name">
+        <div class="topbar">
+            <h5><a href="/admin/dashboard" style="color:var(--t);text-decoration:none;"><i class="bi bi-arrow-left"></i>
+                    Back</a></h5>
+            <div class="badge-role">ADMIN 🛡️</div>
+        </div>
+
+        <div class="content">
+            <div class="form-card">
+                <div class="form-head">
+                    <h2>Edit Product ✏️</h2>
+                    <p>Update live product details directly.</p>
                 </div>
-                <div class="field">
-                    <label>Details</label>
-                    <textarea name="productdetails" class="inp" rows="3" th:text="*{productdetails}"></textarea>
-                </div>
-                <div class="field">
-                    <label>Price (₹)</label>
-                    <input type="number" step="0.01" name="productprice" th:value="*{productprice}" class="inp">
-                </div>
-                <div class="field">
-                    <label>Date</label>
-                    <input type="date" name="addproductdate" th:value="*{addproductdate}" class="inp">
-                </div>
-                <div class="field">
-                    <label>Replace Image (optional)</label>
-                    <div class="drop-zone">
-                        <input type="file" name="productimage" accept="image/*"
-                            onchange="this.nextElementSibling.nextElementSibling.textContent = '✅ ' + this.files[0].name">
-                        <i class="bi bi-arrow-repeat"></i>
-                        <p>Click to replace product image</p>
+
+                <form action="/product/update" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="id" th:value="${p.id}">
+
+                    <div class="field">
+                        <label>Product Name</label>
+                        <div class="input-wrap">
+                            <i class="bi bi-tag"></i>
+                            <input type="text" name="productName" th:value="${p.productName}" required>
+                        </div>
                     </div>
-                </div>
-                <button type="submit" class="btn-update"><i class="bi bi-save-fill"></i> Save Changes</button>
-            </form>
+
+                    <div class="field">
+                        <label>Price (₹)</label>
+                        <div class="input-wrap">
+                            <i class="bi bi-currency-rupee"></i>
+                            <input type="number" name="productprice" th:value="${p.productprice}" required step="0.01">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label>Description</label>
+                        <div class="input-wrap">
+                            <i class="bi bi-text-paragraph"></i>
+                            <textarea name="productdetails" th:text="${p.productdetails}" required></textarea>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label>Update Image (Optional)</label>
+                        <div class="curr-img" th:if="${p.productimage != null}">
+                            <img th:src="@{'/product/image/' + ${p.id}}">
+                            <span>Current Image</span>
+                        </div>
+
+                        <div class="drop-zone" id="dz">
+                            <i class="bi bi-cloud-upload-fill"></i>
+                            <span>Upload new image to replace</span>
+                            <input type="file" name="productimage" accept="image/*" onchange="showFile(this)">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit"><i class="bi bi-check2-circle"></i> Save Changes</button>
+                </form>
+            </div>
         </div>
     </div>
+
+    <script>
+        function showFile(input) {
+            if (input.files && input.files[0]) {
+                document.querySelector('#dz span').innerHTML = `<i class="bi bi-file-image"></i> ` + input.files[0].name;
+                document.querySelector('#dz i.bi-cloud-upload-fill').style.display = 'none';
+                document.querySelector('#dz').style.borderColor = 'var(--g)';
+                document.querySelector('#dz').style.background = '#F0FDF4';
+            }
+        }
+    </script>
 </body>
 
 </html>

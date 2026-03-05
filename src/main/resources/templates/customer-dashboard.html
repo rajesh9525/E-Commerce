@@ -4,14 +4,19 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Shop – NexaMart</title>
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+	<title>Customer Dashboard – NexaMart</title>
+	<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
+		rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 	<style>
 		:root {
-			--gold: #f59e0b;
-			--bg: #07070f;
-			--brd: rgba(255, 255, 255, 0.08);
+			--y: #FFE500;
+			--b: #111111;
+			--g: #22C55E;
+			--t: #6B7280;
+			--bdr: #E5E7EB;
+			--bg: #FAFAFA;
+			--r: #EF4444;
 		}
 
 		*,
@@ -23,324 +28,356 @@
 		}
 
 		body {
-			font-family: 'Inter', sans-serif;
+			font-family: 'Plus Jakarta Sans', sans-serif;
 			background: var(--bg);
-			color: #fff;
+			color: var(--b);
 			display: flex;
 			min-height: 100vh;
 		}
 
+		/* SIDEBAR */
 		.sidebar {
 			width: 260px;
 			min-height: 100vh;
-			background: rgba(255, 255, 255, 0.02);
-			border-right: 1px solid var(--brd);
-			padding: 28px 16px;
+			background: #fff;
+			border-right: 2px solid var(--bdr);
+			padding: 28px 20px;
 			display: flex;
 			flex-direction: column;
 			position: fixed;
 			top: 0;
 			left: 0;
 			height: 100%;
-			overflow-y: auto;
+			z-index: 100;
 		}
 
 		.brand {
-			font-size: 22px;
+			font-size: 24px;
 			font-weight: 900;
-			padding: 8px 14px 26px;
-			border-bottom: 1px solid var(--brd);
+			padding: 8px 10px 26px;
+			border-bottom: 2px solid var(--bdr);
 			margin-bottom: 22px;
 		}
 
-		.brand .n {
-			color: #fff;
-		}
-
-		.brand .x {
-			background: linear-gradient(135deg, #7c3aed, #06b6d4);
-			-webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;
-			background-clip: text;
+		.brand span {
+			background: var(--y);
+			padding: 2px 8px;
+			border-radius: 6px;
+			color: var(--b);
 		}
 
 		.nav-sec {
-			font-size: 10px;
-			font-weight: 700;
-			color: rgba(255, 255, 255, 0.25);
-			letter-spacing: 1.8px;
+			font-size: 11px;
+			font-weight: 800;
+			color: var(--t);
 			text-transform: uppercase;
-			padding: 0 14px;
+			letter-spacing: 1px;
+			padding: 0 10px;
 			margin: 16px 0 8px;
 		}
 
 		.nav-link {
 			display: flex;
 			align-items: center;
-			gap: 11px;
-			color: rgba(255, 255, 255, 0.55);
+			gap: 12px;
+			color: var(--t);
 			text-decoration: none;
-			padding: 11px 14px;
-			border-radius: 13px;
+			padding: 12px 14px;
+			border-radius: 12px;
 			font-size: 14px;
-			font-weight: 600;
-			transition: all 0.25s;
-			margin-bottom: 3px;
-			border: 1px solid transparent;
+			font-weight: 700;
+			transition: all 0.2s;
+			margin-bottom: 4px;
 		}
 
-		.nav-link:hover,
+		.nav-link:hover {
+			background: var(--bg);
+			color: var(--b);
+		}
+
 		.nav-link.active {
-			background: rgba(245, 158, 11, 0.1);
-			border-color: rgba(245, 158, 11, 0.2);
-			color: #fcd34d;
+			background: var(--y);
+			color: var(--b);
+			box-shadow: 4px 4px 0 var(--b);
+			border: 2px solid var(--b);
 		}
 
 		.nav-link i {
 			font-size: 18px;
-			width: 24px;
 		}
 
 		.sidebar-foot {
 			margin-top: auto;
 			padding-top: 16px;
-			border-top: 1px solid var(--brd);
+			border-top: 2px solid var(--bdr);
 		}
 
+		/* MAIN */
 		.main {
 			margin-left: 260px;
 			flex: 1;
 		}
 
 		.topbar {
-			padding: 20px 36px;
-			border-bottom: 1px solid var(--brd);
-			background: rgba(255, 255, 255, 0.02);
+			padding: 20px 40px;
+			border-bottom: 2px solid var(--bdr);
+			background: #fff;
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
 			position: sticky;
 			top: 0;
-			z-index: 10;
-			backdrop-filter: blur(20px);
+			z-index: 90;
 		}
 
 		.topbar h5 {
 			font-size: 18px;
-			font-weight: 800;
+			font-weight: 900;
 			margin: 0;
 			display: flex;
 			align-items: center;
 			gap: 10px;
+			color: var(--b);
 		}
 
-		.cust-chip {
-			padding: 7px 18px;
-			border-radius: 50px;
-			background: rgba(245, 158, 11, 0.15);
-			border: 1px solid rgba(245, 158, 11, 0.3);
+		.badge-role {
+			background: var(--b);
+			color: var(--y);
+			padding: 6px 14px;
+			border-radius: 8px;
+			font-weight: 900;
 			font-size: 12px;
-			font-weight: 800;
-			color: #fcd34d;
+			border: 2px solid var(--b);
 		}
 
 		.content {
-			padding: 32px 36px;
+			padding: 40px;
 		}
 
 		.page-banner {
-			background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(124, 58, 237, 0.05));
-			border: 1px solid rgba(245, 158, 11, 0.18);
-			border-radius: 22px;
-			padding: 28px 32px;
-			margin-bottom: 28px;
+			background: var(--y);
+			border: 2px solid var(--b);
+			border-radius: 20px;
+			padding: 32px 40px;
+			margin-bottom: 32px;
+			box-shadow: 8px 8px 0 var(--b);
 		}
 
 		.page-banner h4 {
-			font-size: 22px;
+			font-size: 32px;
 			font-weight: 900;
 			margin-bottom: 4px;
 		}
 
 		.page-banner p {
-			color: rgba(255, 255, 255, 0.4);
-			font-size: 13px;
-			margin: 0;
+			font-size: 15px;
+			font-weight: 600;
+			color: var(--b);
 		}
 
-		.search-row {
-			display: flex;
-			gap: 12px;
-			margin-bottom: 28px;
+		.search-wrap {
+			position: relative;
+			margin-bottom: 32px;
 		}
 
-		.search-inp {
-			flex: 1;
-			padding: 12px 18px;
-			background: rgba(255, 255, 255, 0.04);
-			border: 1px solid rgba(255, 255, 255, 0.08);
-			border-radius: 13px;
-			color: #fff;
-			font-size: 14px;
-			font-family: 'Inter', sans-serif;
+		.search-wrap i {
+			position: absolute;
+			left: 20px;
+			top: 50%;
+			transform: translateY(-50%);
+			font-size: 18px;
+			color: var(--t);
+		}
+
+		.search-wrap input {
+			width: 100%;
+			padding: 16px 20px 16px 50px;
+			border: 2px solid var(--bdr);
+			border-radius: 16px;
+			font-family: 'Plus Jakarta Sans', sans-serif;
+			font-size: 15px;
+			font-weight: 600;
+			background: #fff;
 			outline: none;
-			transition: all 0.3s;
+			transition: all 0.2s;
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
 		}
 
-		.search-inp:focus {
-			border-color: #f59e0b;
-			background: rgba(245, 158, 11, 0.05);
-		}
-
-		.search-inp::placeholder {
-			color: rgba(255, 255, 255, 0.25);
+		.search-wrap input:focus {
+			border-color: var(--b);
+			box-shadow: 4px 4px 0 var(--y);
 		}
 
 		.p-grid {
 			display: grid;
-			grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-			gap: 20px;
+			grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+			gap: 24px;
 		}
 
 		.p-card {
-			background: rgba(255, 255, 255, 0.04);
-			border: 1px solid var(--brd);
+			background: #fff;
+			border: 2px solid var(--bdr);
 			border-radius: 20px;
 			overflow: hidden;
-			transition: all 0.35s;
+			transition: all 0.3s;
+			display: flex;
+			flex-direction: column;
 		}
 
 		.p-card:hover {
-			transform: translateY(-7px);
-			border-color: rgba(245, 158, 11, 0.35);
-			box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+			border-color: var(--b);
+			box-shadow: 8px 8px 0 var(--y);
+			transform: translateY(-4px);
 		}
 
-		.p-card img {
-			width: 100%;
-			height: 185px;
-			object-fit: cover;
-		}
-
-		.p-card .no-img {
-			width: 100%;
-			height: 185px;
-			background: rgba(255, 255, 255, 0.03);
+		.p-img-wrap {
+			height: 200px;
+			background: var(--bg);
+			border-bottom: 2px solid var(--bdr);
 			display: flex;
 			align-items: center;
 			justify-content: center;
 		}
 
-		.p-card .no-img i {
-			font-size: 52px;
-			color: rgba(255, 255, 255, 0.1);
+		.p-img-wrap img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
 		}
 
-		.p-body {
-			padding: 18px;
+		.p-img-wrap i {
+			font-size: 60px;
+			color: var(--bdr);
+		}
+
+		.p-info {
+			padding: 20px;
+			flex: 1;
+			display: flex;
+			flex-direction: column;
 		}
 
 		.p-name {
-			font-size: 15px;
+			font-size: 16px;
 			font-weight: 800;
-			margin-bottom: 4px;
+			margin-bottom: 8px;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
 		}
 
 		.p-price {
-			font-size: 20px;
+			font-size: 22px;
 			font-weight: 900;
-			color: #fcd34d;
-			margin-bottom: 14px;
+			color: var(--g);
+			margin-bottom: 16px;
 		}
 
 		.btn-buy {
+			margin-top: auto;
 			width: 100%;
-			padding: 11px;
-			border: none;
-			border-radius: 11px;
-			background: linear-gradient(135deg, #f59e0b, #d97706);
-			color: #111;
-			font-weight: 800;
+			padding: 12px;
+			border: 2px solid var(--b);
+			border-radius: 12px;
+			background: var(--b);
+			color: #fff;
 			font-size: 14px;
-			font-family: 'Inter', sans-serif;
+			font-weight: 800;
+			font-family: 'Plus Jakarta Sans', sans-serif;
 			cursor: pointer;
 			transition: all 0.3s;
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			gap: 7px;
+			gap: 8px;
 		}
 
 		.btn-buy:hover {
-			opacity: 0.9;
-			transform: translateY(-1px);
+			background: var(--y);
+			color: var(--b);
+			box-shadow: 4px 4px 0 var(--b);
 		}
 
 		.empty {
 			text-align: center;
-			padding: 70px;
-			color: rgba(255, 255, 255, 0.2);
+			padding: 80px 20px;
+			color: var(--t);
 		}
 
 		.empty i {
 			font-size: 60px;
+			color: var(--bdr);
+			margin-bottom: 20px;
 			display: block;
-			margin-bottom: 16px;
+		}
+
+		.empty p {
+			font-weight: 700;
+			font-size: 18px;
 		}
 	</style>
 </head>
 
 <body>
+
 	<div class="sidebar">
-		<div class="brand"><span class="n">Nexa</span><span class="x">Mart</span></div>
+		<div class="brand">Nexa<span>Mart</span></div>
 		<div class="nav-sec">Shopping</div>
-		<a href="/customer/view-products" class="nav-link active"><i class="bi bi-shop-window"></i> Browse Shop</a>
+		<a href="/customer/view-products" class="nav-link active"><i class="bi bi-grid-fill"></i> Browse Shop</a>
 		<div class="sidebar-foot">
-			<a href="/logout" class="nav-link" style="color:rgba(255,107,107,0.7);"><i
-					class="bi bi-box-arrow-right"></i> Logout</a>
+			<a href="/logout" class="nav-link" style="color:var(--r);"><i class="bi bi-box-arrow-right"></i> Sign
+				Out</a>
 		</div>
 	</div>
+
 	<div class="main">
 		<div class="topbar">
-			<h5><i class="bi bi-shop-window" style="color:#fcd34d;"></i>Browse Products</h5>
-			<span class="cust-chip"><i class="bi bi-person-fill me-1"></i>CUSTOMER</span>
+			<h5>Shop Products</h5>
+			<div class="badge-role">CUSTOMER 🛍️</div>
 		</div>
+
 		<div class="content">
 			<div class="page-banner">
-				<h4>Discover Products ✨</h4>
-				<p>Shop from verified sellers on NexaMart</p>
+				<h4>Discover amazing products 🌟</h4>
+				<p>Shop from tested and verified sellers across NexaMart</p>
 			</div>
-			<div class="search-row">
-				<input class="search-inp" type="text" placeholder="🔍  Search products..."
-					oninput="filterProducts(this.value)">
+
+			<div class="search-wrap">
+				<i class="bi bi-search"></i>
+				<input type="text" placeholder="Search for products, electronics, clothing..."
+					oninput="filterP(this.value)">
 			</div>
-			<div class="p-grid" th:if="${!#lists.isEmpty(products)}" id="grid">
-				<div class="p-card" th:each="product : ${products}" th:attr="data-name=${product.productName}">
-					<img th:if="${product.productimage != null}" th:src="@{'/product/image/' + ${product.id}}"
-						alt="product">
-					<div th:unless="${product.productimage != null}" class="no-img"><i class="bi bi-image"></i></div>
-					<div class="p-body">
-						<div class="p-name" th:text="${product.productName}"></div>
-						<div class="p-price" th:text="'₹' + ${product.productprice}"></div>
+
+			<div class="p-grid" id="grid">
+				<div class="empty" th:if="${#lists.isEmpty(products)}" style="grid-column:1/-1;">
+					<i class="bi bi-basket3"></i>
+					<p>No products available yet. Check back soon!</p>
+				</div>
+
+				<div class="p-card" th:each="p : ${products}" th:attr="data-name=${p.productName}">
+					<div class="p-img-wrap">
+						<img th:if="${p.productimage != null}" th:src="@{'/product/image/' + ${p.id}}">
+						<i th:unless="${p.productimage != null}" class="bi bi-image"></i>
+					</div>
+					<div class="p-info">
+						<div class="p-name" th:text="${p.productName}"></div>
+						<div class="p-price" th:text="'₹' + ${p.productprice}"></div>
 						<form action="/orders/buy" method="post">
-							<input type="hidden" name="productId" th:value="${product.id}">
-							<button type="submit" class="btn-buy"><i class="bi bi-cart-plus-fill"></i> Buy Now</button>
+							<input type="hidden" name="productId" th:value="${p.id}">
+							<button class="btn-buy" type="submit"><i class="bi bi-cart-plus-fill"></i> Buy Now</button>
 						</form>
 					</div>
 				</div>
 			</div>
-			<div th:if="${#lists.isEmpty(products)}" class="empty"><i class="bi bi-bag-x"></i>
-				<p>No products available right now.</p>
-			</div>
+
 		</div>
 	</div>
+
 	<script>
-		function filterProducts(q) {
+		function filterP(val) {
+			const q = val.toLowerCase();
 			document.querySelectorAll('.p-card').forEach(c => {
-				c.style.display = c.dataset.name?.toLowerCase().includes(q.toLowerCase()) ? '' : 'none';
+				c.style.display = c.dataset.name.toLowerCase().includes(q) ? '' : 'none';
 			});
 		}
 	</script>
