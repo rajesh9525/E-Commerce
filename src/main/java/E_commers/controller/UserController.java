@@ -23,8 +23,10 @@ public class UserController {
     public String registerUser(@ModelAttribute User user) {
 
         user.setLogindate(LocalDate.now());
-
         userService.saveUser(user);
+
+        // Record registration activity
+        userService.recordActivity(user.getName(), "Registered as " + user.getLogintype());
 
         return "redirect:/login";
     }
@@ -47,6 +49,9 @@ public class UserController {
             session.setAttribute("role", u.getLogintype());
             session.setAttribute("username", u.getName());   // store seller name
             session.setAttribute("email", u.getEmail());     // store email
+
+            // Record login activity
+            userService.recordActivity(u.getName(), "Logged in as " + u.getLogintype());
 
             // ===== ADMIN =====
             if(u.getLogintype().equals("ADMIN")){

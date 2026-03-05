@@ -61,22 +61,50 @@ public class AdminService {
     }
 
     // ===== APPROVE PRODUCT =====
-    // When admin approves a request, we:
-    // 1. Mark the request as APPROVED in ProductRequest table
-    // 2. Copy the product data into the Product table so customers can see it
+    // 1. Mark the request APPROVED in ProductRequest table
+    // 2. Copy into Product table so customers can see it
     public void approveProduct(Long id){
         ProductRequest req = productRequestRepository.findById(id).orElseThrow();
         req.setStatus("APPROVED");
         productRequestRepository.save(req);
 
-        // Copy approved product into the Product table for customer visibility
-        Product product = new Product();
-        product.setProductName(req.getProductname());
-        product.setProductdetails(req.getProductdetails());
-        product.setProductprice(req.getProductprice());
-        product.setProductimage(req.getProductimage());
-        product.setStatus("APPROVED");
-        productRepository.save(product);
+        // Only copy if not already in the Product table (avoid duplicates)
+        List<Product> existing = productRepository.findByStatus("APPROVED");
+        boolean alreadyExists = existing.stream()
+            .anyMatch(p -> req.getProductname() != null
+                        && req.getProductname().equalsIgnoreCase(p.getProductName()));
+
+        if (!alreadyExists) {
+            Product product = new Product();
+            product.setProductName(req.getProductname());
+            product.setProductdetails(req.getProductdetails());
+            product.setProductprice(req.getProductprice());
+            product.setProductimage(req.getProductimage());
+            product.setStatus("APPROVED");
+            productRepository.save(product);
+        }
+    }
+
+    // ===== SYNC all previously-approved requests into Product table =====
+    // Called on admin dashboard load to fix any products approved before the fix
+    public void syncApprovedProducts(){
+        List<ProductRequest> approved = productRequestRepository.findByStatus("APPROVED");
+        List<Product> existing = (List<Product>) productRepository.findAll();
+
+        for (ProductRequest req : approved) {
+            boolean alreadyExists = existing.stream()
+                .anyMatch(p -> req.getProductname() != null
+                            && req.getProductname().equalsIgnoreCase(p.getProductName()));
+            if (!alreadyExists) {
+                Product product = new Product();
+                product.setProductName(req.getProductname());
+                product.setProductdetails(req.getProductdetails());
+                product.setProductprice(req.getProductprice());
+                product.setProductimage(req.getProductimage());
+                product.setStatus("APPROVED");
+                productRepository.save(product);
+            }
+        }
     }
 
     // ===== REJECT PRODUCT =====
@@ -91,4 +119,3 @@ public class AdminService {
         return activityRepository.findAll();
     }
 }
-

@@ -28,9 +28,12 @@ public class AdminController {
     @GetMapping("/dashboard")
     public String adminDashboard(Model model) {
 
+        // Sync any previously-approved products to the Product table
+        adminservice.syncApprovedProducts();
+
         // Registered + Login users
         model.addAttribute("users", userservice.getAllUsers());
-        
+
         List<ProductRequest> pendingProducts =
                 productrequstrepository.findByStatus("PENDING");
 
