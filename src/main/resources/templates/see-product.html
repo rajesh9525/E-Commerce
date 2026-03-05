@@ -4,40 +4,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Detail – ShopSphere</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <title>Product Detail – NexaMart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-        * {
-            font-family: 'Inter', sans-serif;
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            background: #0f0e17;
+            font-family: 'Inter', sans-serif;
+            background: #07070f;
             color: #fff;
-            display: flex;
             min-height: 100vh;
-            margin: 0;
+            display: flex;
             align-items: center;
             justify-content: center;
+            padding: 40px 20px;
         }
 
-        .detail-card {
+        .detail {
             width: 100%;
-            max-width: 540px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.10);
+            max-width: 560px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 24px;
             overflow: hidden;
-            animation: fadeIn 0.5s ease-out;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            animation: up 0.5s ease-out;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
         }
 
-        @keyframes fadeIn {
+        @keyframes up {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(24px);
             }
 
             to {
@@ -46,110 +50,162 @@
             }
         }
 
-        .detail-card img {
+        .detail img {
             width: 100%;
-            height: 260px;
+            height: 280px;
             object-fit: cover;
         }
 
-        .detail-card .no-img {
+        .detail .no-img {
             width: 100%;
-            height: 260px;
-            background: rgba(255, 255, 255, 0.04);
+            height: 280px;
+            background: rgba(255, 255, 255, 0.03);
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .detail-card .no-img i {
-            font-size: 64px;
-            color: rgba(255, 255, 255, 0.1);
+        .detail .no-img i {
+            font-size: 72px;
+            color: rgba(255, 255, 255, 0.08);
         }
 
-        .detail-body {
+        .body {
             padding: 32px;
         }
 
-        .detail-body h3 {
-            font-weight: 800;
-            font-size: 22px;
-            margin-bottom: 6px;
+        .brand {
+            font-size: 14px;
+            font-weight: 900;
+            margin-bottom: 20px;
         }
 
-        .price-tag {
-            font-size: 28px;
-            font-weight: 800;
-            color: #38ef7d;
-            margin: 12px 0 20px;
+        .brand .n {
+            color: #fff;
         }
 
-        .detail-field {
-            margin-bottom: 14px;
+        .brand .x {
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .detail-field label {
-            font-size: 11px;
+        h3 {
+            font-size: 26px;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+
+        .price {
+            font-size: 32px;
+            font-weight: 900;
+            color: #6ee7b7;
+            margin: 14px 0 24px;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+            margin: 20px 0;
+        }
+
+        .meta {
+            display: grid;
+            gap: 16px;
+        }
+
+        .meta-item label {
+            font-size: 10px;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.8px;
-            color: rgba(255, 255, 255, 0.35);
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.3);
+            display: block;
+            margin-bottom: 5px;
         }
 
-        .detail-field p {
-            margin: 4px 0 0;
-            color: rgba(255, 255, 255, 0.75);
+        .meta-item span {
             font-size: 14px;
+            color: rgba(255, 255, 255, 0.75);
         }
 
-        .divider {
-            border-color: rgba(255, 255, 255, 0.08);
-            margin: 20px 0;
+        .chip {
+            display: inline-block;
+            padding: 5px 14px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .chip-pending {
+            background: rgba(245, 158, 11, 0.12);
+            color: #fcd34d;
+            border: 1px solid rgba(245, 158, 11, 0.25);
+        }
+
+        .chip-approved {
+            background: rgba(16, 185, 129, 0.12);
+            color: #6ee7b7;
+            border: 1px solid rgba(16, 185, 129, 0.25);
+        }
+
+        .chip-rejected {
+            background: rgba(239, 68, 68, 0.12);
+            color: #fca5a5;
+            border: 1px solid rgba(239, 68, 68, 0.25);
         }
 
         .btn-back {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: rgba(255, 255, 255, 0.07);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 22px;
             border-radius: 12px;
-            padding: 10px 20px;
-            color: rgba(255, 255, 255, 0.7);
-            font-weight: 600;
-            font-size: 14px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
             text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
             transition: all 0.2s;
+            margin-top: 24px;
         }
 
         .btn-back:hover {
-            background: rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.1);
             color: #fff;
         }
     </style>
 </head>
 
 <body>
-    <div class="detail-card">
-        <img th:if="${p.productimage != null}" th:src="@{'/product/image/' + ${p.id}}" alt="Product Image">
+    <div class="detail">
+        <img th:if="${p.productimage != null}" th:src="@{'/product/image/' + ${p.id}}" alt="Product">
         <div th:unless="${p.productimage != null}" class="no-img"><i class="bi bi-image"></i></div>
-        <div class="detail-body">
+        <div class="body">
+            <div class="brand"><span class="n">Nexa</span><span class="x">Mart</span></div>
             <h3 th:text="${p.productName}">Product Name</h3>
-            <div class="price-tag" th:text="'₹' + ${p.productprice}">₹ 0.00</div>
-            <hr class="divider">
-            <div class="detail-field">
-                <label>Description</label>
-                <p th:text="${p.productdetails}">Product description here...</p>
+            <div class="price" th:text="'₹' + ${p.productprice}">₹0</div>
+            <hr>
+            <div class="meta">
+                <div class="meta-item">
+                    <label>Description</label>
+                    <span th:text="${p.productdetails}">—</span>
+                </div>
+                <div class="meta-item">
+                    <label>Product ID</label>
+                    <span style="color:#a78bfa;font-weight:700;" th:text="'#' + ${p.id}">—</span>
+                </div>
+                <div class="meta-item">
+                    <label>Approval Status</label>
+                    <span th:if="${p.status == 'PENDING'}" class="chip chip-pending">PENDING</span>
+                    <span th:if="${p.status == 'APPROVED'}" class="chip chip-approved">APPROVED</span>
+                    <span th:if="${p.status == 'REJECTED'}" class="chip chip-rejected">REJECTED</span>
+                </div>
             </div>
-            <div class="detail-field">
-                <label>Product ID</label>
-                <p th:text="${p.id}">0</p>
-            </div>
-            <div class="detail-field">
-                <label>Status</label>
-                <p th:text="${p.status}" style="color:#6c63ff; font-weight:700;">PENDING</p>
-            </div>
-            <hr class="divider">
-            <a href="/sellerdashboard" class="btn-back"><i class="bi bi-arrow-left"></i> Back to Dashboard</a>
+            <a href="/sellerdashboard" class="btn-back"><i class="bi bi-arrow-left-circle-fill"></i> Back to
+                Dashboard</a>
         </div>
     </div>
 </body>

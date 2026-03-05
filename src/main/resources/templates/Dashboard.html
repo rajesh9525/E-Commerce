@@ -4,297 +4,344 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard – ShopSphere</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <title>Dashboard – NexaMart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-        * {
-            font-family: 'Inter', sans-serif;
+        :root {
+            --p: #7c3aed;
+            --pg: rgba(124, 58, 237, 0.15);
+            --c: #06b6d4;
+            --g: #10b981;
+            --gold: #f59e0b;
+            --bg: #07070f;
+            --card: rgba(255, 255, 255, 0.04);
+            --brd: rgba(255, 255, 255, 0.08);
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            background: #0f0e17;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
             color: #fff;
             display: flex;
             min-height: 100vh;
         }
 
-        /* ── Sidebar ── */
         .sidebar {
-            width: 250px;
+            width: 260px;
             min-height: 100vh;
             flex-shrink: 0;
-            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
-            border-right: 1px solid rgba(255, 255, 255, 0.07);
-            padding: 24px 16px;
+            background: rgba(255, 255, 255, 0.02);
+            border-right: 1px solid var(--brd);
+            padding: 28px 16px;
             display: flex;
             flex-direction: column;
             position: fixed;
             top: 0;
             left: 0;
             height: 100%;
+            overflow-y: auto;
         }
 
-        .sidebar .logo {
+        .brand {
             font-size: 22px;
-            font-weight: 800;
+            font-weight: 900;
+            padding: 8px 14px 26px;
+            border-bottom: 1px solid var(--brd);
+            margin-bottom: 22px;
+        }
+
+        .brand .n {
             color: #fff;
-            padding: 8px 12px 24px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            margin-bottom: 20px;
         }
 
-        .sidebar .logo span {
-            color: #6c63ff;
+        .brand .x {
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .nav-label {
+        .nav-sec {
             font-size: 10px;
             font-weight: 700;
-            color: rgba(255, 255, 255, 0.3);
-            letter-spacing: 1.5px;
+            color: rgba(255, 255, 255, 0.25);
+            letter-spacing: 1.8px;
             text-transform: uppercase;
-            padding: 0 12px;
-            margin: 16px 0 6px;
+            padding: 0 14px;
+            margin: 18px 0 8px;
         }
 
-        .sidebar a {
+        .nav-link {
             display: flex;
             align-items: center;
-            gap: 10px;
-            color: rgba(255, 255, 255, 0.65);
+            gap: 11px;
+            color: rgba(255, 255, 255, 0.55);
             text-decoration: none;
             padding: 11px 14px;
-            border-radius: 12px;
+            border-radius: 13px;
             font-size: 14px;
             font-weight: 600;
             transition: all 0.25s;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
+            border: 1px solid transparent;
         }
 
-        .sidebar a:hover,
-        .sidebar a.active {
-            background: rgba(108, 99, 255, 0.2);
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(124, 58, 237, 0.12);
+            border-color: rgba(124, 58, 237, 0.2);
             color: #fff;
         }
 
-        .sidebar a i {
-            font-size: 17px;
-            width: 22px;
+        .nav-link i {
+            font-size: 18px;
+            width: 24px;
         }
 
-        .sidebar-footer {
+        .sidebar-foot {
             margin-top: auto;
             padding-top: 16px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 1px solid var(--brd);
         }
 
-        /* ── Main ── */
         .main {
-            margin-left: 250px;
+            margin-left: 260px;
             flex: 1;
-            padding: 0;
         }
 
         .topbar {
-            background: rgba(255, 255, 255, 0.04);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-            padding: 18px 32px;
+            padding: 20px 36px;
+            border-bottom: 1px solid var(--brd);
+            background: rgba(255, 255, 255, 0.02);
             display: flex;
             align-items: center;
             justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            backdrop-filter: blur(20px);
         }
 
         .topbar h5 {
-            margin: 0;
-            font-weight: 700;
             font-size: 18px;
+            font-weight: 800;
+            margin: 0;
         }
 
-        .role-pill {
-            background: linear-gradient(135deg, #6c63ff, #5a52d5);
-            padding: 6px 16px;
-            border-radius: 20px;
+        .role-chip {
+            padding: 7px 18px;
+            border-radius: 50px;
             font-size: 12px;
-            font-weight: 700;
+            font-weight: 800;
             letter-spacing: 0.5px;
         }
 
-        .content-area {
-            padding: 32px;
+        .content {
+            padding: 36px;
         }
 
-        /* ── Cards ── */
-        .stat-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 18px;
-            padding: 24px;
-            transition: transform 0.3s, box-shadow 0.3s;
+        .welcome {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(6, 182, 212, 0.08));
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 22px;
+            padding: 32px 36px;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+        .welcome::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(124, 58, 237, 0.2), transparent);
         }
 
-        .stat-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            margin-bottom: 14px;
-        }
-
-        .stat-label {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.5);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-        }
-
-        .stat-value {
-            font-size: 30px;
-            font-weight: 800;
-            margin-top: 4px;
-        }
-
-        .welcome-banner {
-            background: linear-gradient(135deg, rgba(108, 99, 255, 0.25), rgba(56, 239, 125, 0.1));
-            border: 1px solid rgba(108, 99, 255, 0.3);
-            border-radius: 20px;
-            padding: 28px 32px;
-            margin-bottom: 28px;
-        }
-
-        .welcome-banner h3 {
-            font-weight: 800;
-            font-size: 24px;
+        .welcome h3 {
+            font-size: 26px;
+            font-weight: 900;
             margin-bottom: 6px;
         }
 
-        .welcome-banner p {
-            color: rgba(255, 255, 255, 0.6);
-            margin: 0;
+        .welcome p {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 15px;
+        }
+
+        .ql-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 18px;
+        }
+
+        .ql-card {
+            background: var(--card);
+            border: 1px solid var(--brd);
+            border-radius: 18px;
+            padding: 24px;
+            text-decoration: none;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            transition: all 0.35s;
+        }
+
+        .ql-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(124, 58, 237, 0.4);
+            box-shadow: 0 16px 50px rgba(0, 0, 0, 0.4);
+            color: #fff;
+        }
+
+        .ql-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .ql-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .ql-title {
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .ql-arrow {
+            color: rgba(255, 255, 255, 0.25);
+            font-size: 20px;
+            margin-top: auto;
+            align-self: flex-end;
         }
     </style>
 </head>
 
 <body>
-
-    <!-- SIDEBAR -->
     <div class="sidebar">
-        <div class="logo">Shop<span>Sphere</span></div>
-
-        <!-- ADMIN LINKS -->
+        <div class="brand"><span class="n">Nexa</span><span class="x">Mart</span></div>
         <div th:if="${session.role == 'ADMIN'}">
-            <div class="nav-label">Admin</div>
-            <a th:href="@{/admin/dashboard}"><i class="bi bi-speedometer2"></i> Dashboard</a>
-            <a th:href="@{/admin/product-requests}"><i class="bi bi-bag-check"></i> Product Requests</a>
-            <a th:href="@{/admin/activity}"><i class="bi bi-activity"></i> User Activity</a>
+            <div class="nav-sec">Administration</div>
+            <a href="/admin/dashboard" class="nav-link"><i class="bi bi-speedometer2"></i> Dashboard</a>
+            <a href="/admin/product-requests" class="nav-link"><i class="bi bi-bag-check"></i> Product Requests</a>
+            <a href="/admin/activity" class="nav-link"><i class="bi bi-activity"></i> User Activity</a>
         </div>
-
-        <!-- SELLER LINKS -->
         <div th:if="${session.role == 'SELLER'}">
-            <div class="nav-label">Seller</div>
-            <a th:href="@{/sellerdashboard}"><i class="bi bi-grid"></i> My Products</a>
-            <a th:href="@{/product/add}"><i class="bi bi-plus-circle"></i> Add Product</a>
-            <a th:href="@{/orders/seller}"><i class="bi bi-bag"></i> My Orders</a>
+            <div class="nav-sec">Seller</div>
+            <a href="/sellerdashboard" class="nav-link"><i class="bi bi-grid-3x3-gap"></i> My Products</a>
+            <a href="/product/add" class="nav-link"><i class="bi bi-plus-circle"></i> Add Product</a>
+            <a href="/orders/seller" class="nav-link"><i class="bi bi-bag"></i> Orders</a>
         </div>
-
-        <!-- CUSTOMER LINKS -->
         <div th:if="${session.role == 'CUSTOMER'}">
-            <div class="nav-label">Customer</div>
-            <a th:href="@{/customer/view-products}"><i class="bi bi-shop"></i> Browse Products</a>
+            <div class="nav-sec">Shopping</div>
+            <a href="/customer/view-products" class="nav-link"><i class="bi bi-shop"></i> Browse Shop</a>
         </div>
-
-        <!-- DELIVERY LINKS -->
         <div th:if="${session.role == 'DELIVERY'}">
-            <div class="nav-label">Delivery</div>
-            <a th:href="@{/delivery/orders}"><i class="bi bi-truck"></i> My Orders</a>
-            <a th:href="@{/delivery/status}"><i class="bi bi-clipboard-check"></i> Status</a>
+            <div class="nav-sec">Delivery</div>
+            <a href="/delivery/orders" class="nav-link"><i class="bi bi-truck"></i> My Orders</a>
+            <a href="/delivery/status" class="nav-link"><i class="bi bi-clipboard-check"></i> Status</a>
         </div>
-
-        <div class="sidebar-footer">
-            <a href="/logout"><i class="bi bi-box-arrow-right"></i> Logout</a>
+        <div class="sidebar-foot">
+            <a href="/logout" class="nav-link" style="color:rgba(255,107,107,0.7);"><i
+                    class="bi bi-box-arrow-right"></i> Logout</a>
         </div>
     </div>
-
-    <!-- MAIN -->
     <div class="main">
         <div class="topbar">
-            <h5>Welcome Dashboard</h5>
-            <span class="role-pill" th:text="${session.role}">ROLE</span>
+            <h5>Overview Dashboard</h5>
+            <span class="role-chip"
+                style="background:rgba(124,58,237,0.15);border:1px solid rgba(124,58,237,0.3);color:#a78bfa;"
+                th:text="${session.role}">ROLE</span>
         </div>
-
-        <div class="content-area">
-            <div class="welcome-banner">
+        <div class="content">
+            <div class="welcome">
                 <h3>Hello, <span th:text="${session.username}">User</span>! 👋</h3>
-                <p>You are logged in as <strong th:text="${session.role}">ROLE</strong>. Use the sidebar to navigate.
-                </p>
+                <p>Logged in as <strong th:text="${session.role}">ROLE</strong> · Welcome to NexaMart</p>
             </div>
-
-            <!-- QUICK LINKS by Role -->
-            <div class="row g-3">
-                <div class="col-md-4" th:if="${session.role == 'SELLER'}">
-                    <a th:href="@{/product/add}" class="text-decoration-none">
-                        <div class="stat-card">
-                            <div class="stat-icon" style="background:rgba(108,99,255,0.2); color:#6c63ff;"><i
-                                    class="bi bi-plus-circle-fill"></i></div>
-                            <div class="stat-label">Action</div>
-                            <div class="stat-value" style="font-size:18px;">Add New Product</div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-4" th:if="${session.role == 'SELLER'}">
-                    <a th:href="@{/sellerdashboard}" class="text-decoration-none">
-                        <div class="stat-card">
-                            <div class="stat-icon" style="background:rgba(56,239,125,0.15); color:#38ef7d;"><i
-                                    class="bi bi-grid-3x3-gap-fill"></i></div>
-                            <div class="stat-label">Action</div>
-                            <div class="stat-value" style="font-size:18px;">View My Products</div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-4" th:if="${session.role == 'ADMIN'}">
-                    <a th:href="@{/admin/dashboard}" class="text-decoration-none">
-                        <div class="stat-card">
-                            <div class="stat-icon" style="background:rgba(255,107,107,0.15); color:#ff6b6b;"><i
-                                    class="bi bi-shield-fill"></i></div>
-                            <div class="stat-label">Action</div>
-                            <div class="stat-value" style="font-size:18px;">Admin Dashboard</div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-4" th:if="${session.role == 'CUSTOMER'}">
-                    <a th:href="@{/customer/view-products}" class="text-decoration-none">
-                        <div class="stat-card">
-                            <div class="stat-icon" style="background:rgba(255,193,7,0.15); color:#ffc107;"><i
-                                    class="bi bi-bag-heart-fill"></i></div>
-                            <div class="stat-label">Action</div>
-                            <div class="stat-value" style="font-size:18px;">Shop Products</div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-4" th:if="${session.role == 'DELIVERY'}">
-                    <a th:href="@{/delivery/orders}" class="text-decoration-none">
-                        <div class="stat-card">
-                            <div class="stat-icon" style="background:rgba(23,162,184,0.15); color:#17a2b8;"><i
-                                    class="bi bi-truck"></i></div>
-                            <div class="stat-label">Action</div>
-                            <div class="stat-value" style="font-size:18px;">View Deliveries</div>
-                        </div>
-                    </a>
-                </div>
+            <div class="ql-grid">
+                <!-- SELLER cards -->
+                <a href="/product/add" class="ql-card" th:if="${session.role == 'SELLER'}">
+                    <div class="ql-icon" style="background:rgba(124,58,237,0.15);color:#a78bfa;"><i
+                            class="bi bi-plus-circle-fill"></i></div>
+                    <div>
+                        <div class="ql-label">Quick Action</div>
+                        <div class="ql-title">Add New Product</div>
+                    </div>
+                    <div class="ql-arrow"><i class="bi bi-arrow-right-circle"></i></div>
+                </a>
+                <a href="/sellerdashboard" class="ql-card" th:if="${session.role == 'SELLER'}">
+                    <div class="ql-icon" style="background:rgba(16,185,129,0.12);color:#34d399;"><i
+                            class="bi bi-grid-3x3-gap-fill"></i></div>
+                    <div>
+                        <div class="ql-label">Overview</div>
+                        <div class="ql-title">My Products</div>
+                    </div>
+                    <div class="ql-arrow"><i class="bi bi-arrow-right-circle"></i></div>
+                </a>
+                <a href="/orders/seller" class="ql-card" th:if="${session.role == 'SELLER'}">
+                    <div class="ql-icon" style="background:rgba(245,158,11,0.12);color:#fcd34d;"><i
+                            class="bi bi-bag-fill"></i></div>
+                    <div>
+                        <div class="ql-label">Manage</div>
+                        <div class="ql-title">Orders</div>
+                    </div>
+                    <div class="ql-arrow"><i class="bi bi-arrow-right-circle"></i></div>
+                </a>
+                <!-- ADMIN -->
+                <a href="/admin/dashboard" class="ql-card" th:if="${session.role == 'ADMIN'}">
+                    <div class="ql-icon" style="background:rgba(239,68,68,0.12);color:#f87171;"><i
+                            class="bi bi-shield-fill"></i></div>
+                    <div>
+                        <div class="ql-label">Panel</div>
+                        <div class="ql-title">Admin Dashboard</div>
+                    </div>
+                    <div class="ql-arrow"><i class="bi bi-arrow-right-circle"></i></div>
+                </a>
+                <!-- CUSTOMER -->
+                <a href="/customer/view-products" class="ql-card" th:if="${session.role == 'CUSTOMER'}">
+                    <div class="ql-icon" style="background:rgba(245,158,11,0.12);color:#fcd34d;"><i
+                            class="bi bi-bag-heart-fill"></i></div>
+                    <div>
+                        <div class="ql-label">Explore</div>
+                        <div class="ql-title">Browse Products</div>
+                    </div>
+                    <div class="ql-arrow"><i class="bi bi-arrow-right-circle"></i></div>
+                </a>
+                <!-- DELIVERY -->
+                <a href="/delivery/orders" class="ql-card" th:if="${session.role == 'DELIVERY'}">
+                    <div class="ql-icon" style="background:rgba(6,182,212,0.12);color:#67e8f9;"><i
+                            class="bi bi-truck"></i></div>
+                    <div>
+                        <div class="ql-label">Assigned</div>
+                        <div class="ql-title">Deliveries</div>
+                    </div>
+                    <div class="ql-arrow"><i class="bi bi-arrow-right-circle"></i></div>
+                </a>
             </div>
         </div>
     </div>
-
 </body>
 
 </html>

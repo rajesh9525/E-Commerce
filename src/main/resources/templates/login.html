@@ -4,175 +4,349 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login – ShopSphere</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <title>Sign In – NexaMart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-        * {
-            font-family: 'Inter', sans-serif;
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
+            font-family: 'Inter', sans-serif;
             min-height: 100vh;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            background: #07070f;
+            display: flex;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Left art panel */
+        .art-panel {
+            width: 45%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #0f0a2e 0%, #1a0f3c 50%, #0d1f3c 100%);
+            padding: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .art-panel::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(124, 58, 237, 0.2) 0%, transparent 70%);
+        }
+
+        .art-panel .brand {
+            font-size: 36px;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .art-panel .brand .n {
+            color: #fff;
+        }
+
+        .art-panel .brand .x {
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .art-panel .tagline {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 15px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            line-height: 1.7;
+        }
+
+        .glowing-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        .glowing-ring:nth-child(2) {
+            width: 280px;
+            height: 280px;
+            animation-delay: 1s;
+            border-color: rgba(6, 182, 212, 0.15);
+        }
+
+        .glowing-ring:nth-child(3) {
+            width: 210px;
+            height: 210px;
+            animation-delay: 2s;
+            border-color: rgba(124, 58, 237, 0.3);
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .art-features {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .art-feat {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .art-feat i {
+            width: 36px;
+            height: 36px;
+            background: rgba(124, 58, 237, 0.15);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: #a78bfa;
+            font-size: 16px;
         }
 
-        .auth-card {
-            width: 420px;
-            background: rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 24px;
-            padding: 44px 40px;
-            animation: slideUp 0.6s ease-out;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+        /* Right form panel */
+        .form-panel {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 40px;
+            background: #07070f;
         }
 
-        @keyframes slideUp {
+        .form-box {
+            width: 100%;
+            max-width: 400px;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateX(20px);
             }
 
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateX(0);
             }
         }
 
-        .brand {
-            font-size: 28px;
-            font-weight: 800;
-            color: #fff;
-            text-align: center;
+        .form-box h2 {
+            font-size: 30px;
+            font-weight: 900;
             margin-bottom: 6px;
         }
 
-        .brand span {
-            color: #6c63ff;
+        .form-box .sub {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 14px;
+            margin-bottom: 36px;
         }
 
-        .subtitle {
+        .field {
+            margin-bottom: 20px;
+        }
+
+        .field label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
             color: rgba(255, 255, 255, 0.5);
-            text-align: center;
-            font-size: 13px;
-            margin-bottom: 32px;
+            margin-bottom: 8px;
         }
 
-        .form-label {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .form-control {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 12px;
-            color: #fff;
-            padding: 12px 16px;
-            transition: all 0.3s;
-        }
-
-        .form-control:focus {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: #6c63ff;
-            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
-            color: #fff;
-        }
-
-        .form-control::placeholder {
-            color: rgba(255, 255, 255, 0.3);
-        }
-
-        .input-icon {
+        .input-wrap {
             position: relative;
         }
 
-        .input-icon i {
+        .input-wrap i {
             position: absolute;
-            left: 14px;
+            left: 16px;
             top: 50%;
             transform: translateY(-50%);
-            color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 16px;
         }
 
-        .input-icon .form-control {
-            padding-left: 40px;
+        .input-wrap input {
+            width: 100%;
+            padding: 14px 16px 14px 44px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            color: #fff;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        .input-wrap input:focus {
+            border-color: #7c3aed;
+            background: rgba(124, 58, 237, 0.08);
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+        }
+
+        .input-wrap input::placeholder {
+            color: rgba(255, 255, 255, 0.2);
         }
 
         .btn-login {
-            background: linear-gradient(135deg, #6c63ff, #5a52d5);
+            width: 100%;
+            padding: 15px;
             border: none;
-            border-radius: 12px;
-            font-weight: 700;
-            padding: 13px;
-            font-size: 15px;
-            letter-spacing: 0.3px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #7c3aed, #5b21b6);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 800;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            box-shadow: 0 0 25px rgba(124, 58, 237, 0.4);
             transition: all 0.3s;
-            box-shadow: 0 4px 20px rgba(108, 99, 255, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 8px;
         }
 
         .btn-login:hover {
+            box-shadow: 0 0 45px rgba(124, 58, 237, 0.6);
             transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(108, 99, 255, 0.5);
         }
 
         .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 24px 0;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .divider span {
+            font-size: 12px;
             color: rgba(255, 255, 255, 0.3);
-            text-align: center;
-            margin: 20px 0;
-            font-size: 13px;
+            font-weight: 600;
         }
 
-        .link-register {
-            color: rgba(255, 255, 255, 0.6);
+        .link-row {
             text-align: center;
-            font-size: 13px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.4);
         }
 
-        .link-register a {
-            color: #6c63ff;
+        .link-row a {
+            color: #a78bfa;
             font-weight: 700;
             text-decoration: none;
         }
 
-        .link-register a:hover {
+        .link-row a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
 
 <body>
-    <div class="auth-card">
-        <div class="brand">Shop<span>Sphere</span></div>
-        <p class="subtitle">Welcome back! Sign in to your account.</p>
 
-        <form action="/user/login" method="post">
-            <div class="mb-3">
-                <label class="form-label">Email Address</label>
-                <div class="input-icon">
-                    <i class="bi bi-envelope"></i>
-                    <input type="email" name="email" class="form-control" placeholder="you@example.com" required>
-                </div>
-            </div>
-            <div class="mb-4">
-                <label class="form-label">Password</label>
-                <div class="input-icon">
-                    <i class="bi bi-lock"></i>
-                    <input type="password" name="password" class="form-control" placeholder="••••••••" required>
-                </div>
-            </div>
-            <button type="submit" class="btn btn-login btn-primary w-100 text-white">Sign In</button>
-        </form>
-
-        <div class="divider">─── or ───</div>
-        <div class="link-register">Don't have an account? <a href="/register">Create Account</a></div>
+    <!-- LEFT PANEL -->
+    <div class="art-panel">
+        <div class="glowing-ring"></div>
+        <div class="glowing-ring"></div>
+        <div class="glowing-ring"></div>
+        <div class="brand"><span class="n">Nexa</span><span class="x">Mart</span></div>
+        <p class="tagline">India's smartest role-based e-commerce platform. Shop, sell, and deliver with confidence.</p>
+        <div class="art-features">
+            <div class="art-feat"><i class="bi bi-shield-fill-check"></i> Secure role-based access</div>
+            <div class="art-feat"><i class="bi bi-lightning-charge-fill"></i> Lightning-fast checkout</div>
+            <div class="art-feat"><i class="bi bi-truck"></i> Real-time delivery tracking</div>
+            <div class="art-feat"><i class="bi bi-graph-up-arrow"></i> Seller analytics dashboard</div>
+        </div>
     </div>
+
+    <!-- RIGHT FORM -->
+    <div class="form-panel">
+        <div class="form-box">
+            <h2>Welcome back 👋</h2>
+            <p class="sub">Sign in to your NexaMart account</p>
+            <form action="/user/login" method="post">
+                <div class="field">
+                    <label>Email Address</label>
+                    <div class="input-wrap">
+                        <i class="bi bi-envelope-fill"></i>
+                        <input type="email" name="email" placeholder="you@example.com" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Password</label>
+                    <div class="input-wrap">
+                        <i class="bi bi-lock-fill"></i>
+                        <input type="password" name="password" placeholder="••••••••" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn-login"><i class="bi bi-arrow-right-circle-fill"></i> Sign In to
+                    NexaMart</button>
+            </form>
+            <div class="divider"><span>or</span></div>
+            <div class="link-row">New to NexaMart? <a href="/register">Create an account →</a></div>
+        </div>
+    </div>
+
 </body>
 
 </html>
