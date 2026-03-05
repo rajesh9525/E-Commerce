@@ -11,6 +11,8 @@ import E_commers.model.ProductRequest;
 public interface ProductRequestRepository extends CrudRepository<ProductRequest, Long> {
 
 	List<ProductRequest> findByStatus(String string);
+
+	List<ProductRequest> findBySellername(String sellername);
 	
 	
 }

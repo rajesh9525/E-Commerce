@@ -134,23 +134,25 @@
             </thead>
 
             <tbody>
-            <tr th:each="req : ${request}">
-                <td th:text="${p.productName}"></td>
-                <td th:text="${p.sellerName}"></td>
+            <tr th:each="req : ${requests}">
+                <td th:text="${req.productname}"></td>
+                <td th:text="${req.sellername}"></td>
 				<td>
-				    <img th:src="@{'/product/image/' + ${p.id}}"
+				    <img th:if="${req.productimage != null}"
+				         th:src="@{'/request/image/' + ${req.id}}"
 				         width="80"
 				         class="rounded">
+				    <span th:unless="${req.productimage != null}" class="text-muted small">No image</span>
 				</td>
-                <td th:text="${p.status}"></td>
+                <td th:text="${req.status}"></td>
 				<td>
 				    <a class="btn btn-success btn-sm"
-				       th:href="@{/admin/approve-product/{id}(id=${p.id})}">
+				       th:href="@{/admin/approve-product/{id}(id=${req.id})}">
 				        Approve
 				    </a>
 
 				    <a class="btn btn-danger btn-sm"
-				       th:href="@{/admin/reject-product/{id}(id=${p.id})}">
+				       th:href="@{/admin/reject-product/{id}(id=${req.id})}">
 				        Reject
 				    </a>
 				</td>

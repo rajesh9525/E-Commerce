@@ -45,15 +45,17 @@ public class UserController {
         if(u != null) {
 
             session.setAttribute("role", u.getLogintype());
+            session.setAttribute("username", u.getName());   // store seller name
+            session.setAttribute("email", u.getEmail());     // store email
 
             // ===== ADMIN =====
             if(u.getLogintype().equals("ADMIN")){
-                return "redirect:/dashboard";
+                return "redirect:/admin/dashboard";
             }
 
             // ===== SELLER =====
             if(u.getLogintype().equals("SELLER")){
-                return "redirect:/dashboard";
+                return "redirect:/sellerdashboard";
             }
 
             // ===== DELIVERY =====

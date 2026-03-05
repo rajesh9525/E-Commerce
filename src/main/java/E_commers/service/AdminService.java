@@ -61,6 +61,13 @@ public class AdminService {
         productRequestRepository.save(req);
     }
 
+    // ===== REJECT PRODUCT =====
+    public void rejectProduct(Long id){
+        ProductRequest req = productRequestRepository.findById(id).orElseThrow();
+        req.setStatus("REJECTED");
+        productRequestRepository.save(req);
+    }
+
     // ===== USER ACTIVITY =====
     public List<UserActivity> getAllActivity(){
         return activityRepository.findAll();

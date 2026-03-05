@@ -3,18 +3,14 @@ package E_commers.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import E_commers.model.Product;
 import E_commers.model.ProductRequest;
 import E_commers.model.User;
-import E_commers.repo.ProductRepository;
 import E_commers.repo.ProductRequestRepository;
 import E_commers.service.AdminService;
-import E_commers.service.ProductService;
 import E_commers.service.UserService;
 @Controller
 @RequestMapping("/admin")
@@ -26,12 +22,6 @@ public class AdminController {
     @Autowired
     private UserService userservice;
 
-    @Autowired
-    private ProductService productService;
-    
-    @Autowired
-    private ProductRepository productrepository;
-    
     @Autowired
     private ProductRequestRepository productrequstrepository;
 
@@ -45,10 +35,6 @@ public class AdminController {
                 productrequstrepository.findByStatus("PENDING");
 
         model.addAttribute("requests", pendingProducts);
-
-        model.addAttribute("requests", pendingProducts);
-
-        model.addAttribute("requests", productService.getRequests());
 
         model.addAttribute("activity", adminservice.getAllActivity());
 
@@ -83,29 +69,16 @@ public class AdminController {
         return "redirect:/admin/dashboard";
     }
     
-    @GetMapping("/admin/approve-product/{id}")
+    @GetMapping("/approve-product/{id}")
     public String approveProduct(@PathVariable Long id) {
-
-        Product p = productrepository.findById(id).orElse(null);
-
-        if (p != null) {
-            p.setStatus("APPROVED");
-            productrepository.save(p);
-        }
-
-        return "redirect:/admin-dashboard";
+        adminservice.approveProduct(id);
+        return "redirect:/admin/dashboard";
     }
-    @GetMapping("/admin/reject-product/{id}")
+
+    @GetMapping("/reject-product/{id}")
     public String rejectProduct(@PathVariable Long id) {
-
-        Product p = productrepository.findById(id).orElse(null);
-
-        if (p != null) {
-            p.setStatus("REJECTED");
-            productrepository.save(p);
-        }
-
-        return "redirect:/admin-dashboard";
+        adminservice.rejectProduct(id);
+        return "redirect:/admin/dashboard";
     }
     
 }
