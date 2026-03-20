@@ -22,6 +22,8 @@ public class Product {
 	@Column(name = "product_name")
 	private String productName;
 	
+	private int stockQuantity = 10; // Defaulting to 10 for existing ones
+	
 	private String productdetails;
 	private double productprice;
 	private String status;
@@ -98,6 +100,12 @@ public class Product {
 		this.file = file;
 	}
 	
-	
+	public int getStockQuantity() {
+		return stockQuantity;
+	}
+
+	public void setStockQuantity(int stockQuantity) {
+		this.stockQuantity = stockQuantity;
+	}
 	
 }

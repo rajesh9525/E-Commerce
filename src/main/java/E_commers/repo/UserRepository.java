@@ -8,6 +8,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByEmail(String email);
 
+    List<User> findByLogintype(String logintype);
+
 	@Nullable
 	Object findById(String string);
 

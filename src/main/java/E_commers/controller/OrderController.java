@@ -55,6 +55,8 @@ public class OrderController {
             @RequestParam("city") String city,
             @RequestParam("pinCode") String pinCode) {
 
+        orderService.placeAutomatedOrder(productId, customerName, address, city, pinCode);
+
         return "redirect:/customer/dashboard";
     }
     

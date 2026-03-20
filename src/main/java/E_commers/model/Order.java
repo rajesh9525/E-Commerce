@@ -20,6 +20,14 @@ public class Order {
     
     private Long sellerId;
     
+    // Checkout Details
+    private Long productId;
+    private String customerName;
+    private String address;
+    private String city;
+    private String pinCode;
+    private int quantity = 1;
+
     @ManyToOne
     @JoinColumn(name = "delivery_id")
     private User deliveryMan;
@@ -55,6 +63,53 @@ public class Order {
 	public void setDeliveryMan(User deliveryMan) {
 		this.deliveryMan = deliveryMan;
 	}
-	
 
+	public Long getProductId() {
+		return productId;
+	}
+
+	public void setProductId(Long productId) {
+		this.productId = productId;
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getPinCode() {
+		return pinCode;
+	}
+
+	public void setPinCode(String pinCode) {
+		this.pinCode = pinCode;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+	
 }

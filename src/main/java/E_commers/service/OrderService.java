@@ -9,8 +9,11 @@ import org.springframework.stereotype.Service;
 
 import E_commers.model.Order;
 import E_commers.model.User;
+import E_commers.model.Product;
 import E_commers.repo.OrderRepository;
 import E_commers.repo.UserRepository;
+import E_commers.repo.ProductRepository;
+import java.util.Random;
 
 
 
@@ -21,6 +24,8 @@ public class OrderService {
 	    private OrderRepository orderRepository;
 	 @Autowired
 	 private UserRepository userrepository;
+	 @Autowired
+	 private ProductRepository productRepository;
 
 	 public List<Order> getSellerOrders(Long sellerId) {
 	        return orderRepository.findBySellerId(sellerId);
@@ -56,8 +61,35 @@ public class OrderService {
 	    orderRepository.save(order);
 	}
 
-	public void placeOrder(String productName, int quantity, String address) {
-		// TODO Auto-generated method stub
-		
+	public void placeAutomatedOrder(Long productId, String customerName, String address, String city, String pinCode) {
+		Product product = productRepository.findById(productId).orElse(null);
+		if (product != null && product.getStockQuantity() > 0) {
+			// Reduce Stock
+			product.setStockQuantity(product.getStockQuantity() - 1);
+			productRepository.save(product);
+			
+			// Auto assign delivery
+			List<User> deliveryMen = userrepository.findByLogintype("DELIVERY");
+			User assignedMan = null;
+			if (deliveryMen != null && !deliveryMen.isEmpty()) {
+				int randomIndex = new Random().nextInt(deliveryMen.size());
+				assignedMan = deliveryMen.get(randomIndex);
+			}
+
+			// Create Order
+			Order order = new Order();
+			order.setProductId(productId);
+			order.setCustomerName(customerName);
+			order.setAddress(address);
+			order.setCity(city);
+			order.setPinCode(pinCode);
+			order.setQuantity(1);
+			order.setStatus("PLACED");
+			order.setDeliveryMan(assignedMan);
+			
+			// Optional: store seller ID if the product's seller is known, although product entity doesn't seem to hold seller ID currently
+			
+			orderRepository.save(order);
+		}
 	}
 }

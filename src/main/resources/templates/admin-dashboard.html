@@ -354,6 +354,7 @@
         <div class="nav-sec">Admin Hub</div>
         <div class="nav-link active" id="n-users" onclick="show('users')"><i class="bi bi-people-fill"></i> Users</div>
         <div class="nav-link" id="n-reqs" onclick="show('reqs')"><i class="bi bi-box-seam-fill"></i> Requests</div>
+        <div class="nav-link" id="n-orders" onclick="show('orders')"><i class="bi bi-cart-fill"></i> Orders</div>
         <div class="nav-link" id="n-act" onclick="show('act')"><i class="bi bi-activity"></i> Activity</div>
         <div class="sidebar-foot">
             <a href="/logout" class="nav-link" style="color:var(--r);"><i class="bi bi-box-arrow-right"></i> Sign
@@ -454,6 +455,46 @@
                                             class="bi bi-check-lg"></i></a>
                                     <a class="btn-act red" th:href="@{/admin/reject-product/{id}(id=${req.id})}"><i
                                             class="bi bi-x-lg"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ORDERS -->
+            <div class="section" id="orders">
+                <div class="sec-head">🛒 Customer Orders</div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Address</th>
+                                <th>Status</th>
+                                <th>Delivery Man</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${#lists.isEmpty(orders)}">
+                                <td colspan="5">
+                                    <div class="empty"><i class="bi bi-cart-x"></i>
+                                        <p>No orders available</p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr th:each="o : ${orders}">
+                                <td th:text="'#' + ${o.id}"></td>
+                                <td th:text="${o.customerName}"></td>
+                                <td th:text="${o.address} + ', ' + ${o.city} + ' - ' + ${o.pinCode}"
+                                    style="font-size:12px; color:var(--t);"></td>
+                                <td><span class="stat-chip" th:text="${o.status}"></span></td>
+                                <td>
+                                    <span th:if="${o.deliveryMan != null}" class="role-chip"
+                                        th:text="${o.deliveryMan.name}"></span>
+                                    <span th:unless="${o.deliveryMan != null}"
+                                        style="color:var(--r); font-weight:800; font-size:12px;">Unassigned</span>
                                 </td>
                             </tr>
                         </tbody>

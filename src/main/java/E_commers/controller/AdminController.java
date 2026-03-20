@@ -40,6 +40,8 @@ public class AdminController {
         model.addAttribute("requests", pendingProducts);
 
         model.addAttribute("activity", adminservice.getAllActivity());
+        
+        model.addAttribute("orders", adminservice.getAllOrders());
 
         return "admin-dashboard";
     }

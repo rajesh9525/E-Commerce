@@ -9,9 +9,11 @@ import E_commers.model.Product;
 import E_commers.model.ProductRequest;
 import E_commers.model.User;
 import E_commers.model.UserActivity;
+import E_commers.model.Order;
 import E_commers.repo.AdminRepository;
 import E_commers.repo.ProductRepository;
 import E_commers.repo.UserRepository;
+import E_commers.repo.OrderRepository;
 import E_commers.repo.ActivityRepository;
 import E_commers.repo.ProductRequestRepository;
 
@@ -23,6 +25,9 @@ public class AdminService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private OrderRepository orderRepository;
 
     @Autowired
     private ProductRequestRepository productRequestRepository;
@@ -41,6 +46,11 @@ public class AdminService {
     // ===== ALL USERS =====
     public List<User> getAllUsers(){
         return userRepository.findAll();
+    }
+
+    // ===== ALL ORDERS =====
+    public List<Order> getAllOrders(){
+        return orderRepository.findAll();
     }
 
     // ===== BLOCK USER =====
