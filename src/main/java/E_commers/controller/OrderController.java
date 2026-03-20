@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import E_commers.model.Order;
 import E_commers.service.OrderService;
+import E_commers.model.Product;
+import E_commers.service.ProductService;
 
 @Controller
 @RequestMapping("/orders")
@@ -16,6 +18,9 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private ProductService productService;
 
     @GetMapping("/seller")
     public String sellerOrders(Model model) {
@@ -35,16 +40,20 @@ public class OrderController {
 
         return "delivery-orders";
     }
-    @GetMapping("/orders/buy")
-    public String showBuyPage() {
+    @PostMapping("/buy")
+    public String showBuyPage(@RequestParam("productId") Long productId, Model model) {
+        Product p = productService.getProductById(productId);
+        model.addAttribute("p", p);
         return "buy-product";
     }
 
-    @PostMapping("/orders/buy")
+    @PostMapping("/confirm")
     public String buyProduct(
-            @RequestParam String productName,
-            @RequestParam int quantity,
-            @RequestParam String address) {
+            @RequestParam("productId") Long productId,
+            @RequestParam("customerName") String customerName,
+            @RequestParam("address") String address,
+            @RequestParam("city") String city,
+            @RequestParam("pinCode") String pinCode) {
 
         return "redirect:/customer/dashboard";
     }
