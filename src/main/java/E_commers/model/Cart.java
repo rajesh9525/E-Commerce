@@ -19,6 +19,8 @@ public class Cart {
 
     private String customerName;
 
+    private int quantity = 1;
+
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<CartItem> items = new ArrayList<>();
 
