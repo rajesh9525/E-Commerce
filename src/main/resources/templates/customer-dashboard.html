@@ -324,6 +324,8 @@
 		<div class="brand">Nexa<span>Mart</span></div>
 		<div class="nav-sec">Shopping</div>
 		<a href="/customer/view-products" class="nav-link active"><i class="bi bi-grid-fill"></i> Browse Shop</a>
+		<a href="/cart/view" class="nav-link"><i class="bi bi-cart"></i> My Cart</a>
+		<a href="/orders/my-orders" class="nav-link"><i class="bi bi-bag-check"></i> Order History</a>
 		<div class="sidebar-foot">
 			<a href="/logout" class="nav-link" style="color:var(--r);"><i class="bi bi-box-arrow-right"></i> Sign
 				Out</a>
@@ -362,10 +364,16 @@
 					<div class="p-info">
 						<div class="p-name" th:text="${p.productName}"></div>
 						<div class="p-price" th:text="'₹' + ${p.productprice}"></div>
-						<form action="/orders/buy" method="post">
-							<input type="hidden" name="productId" th:value="${p.id}">
-							<button class="btn-buy" type="submit"><i class="bi bi-cart-plus-fill"></i> Buy Now</button>
-						</form>
+						<div style="display:flex; gap:8px; margin-top:auto;">
+							<form action="/orders/buy" method="post" style="flex:1;">
+								<input type="hidden" name="productId" th:value="${p.id}">
+								<button class="btn-buy" type="submit" style="width:100%;"><i class="bi bi-lightning-fill"></i> Buy Now</button>
+							</form>
+							<form action="/cart/add" method="post" style="flex:1;">
+								<input type="hidden" name="productId" th:value="${p.id}">
+								<button class="btn-buy" type="submit" style="width:100%; background:#fff; color:var(--b);"><i class="bi bi-cart-plus"></i> Add</button>
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>

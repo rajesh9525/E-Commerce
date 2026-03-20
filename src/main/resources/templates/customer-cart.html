@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Cart – NexaMart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        :root {
+            --y: #FFE500;
+            --b: #111111;
+            --g: #22C55E;
+            --t: #6B7280;
+            --bdr: #E5E7EB;
+            --bg: #FAFAFA;
+            --r: #EF4444;
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg);
+            color: var(--b);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 260px;
+            min-height: 100vh;
+            background: #fff;
+            border-right: 2px solid var(--bdr);
+            padding: 28px 20px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            z-index: 100;
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: 900;
+            padding: 8px 10px 26px;
+            border-bottom: 2px solid var(--bdr);
+            margin-bottom: 22px;
+        }
+
+        .brand span {
+            background: var(--y);
+            padding: 2px 8px;
+            border-radius: 6px;
+            color: var(--b);
+        }
+
+        .nav-sec {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--t);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0 10px;
+            margin: 16px 0 8px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--t);
+            text-decoration: none;
+            padding: 12px 14px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            transition: all 0.2s;
+            margin-bottom: 4px;
+        }
+
+        .nav-link:hover {
+            background: var(--bg);
+            color: var(--b);
+        }
+
+        .nav-link.active {
+            background: var(--y);
+            color: var(--b);
+            box-shadow: 4px 4px 0 var(--b);
+            border: 2px solid var(--b);
+        }
+
+        .nav-link i {
+            font-size: 18px;
+        }
+
+        .sidebar-foot {
+            margin-top: auto;
+            padding-top: 16px;
+            border-top: 2px solid var(--bdr);
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 260px;
+            flex: 1;
+        }
+
+        .topbar {
+            padding: 20px 40px;
+            border-bottom: 2px solid var(--bdr);
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 90;
+        }
+
+        .topbar h5 {
+            font-size: 18px;
+            font-weight: 900;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--b);
+        }
+
+        .badge-role {
+            background: var(--b);
+            color: var(--y);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-weight: 900;
+            font-size: 12px;
+            border: 2px solid var(--b);
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .page-banner {
+            background: #fff;
+            border: 2px solid var(--bdr);
+            border-radius: 20px;
+            padding: 32px 40px;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .page-banner h4 {
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 4px;
+        }
+
+        .page-banner p {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--t);
+        }
+
+        .cart-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .cart-item {
+            background: #fff;
+            border: 2px solid var(--bdr);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .cart-item-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            background: var(--bg);
+            border: 1px solid var(--bdr);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .cart-item-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cart-item-img i {
+            font-size: 30px;
+            color: var(--bdr);
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .cart-item-qty {
+            font-size: 14px;
+            color: var(--t);
+            font-weight: 600;
+        }
+
+        .cart-item-price {
+            font-size: 20px;
+            font-weight: 900;
+            color: var(--g);
+        }
+
+        .btn-remove {
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px solid var(--bdr);
+            background: #fff;
+            color: var(--r);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-remove:hover {
+            background: #FEE2E2;
+            border-color: #FCA5A5;
+        }
+
+        .checkout-panel {
+            background: var(--y);
+            border: 2px solid var(--b);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 8px 8px 0 var(--b);
+            margin-top: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .total-label {
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .total-amount {
+            font-size: 36px;
+            font-weight: 900;
+        }
+
+        .btn-checkout {
+            padding: 16px 32px;
+            background: var(--b);
+            border: 2px solid var(--b);
+            color: #fff;
+            font-family: inherit;
+            font-weight: 800;
+            font-size: 18px;
+            border-radius: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-checkout:hover {
+            box-shadow: 4px 4px 0 var(--bdr);
+            transform: translateY(-2px);
+        }
+
+        .empty {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--t);
+            background: #fff;
+            border: 2px dashed var(--bdr);
+            border-radius: 20px;
+        }
+
+        .empty i {
+            font-size: 60px;
+            color: var(--bdr);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .empty p {
+            font-weight: 700;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <div class="brand">Nexa<span>Mart</span></div>
+        <div class="nav-sec">Shopping</div>
+        <a href="/customer/view-products" class="nav-link"><i class="bi bi-grid-fill"></i> Browse Shop</a>
+        <a href="/cart/view" class="nav-link active"><i class="bi bi-cart"></i> My Cart</a>
+        <a href="/orders/my-orders" class="nav-link"><i class="bi bi-bag-check"></i> Order History</a>
+        <div class="sidebar-foot">
+            <a href="/logout" class="nav-link" style="color:var(--r);"><i class="bi bi-box-arrow-right"></i> Sign
+                Out</a>
+        </div>
+    </div>
+
+    <div class="main">
+        <div class="topbar">
+            <h5>My Shopping Cart</h5>
+            <div class="badge-role">CUSTOMER 🛍️</div>
+        </div>
+
+        <div class="content">
+
+            <div th:if="${cart == null || #lists.isEmpty(cart.items)}" class="empty">
+                <i class="bi bi-cart-x"></i>
+                <p>Your cart is empty.</p>
+                <a href="/customer/view-products" class="btn-checkout"
+                    style="margin-top:20px; font-size:14px; padding:12px 24px;">Start Shopping</a>
+            </div>
+
+            <div th:if="${cart != null && !#lists.isEmpty(cart.items)}" class="cart-list">
+                <div class="page-banner">
+                    <div>
+                        <h4>Review your Cart 📦</h4>
+                        <p>Verify your items before proceeding to checkout</p>
+                    </div>
+                </div>
+
+                <div class="cart-item" th:each="item : ${cart.items}">
+                    <div class="cart-item-img">
+                        <img th:if="${item.product != null && item.product.productimage != null}"
+                            th:src="@{'/product/image/' + ${item.productId}}">
+                        <i th:unless="${item.product != null && item.product.productimage != null}"
+                            class="bi bi-image"></i>
+                    </div>
+                    <div class="cart-item-info">
+                        <div class="cart-item-name" th:text="${item.productName}"></div>
+                        <div class="cart-item-qty" th:text="'Quantity: ' + ${item.quantity}"></div>
+                    </div>
+                    <div class="cart-item-price" th:text="'₹' + (${item.price} * ${item.quantity})"></div>
+                    <form action="/cart/remove" method="post">
+                        <input type="hidden" name="cartItemId" th:value="${item.id}">
+                        <button type="submit" class="btn-remove" title="Remove item"><i
+                                class="bi bi-trash-fill"></i></button>
+                    </form>
+                </div>
+
+                <div class="checkout-panel">
+                    <div>
+                        <div class="total-label">Estimated Total</div>
+                        <div class="total-amount" th:text="'₹' + ${total}"></div>
+                    </div>
+                    <!-- Checkout All functionality would go to a specialized checkout view, or redirect to a multi-product order completion flow -->
+                    <div style="color:var(--b); font-weight:800; font-size:14px;"><i>Note: We currently utilize a direct
+                            'Buy' process. Click 'Buy Now' on products to check out individually.</i></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

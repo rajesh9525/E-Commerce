@@ -30,6 +30,10 @@ public class OrderService {
 	 public List<Order> getSellerOrders(Long sellerId) {
 	        return orderRepository.findBySellerId(sellerId);
 	    }
+	    
+	 public List<Order> getOrdersByCustomer(String customerName) {
+		 return orderRepository.findByCustomerName(customerName);
+	 }
 
     // Save Order
     public Order saveOrder(Order order) {
