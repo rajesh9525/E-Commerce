@@ -12,7 +12,8 @@ import E_commers.model.Order;
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
 	  List<Order> findBySellerId(Long sellerId);
-	  
 	  List<Order> findByCustomerName(String customerName);
+
+      List<Order> findByUserId(Long userId);
 }
 

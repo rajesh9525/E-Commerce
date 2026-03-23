@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import E_commers.model.Order;
+import E_commers.model.Product;
+import java.util.List;
+import java.util.stream.Collectors;
 import E_commers.service.CustomerService;
 import E_commers.service.OrderService;
 import jakarta.servlet.http.HttpSession;
@@ -28,9 +31,27 @@ public class CustomerController {
     }
 
     @GetMapping("/view-products")
-    public String viewProducts(Model model, HttpSession session) {
+    public String viewProducts(
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) Double minRating,
+            Model model, HttpSession session) {
+            
         session.setAttribute("role", "CUSTOMER");
-        model.addAttribute("products", customerService.getAllProducts());
+        List<Product> products = customerService.getAllProducts();
+        
+        if (category != null && !category.isEmpty()) {
+            products = products.stream()
+                .filter(p -> category.equalsIgnoreCase(p.getCategory()))
+                .collect(Collectors.toList());
+        }
+        if (minRating != null) {
+            products = products.stream()
+                .filter(p -> p.getRating() >= minRating)
+                .collect(Collectors.toList());
+        }
+        
+        model.addAttribute("products", products);
+        model.addAttribute("categories", List.of("Electronics", "Clothing", "Home", "Sports", "Uncategorized"));
         return "customer-dashboard";
     }
     

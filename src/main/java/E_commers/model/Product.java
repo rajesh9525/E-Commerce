@@ -26,6 +26,10 @@ public class Product {
 	
 	private String productdetails;
 	private double productprice;
+	
+	private String category = "Uncategorized";
+	private double rating = 0.0;
+	
 	private String status;
 	public String getStatus() {
 		return status;
@@ -74,6 +78,22 @@ public class Product {
 
 	public void setProductprice(double productprice) {
 		this.productprice = productprice;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public double getRating() {
+		return rating;
+	}
+
+	public void setRating(double rating) {
+		this.rating = rating;
 	}
 
 	public LocalDate getAddproductdate() {

@@ -6,7 +6,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Table;
+import java.util.List;
+import java.util.ArrayList;
 
 @Entity
 @Table(name = "customer_orders")
@@ -21,13 +26,18 @@ public class Order {
     private Long sellerId;
     
     // Checkout Details
-    private Long productId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
     private String customerName;
     private String address;
     private String phonenumber;
     private String city;
     private String pinCode;
-    private int quantity = 1;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItem> items = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "delivery_id")
@@ -65,12 +75,20 @@ public class Order {
 		this.deliveryMan = deliveryMan;
 	}
 
-	public Long getProductId() {
-		return productId;
+	public User getUser() {
+		return user;
 	}
 
-	public void setProductId(Long productId) {
-		this.productId = productId;
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public List<OrderItem> getItems() {
+		return items;
+	}
+
+	public void setItems(List<OrderItem> items) {
+		this.items = items;
 	}
 
 	public String getCustomerName() {
@@ -112,14 +130,6 @@ public class Order {
 
 	public void setPinCode(String pinCode) {
 		this.pinCode = pinCode;
-	}
-
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
 	}
 	
 }

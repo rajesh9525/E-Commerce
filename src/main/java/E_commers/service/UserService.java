@@ -2,6 +2,7 @@ package E_commers.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import org.mindrot.jbcrypt.BCrypt;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,9 @@ public class UserService {
     }
 
     public User saveUser(User user) {
+        if (user.getPassword() != null && !user.getPassword().isEmpty() && !user.getPassword().startsWith("$2a$")) {
+            user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
+        }
         return userRepository.save(user);
     }
 

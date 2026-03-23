@@ -44,12 +44,12 @@ public class OrderController {
 
     @GetMapping("/my-orders")
     public String myOrders(HttpSession session, Model model) {
-        String username = (String) session.getAttribute("username");
-        if(username == null) {
+        String email = (String) session.getAttribute("email");
+        if(email == null) {
             return "redirect:/login";
         }
         
-        List<Order> orders = orderService.getOrdersByCustomer(username);
+        List<Order> orders = orderService.getOrdersByUserEmail(email);
         
         // Pass products so we can show names/images. 
         // Order only saves productId, but let's grab the actual product for easier template rendering.
@@ -74,22 +74,22 @@ public class OrderController {
         return "buy-product";
     }
 
-    @PostMapping("/confirm")
-    public String buyProduct(
-            @RequestParam("productId") Long productId,
+    @PostMapping("/confirm-checkout")
+    public String checkoutCart(
             @RequestParam("address") String address,
             @RequestParam("city") String city,
             @RequestParam("pinCode") String pinCode,
-            @RequestParam("phoneNumber") String phoneNumber, // New parameter
+            @RequestParam("phoneNumber") String phoneNumber,
             HttpSession session) {
 
         String username = (String) session.getAttribute("username");
+        String email = (String) session.getAttribute("email");
 
-        if (username == null) {
+        if (username == null || email == null) {
             return "redirect:/login";
         }
 
-        orderService.placeAutomatedOrder(productId, username, address, city, pinCode, phoneNumber);
+        orderService.checkoutCart(email, username, address, city, pinCode, phoneNumber);
 
         return "redirect:/orders/my-orders";
     }

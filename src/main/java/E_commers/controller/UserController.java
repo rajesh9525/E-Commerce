@@ -40,11 +40,12 @@ public class UserController {
 
     @PostMapping("/login")
     public String loginUser(@RequestParam String email,
+                            @RequestParam String password,
                             HttpSession session) {
 
         User u = userService.findByEmail1(email);
 
-        if(u != null) {
+        if(u != null && u.getPassword() != null && org.mindrot.jbcrypt.BCrypt.checkpw(password, u.getPassword())) {
 
             session.setAttribute("role", u.getLogintype());
             session.setAttribute("username", u.getName());   // store seller name
