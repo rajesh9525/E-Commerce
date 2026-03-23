@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional; // 👈 ADD THIS
 
 import E_commers.model.Cart;
 import E_commers.model.CartItem;
@@ -24,6 +25,7 @@ public class CartService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Transactional  // 👈 FIX HERE
     public Cart getCartByCustomer(String customerName) {
         Cart cart = cartRepository.findByCustomerName(customerName);
         if (cart == null) {
@@ -31,22 +33,22 @@ public class CartService {
             cart.setCustomerName(customerName);
             cart = cartRepository.save(cart);
         }
-        
-        // Load transient product data for the view
-        for(CartItem item : cart.getItems()) {
-        	Product p = productRepository.findById(item.getProductId()).orElse(null);
-        	item.setProduct(p);
+
+        // Load product data
+        for (CartItem item : cart.getItems()) {
+            Product p = productRepository.findById(item.getProductId()).orElse(null);
+            item.setProduct(p);
         }
-        
+
         return cart;
     }
 
+    @Transactional  // 👈 ADD THIS ALSO
     public void addToCart(String customerName, Long productId) {
         Cart cart = getCartByCustomer(customerName);
         Product product = productRepository.findById(productId).orElse(null);
 
         if (product != null) {
-            // Check if product is already in cart
             Optional<CartItem> existingItem = cart.getItems().stream()
                     .filter(item -> item.getProductId().equals(productId))
                     .findFirst();
@@ -67,22 +69,25 @@ public class CartService {
         }
     }
 
+    @Transactional  // 👈 ADD
     public void removeFromCart(String customerName, Long cartItemId) {
         Cart cart = getCartByCustomer(customerName);
         cart.getItems().removeIf(item -> item.getId().equals(cartItemId));
         cartRepository.save(cart);
     }
-    
+
+    @Transactional  // 👈 ADD
     public void clearCart(String customerName) {
         Cart cart = getCartByCustomer(customerName);
         cart.getItems().clear();
         cartRepository.save(cart);
     }
-    
+
+    @Transactional(readOnly = true)  // 👈 OPTIONAL
     public double getCartTotal(String customerName) {
-    	Cart cart = getCartByCustomer(customerName);
-    	return cart.getItems().stream()
-    			.mapToDouble(item -> item.getPrice() * item.getQuantity())
-    			.sum();
+        Cart cart = getCartByCustomer(customerName);
+        return cart.getItems().stream()
+                .mapToDouble(item -> item.getPrice() * item.getQuantity())
+                .sum();
     }
 }

@@ -24,6 +24,7 @@ public class Order {
     private Long productId;
     private String customerName;
     private String address;
+    private String phonenumber;
     private String city;
     private String pinCode;
     private int quantity = 1;
@@ -86,6 +87,15 @@ public class Order {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+	
+
+	public String getPhonenumber() {
+		return phonenumber;
+	}
+
+	public void setPhonenumber(String phonenumber) {
+		this.phonenumber = phonenumber;
 	}
 
 	public String getCity() {

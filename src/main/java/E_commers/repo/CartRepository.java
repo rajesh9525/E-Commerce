@@ -7,5 +7,9 @@ import E_commers.model.Cart;
 
 @Repository
 public interface CartRepository extends JpaRepository<Cart, Long> {
+	
     Cart findByCustomerName(String customerName);
+
+    
+	
 }

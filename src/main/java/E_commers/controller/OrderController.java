@@ -77,14 +77,21 @@ public class OrderController {
     @PostMapping("/confirm")
     public String buyProduct(
             @RequestParam("productId") Long productId,
-            @RequestParam("customerName") String customerName,
             @RequestParam("address") String address,
             @RequestParam("city") String city,
-            @RequestParam("pinCode") String pinCode) {
+            @RequestParam("pinCode") String pinCode,
+            @RequestParam("phoneNumber") String phoneNumber, // New parameter
+            HttpSession session) {
 
-        orderService.placeAutomatedOrder(productId, customerName, address, city, pinCode);
+        String username = (String) session.getAttribute("username");
 
-        return "redirect:/customer/dashboard";
+        if (username == null) {
+            return "redirect:/login";
+        }
+
+        orderService.placeAutomatedOrder(productId, username, address, city, pinCode, phoneNumber);
+
+        return "redirect:/orders/my-orders";
     }
     
 }

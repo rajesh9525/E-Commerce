@@ -292,9 +292,12 @@
 			outline: none;
 		}
 
-		.input-wrap textarea {
-			min-height: 80px;
-			resize: vertical;
+		.input-wrap i {
+		    position: absolute;
+		    left: 14px;
+		    top: 15px; /* Adjust this slightly if the icon isn't centered */
+		    color: var(--t);
+		    font-size: 15px;
 		}
 
 		.input-wrap input:focus,
@@ -409,6 +412,14 @@
 							<i class="bi bi-person"></i>
 							<input type="text" name="customerName" th:value="${session.username}" required>
 						</div>
+					</div>
+					<div class="field">
+					    <label>Phone Number</label>
+					    <div class="input-wrap">
+					        <i class="bi bi-telephone"></i>
+					        <input type="tel" name="phoneNumber" placeholder="e.g. 9876543210" 
+					               pattern="[0-9]{10}" title="Please enter a 10-digit phone number" required>
+					    </div>
 					</div>
 
 					<div class="field">

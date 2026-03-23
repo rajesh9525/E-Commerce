@@ -65,35 +65,15 @@ public class OrderService {
 	    orderRepository.save(order);
 	}
 
-	public void placeAutomatedOrder(Long productId, String customerName, String address, String city, String pinCode) {
-		Product product = productRepository.findById(productId).orElse(null);
-		if (product != null && product.getStockQuantity() > 0) {
-			// Reduce Stock
-			product.setStockQuantity(product.getStockQuantity() - 1);
-			productRepository.save(product);
-			
-			// Auto assign delivery
-			List<User> deliveryMen = userrepository.findByLogintype("DELIVERY");
-			User assignedMan = null;
-			if (deliveryMen != null && !deliveryMen.isEmpty()) {
-				int randomIndex = new Random().nextInt(deliveryMen.size());
-				assignedMan = deliveryMen.get(randomIndex);
-			}
-
-			// Create Order
-			Order order = new Order();
-			order.setProductId(productId);
-			order.setCustomerName(customerName);
-			order.setAddress(address);
-			order.setCity(city);
-			order.setPinCode(pinCode);
-			order.setQuantity(1);
-			order.setStatus("PLACED");
-			order.setDeliveryMan(assignedMan);
-			
-			// Optional: store seller ID if the product's seller is known, although product entity doesn't seem to hold seller ID currently
-			
-			orderRepository.save(order);
-		}
+	public void placeAutomatedOrder(Long productId, String username, String address, String city, String pinCode, String phoneNumber) {
+	    Order order = new Order();
+	    order.setProductId(productId);
+	    order.setCustomerName(username); 
+	    order.setAddress(address);
+	    order.setCity(city);
+	    order.setPinCode(pinCode);
+	    order.setPhonenumber(phoneNumber);
+	    
+	    orderRepository.save(order);
 	}
 }
