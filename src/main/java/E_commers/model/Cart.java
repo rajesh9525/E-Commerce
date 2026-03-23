@@ -40,6 +40,14 @@ public class Cart {
         this.customerName = customerName;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     public List<CartItem> getItems() {
         return items;
     }
