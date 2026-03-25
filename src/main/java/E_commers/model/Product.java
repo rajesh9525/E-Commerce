@@ -22,6 +22,8 @@ public class Product {
 	@Column(name = "product_name")
 	private String productName;
 	
+	 private String sellername;
+	
 	private int stockQuantity = 10; // Defaulting to 10 for existing ones
 	
 	private String productdetails;
@@ -31,6 +33,9 @@ public class Product {
 	private double rating = 0.0;
 	
 	private String status;
+	
+	 private String sellerEmail;  
+	 
 	public String getStatus() {
 		return status;
 	}
@@ -62,6 +67,16 @@ public class Product {
 
 	public void setProductName(String productName) {
 		this.productName = productName;
+	}
+	
+	
+
+	public String getSellername() {
+		return sellername;
+	}
+
+	public void setSellername(String sellername) {
+		this.sellername = sellername;
 	}
 
 	public String getProductdetails() {
@@ -127,5 +142,15 @@ public class Product {
 	public void setStockQuantity(int stockQuantity) {
 		this.stockQuantity = stockQuantity;
 	}
+
+	public String getSellerEmail() {
+		return sellerEmail;
+	}
+
+	public void setSellerEmail(String sellerEmail) {
+		this.sellerEmail = sellerEmail;
+	}
+	
+	
 	
 }

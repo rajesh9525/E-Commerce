@@ -4,6 +4,7 @@ package E_commers.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import E_commers.model.Cart;
 import E_commers.model.CartItem;
 import E_commers.repo.OrderRepository;
 import E_commers.repo.UserRepository;
+import jakarta.transaction.Transactional;
 import E_commers.repo.CartRepository;
 import java.util.ArrayList;
 import E_commers.repo.ProductRepository;
@@ -75,6 +77,7 @@ public class OrderService {
 	    order.setDeliveryMan(delivery);
 	    orderRepository.save(order);
 	}
+	
 
 	public void checkoutCart(String email, String username, String address, String city, String pinCode, String phoneNumber) {
 	    User user = userrepository.findByEmail(email);
@@ -118,5 +121,71 @@ public class OrderService {
         cartRepository.save(cart);
 
         System.out.println("✅ automated email / SMS confirmation sent for Order #" + order.getId());
+	}
+	
+	// Update this in OrderService.java
+	public void placeAutomatedOrder(Long productId, String username, String address, 
+            String city, String pinCode, String phoneNumber) {
+Order order = new Order();
+order.setProductid(productId);
+order.setCustomerName(username);
+order.setAddress(address);
+order.setCity(city);
+order.setPinCode(pinCode);
+order.setPhonenumber(phoneNumber);
+
+// ADD THIS LINE
+order.setSetquantity(1); 
+
+// Set other missing defaults if necessary
+order.setStatus("Pending"); 
+
+orderRepository.save(order);
+}
+	public List<Order> getOrdersByCustomer(String username) {
+	    List<Order> orders = orderRepository.findByCustomerName(username);
+	    return (orders != null) ? orders : new ArrayList<>();
+	}
+	@Transactional
+	public void updateOrderStatus(Long orderId, String status) {
+	    Order order = orderRepository.findById(orderId).orElseThrow();
+	    order.setStatus(status);
+	    orderRepository.save(order);
+	}
+
+	@Transactional
+	public void assignDeliveryPerson(Long orderId, User deliveryId) {
+	    Order order = orderRepository.findById(orderId).orElseThrow();
+	    order.setDeliveryMan(deliveryId);
+	    // Automatically change status to Processing if assigned
+	    if(deliveryId != null) {
+	        order.setStatus("Processing");
+	    }
+	    orderRepository.save(order);
+	}
+
+	public List<Order> getAllOrders() {
+	    List<Order> orders = orderRepository.findAll();
+	    return (orders != null) ? orders : new ArrayList<>();
+	}
+
+	// ADD these new methods:
+	public List<Order> getOrdersByDeliveryId(Long deliveryId) {
+	    return orderRepository.findByDeliveryid(deliveryId);
+	}
+
+	
+	public List<User> getAllUsers() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public @Nullable Object getUsersByRole(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void save(Order order) {
+	    orderRepository.save(order); // ← was empty before!
 	}
 }

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Product – NexaMart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        :root {
+            --y: #FFE500;
+            --b: #111111;
+            --g: #22C55E;
+            --t: #6B7280;
+            --bdr: #E5E7EB;
+            --bg: #FAFAFA;
+            --r: #EF4444;
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg);
+            color: var(--b);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* TOP NAVBAR */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--bdr);
+            padding: 12px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: 900;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .brand span {
+            background: var(--y);
+            padding: 2px 8px;
+            border-radius: 6px;
+            color: var(--b);
+            margin-left: 4px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--t);
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .nav-link:hover {
+            background: var(--bg);
+            color: var(--b);
+            transform: translateY(-2px);
+        }
+
+        .nav-link.active {
+            background: var(--y);
+            color: var(--b);
+            box-shadow: 3px 3px 0 var(--b);
+            border: 2px solid var(--b);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* MAIN */
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .topbar {
+            padding: 20px 40px;
+            border-bottom: 2px solid var(--bdr);
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 90;
+        }
+
+        .topbar h5 {
+            font-size: 18px;
+            font-weight: 900;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--b);
+        }
+
+        .badge-role {
+            background: var(--b);
+            color: var(--y);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-weight: 900;
+            font-size: 12px;
+            border: 2px solid var(--b);
+        }
+
+        .content {
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .form-card {
+            width: 100%;
+            max-width: 600px;
+            background: #fff;
+            border: 2px solid var(--b);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 8px 8px 0 var(--y);
+        }
+
+        .form-head {
+            margin-bottom: 32px;
+        }
+
+        .form-head h2 {
+            font-size: 26px;
+            font-weight: 900;
+            margin-bottom: 6px;
+        }
+
+        .form-head p {
+            color: var(--t);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .field {
+            margin-bottom: 20px;
+        }
+
+        .field label {
+            display: block;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--b);
+            margin-bottom: 8px;
+        }
+
+        .input-wrap {
+            position: relative;
+        }
+
+        .input-wrap i {
+            position: absolute;
+            left: 14px;
+            top: 15px;
+            color: var(--t);
+            font-size: 15px;
+        }
+
+        .input-wrap input,
+        .input-wrap textarea {
+            width: 100%;
+            padding: 14px 14px 14px 40px;
+            border: 2px solid var(--bdr);
+            border-radius: 12px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 14px;
+            color: var(--b);
+            background: #fff;
+            transition: all 0.25s;
+            outline: none;
+        }
+
+        .input-wrap textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .input-wrap input:focus,
+        .input-wrap textarea:focus {
+            border-color: var(--b);
+            box-shadow: 4px 4px 0 var(--y);
+        }
+
+        .curr-img {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: var(--bg);
+            border: 2px solid var(--bdr);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .curr-img img {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid var(--bdr);
+        }
+
+        .curr-img span {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--t);
+        }
+
+        .drop-zone {
+            border: 2px dashed var(--bdr);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            background: var(--bg);
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .drop-zone:hover {
+            border-color: var(--b);
+            background: #fff;
+        }
+
+        .drop-zone i {
+            font-size: 24px;
+            color: var(--y);
+        }
+
+        .drop-zone span {
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .drop-zone input {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid var(--b);
+            border-radius: 12px;
+            background: var(--y);
+            color: var(--b);
+            font-size: 16px;
+            font-weight: 900;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .btn-submit:hover {
+            background: var(--b);
+            color: #fff;
+            box-shadow: 5px 5px 0 var(--y);
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="brand">Nexa<span>Mart</span></div>
+        <div class="nav-links">
+            <a href="/sellerdashboard" class="nav-link"><i class="bi bi-shop-window"></i> My Products</a>
+            <a href="/product/add" class="nav-link"><i class="bi bi-plus-square"></i> Add Product</a>
+            <a href="/orders/seller" class="nav-link"><i class="bi bi-bag"></i> Orders</a>
+        </div>
+        <div class="nav-actions">
+            <div class="badge-role">SELLER 🏪</div>
+            <a href="/logout" class="nav-link"
+                style="color:var(--r); border:2px solid var(--r); background:transparent;"><i
+                    class="bi bi-box-arrow-right"></i> Sign Out</a>
+        </div>
+    </nav>
+
+    <div class="main">
+        <div class="content">
+            <h5 style="margin-bottom:20px; text-align:left; width:100%; max-width:600px;"><a href="/sellerdashboard"
+                    style="color:var(--t);text-decoration:none;"><i class="bi bi-arrow-left"></i>
+                    Back</a></h5>
+            <div class="form-card">
+                <div class="form-head">
+                    <h2>Edit Product ✏️</h2>
+                    <p>Update live product details directly.</p>
+                </div>
+
+                <form action="/product/update" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="id" th:value="${p.id}">
+
+                    <div class="field">
+                        <label>Product Name</label>
+                        <div class="input-wrap">
+                            <i class="bi bi-tag"></i>
+                            <input type="text" name="productName" th:value="${p.productName}" required>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label>Price (₹)</label>
+                        <div class="input-wrap">
+                            <i class="bi bi-currency-rupee"></i>
+                            <input type="number" name="productprice" th:value="${p.productprice}" required step="0.01">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label>Description</label>
+                        <div class="input-wrap">
+                            <i class="bi bi-text-paragraph"></i>
+                            <textarea name="productdetails" th:text="${p.productdetails}" required></textarea>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label>Update Image (Optional)</label>
+                        <div class="curr-img" th:if="${p.productimage != null}">
+                            <img th:src="@{'/product/image/' + ${p.id}}">
+                            <span>Current Image</span>
+                        </div>
+
+                        <div class="drop-zone" id="dz">
+                            <i class="bi bi-cloud-upload-fill"></i>
+                            <span>Upload new image to replace</span>
+                            <input type="file" name="productimage" accept="image/*" onchange="showFile(this)">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit"><i class="bi bi-check2-circle"></i> Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showFile(input) {
+            if (input.files && input.files[0]) {
+                document.querySelector('#dz span').innerHTML = `<i class="bi bi-file-image"></i> ` + input.files[0].name;
+                document.querySelector('#dz i.bi-cloud-upload-fill').style.display = 'none';
+                document.querySelector('#dz').style.borderColor = 'var(--g)';
+                document.querySelector('#dz').style.background = '#F0FDF4';
+            }
+        }
+    </script>
+</body>
+
+</html>

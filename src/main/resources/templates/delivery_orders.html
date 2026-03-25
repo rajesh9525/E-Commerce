@@ -1,402 +1,157 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delivery Orders – NexaMart</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-        :root {
-            --y: #FFE500;
-            --b: #111111;
-            --g: #22C55E;
-            --t: #6B7280;
-            --bdr: #E5E7EB;
-            --bg: #FAFAFA;
-            --r: #EF4444;
-        }
-
-        *,
-        *::before,
-        *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: var(--bg);
-            color: var(--b);
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        /* TOP NAVBAR */
-        .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 2px solid var(--bdr);
-            padding: 12px 40px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-        }
-
-        .brand {
-            font-size: 24px;
-            font-weight: 900;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            align-items: center;
-        }
-
-        .brand span {
-            background: var(--y);
-            padding: 2px 8px;
-            border-radius: 6px;
-            color: var(--b);
-            margin-left: 4px;
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--t);
-            text-decoration: none;
-            padding: 10px 18px;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 700;
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-
-        .nav-link:hover {
-            background: var(--bg);
-            color: var(--b);
-            transform: translateY(-2px);
-        }
-
-        .nav-link.active {
-            background: var(--y);
-            color: var(--b);
-            box-shadow: 3px 3px 0 var(--b);
-            border: 2px solid var(--b);
-        }
-
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        /* MAIN */
-        .main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .topbar {
-            padding: 20px 40px;
-            border-bottom: 2px solid var(--bdr);
-            background: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 90;
-        }
-
-        .topbar h5 {
-            font-size: 18px;
-            font-weight: 900;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--b);
-        }
-
-        .badge-role {
-            background: var(--b);
-            color: var(--y);
-            padding: 6px 14px;
-            border-radius: 8px;
-            font-weight: 900;
-            font-size: 12px;
-            border: 2px solid var(--b);
-        }
-
-        .content {
-            padding: 40px;
-        }
-
-        .page-banner {
-            background: #fff;
-            border: 2px solid var(--b);
-            border-radius: 20px;
-            padding: 28px 40px;
-            margin-bottom: 32px;
-            box-shadow: 8px 8px 0 var(--y);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background-image: radial-gradient(var(--bdr) 1px, transparent 1px);
-            background-size: 20px 20px;
-        }
-
-        .page-banner h4 {
-            font-size: 28px;
-            font-weight: 900;
-            margin-bottom: 4px;
-            background: #fff;
-            display: inline-block;
-            padding-right: 10px;
-        }
-
-        .page-banner p {
-            color: var(--t);
-            font-size: 14px;
-            font-weight: 600;
-            background: #fff;
-            display: inline-block;
-            padding-right: 10px;
-        }
-
-        /* TABLE */
-        .table-wrap {
-            background: #fff;
-            border: 2px solid var(--bdr);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        thead th {
-            background: var(--bg);
-            color: var(--t);
-            font-size: 11px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 16px 20px;
-            border-bottom: 2px solid var(--bdr);
-            text-align: left;
-        }
-
-        tbody tr {
-            border-bottom: 1px solid var(--bdr);
-            transition: background 0.2s;
-        }
-
-        tbody tr:hover {
-            background: var(--bg);
-        }
-
-        tbody tr:last-child {
-            border-bottom: none;
-        }
-
-        td {
-            padding: 16px 20px;
-            font-size: 14px;
-            vertical-align: middle;
-            font-weight: 600;
-        }
-
-        .stat-chip {
-            display: inline-flex;
-            padding: 5px 12px;
-            border-radius: 8px;
-            font-size: 11px;
-            font-weight: 800;
-            border: 2px solid;
-            align-items: center;
-            gap: 4px;
-            text-transform: uppercase;
-        }
-
-        .stat-Ordered {
-            background: #DBEAFE;
-            color: #2563EB;
-            border-color: #BFDBFE;
-        }
-
-        .stat-Dispatched {
-            background: #FEF3C7;
-            color: #D97706;
-            border-color: #FCD34D;
-        }
-
-        .stat-Delivered {
-            background: #D1FAE5;
-            color: #059669;
-            border-color: #6EE7B7;
-        }
-
-        .empty {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--t);
-        }
-
-        .empty i {
-            font-size: 48px;
-            color: var(--bdr);
-            margin-bottom: 16px;
-        }
-
-        .empty p {
-            font-weight: 700;
-        }
-
-        .p-block {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .p-name {
-            font-weight: 800;
-            color: var(--b);
-        }
-
-        .p-dt {
-            font-size: 12px;
-            color: var(--t);
-        }
-
-        .btn-act {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 14px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 800;
-            text-decoration: none;
-            border: 2px solid var(--bdr);
-            background: #fff;
-            color: var(--b);
-            transition: all 0.2s;
-        }
-
-        .btn-act:hover {
-            border-color: var(--b);
-            box-shadow: 3px 3px 0 var(--y);
-            transform: translateY(-2px);
-        }
-
-        .btn-act.tms {
-            border-color: var(--y);
-            background: var(--y);
-            box-shadow: 3px 3px 0 var(--b);
-        }
-
-        .btn-act.tms:hover {
-            background: var(--b);
-            color: #fff;
-        }
+        :root { --y:#FFE500; --b:#111111; --g:#22C55E; --t:#6B7280; --bdr:#E5E7EB; --bg:#FAFAFA; --r:#EF4444; }
+        *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Plus Jakarta Sans',sans-serif; background:var(--bg); color:var(--b); min-height:100vh; }
+        .navbar { background:rgba(255,255,255,0.95); backdrop-filter:blur(10px); border-bottom:2px solid var(--bdr); padding:12px 40px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; box-shadow:0 4px 20px rgba(0,0,0,0.05); }
+        .brand { font-size:24px; font-weight:900; display:flex; align-items:center; }
+        .brand span { background:var(--y); padding:2px 8px; border-radius:6px; margin-left:4px; }
+        .nav-links { display:flex; align-items:center; gap:16px; }
+        .nav-link { display:flex; align-items:center; gap:8px; color:var(--t); text-decoration:none; padding:10px 18px; border-radius:12px; font-size:14px; font-weight:700; transition:all 0.2s; cursor:pointer; }
+        .nav-link:hover { background:var(--bg); color:var(--b); }
+        .nav-link.active { background:var(--y); color:var(--b); box-shadow:3px 3px 0 var(--b); border:2px solid var(--b); }
+        .badge-role { background:var(--b); color:var(--y); padding:6px 14px; border-radius:8px; font-weight:900; font-size:12px; border:2px solid var(--b); }
+        .content { padding:40px; }
+        .page-banner { background:#fff; border:2px solid var(--b); border-radius:20px; padding:28px 40px; margin-bottom:32px; box-shadow:8px 8px 0 var(--y); display:flex; align-items:center; justify-content:space-between; background-image:radial-gradient(var(--bdr) 1px,transparent 1px); background-size:20px 20px; }
+        .page-banner h4 { font-size:28px; font-weight:900; background:#fff; display:inline-block; padding-right:10px; }
+        .page-banner p { color:var(--t); font-size:14px; font-weight:600; background:#fff; display:inline-block; }
+        .table-wrap { background:#fff; border:2px solid var(--bdr); border-radius:20px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.03); }
+        table { width:100%; border-collapse:collapse; }
+        thead th { background:var(--bg); color:var(--t); font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:1px; padding:16px 20px; border-bottom:2px solid var(--bdr); text-align:left; }
+        tbody tr { border-bottom:1px solid var(--bdr); transition:background 0.2s; }
+        tbody tr:hover { background:var(--bg); }
+        tbody tr:last-child { border-bottom:none; }
+        td { padding:16px 20px; font-size:14px; vertical-align:middle; font-weight:600; }
+        .stat-chip { display:inline-flex; padding:5px 12px; border-radius:8px; font-size:11px; font-weight:800; border:2px solid; text-transform:uppercase; }
+        .stat-PENDING   { background:#FEF3C7; color:#D97706; border-color:#FCD34D; }
+        .stat-SHIPPED   { background:#DBEAFE; color:#2563EB; border-color:#BFDBFE; }
+        .stat-DELIVERED { background:#D1FAE5; color:#059669; border-color:#6EE7B7; }
+        .stat-RETURNED  { background:#FEE2E2; color:#DC2626; border-color:#FCA5A5; }
+        .p-block { display:flex; flex-direction:column; gap:4px; }
+        .p-name { font-weight:800; color:var(--b); }
+        .p-dt { font-size:12px; color:var(--t); display:flex; align-items:center; gap:4px; }
+        .btn-act { display:inline-flex; align-items:center; gap:6px; padding:8px 14px; border-radius:8px; font-size:12px; font-weight:800; text-decoration:none; border:2px solid var(--bdr); background:#fff; color:var(--b); transition:all 0.2s; }
+        .btn-tms { border-color:var(--y); background:var(--y); box-shadow:3px 3px 0 var(--b); }
+        .status-select { padding:7px 12px; border-radius:8px; border:2px solid var(--bdr); font-weight:700; font-size:12px; font-family:'Plus Jakarta Sans',sans-serif; background:#fff; cursor:pointer; }
+        .status-select:focus { outline:none; border-color:var(--b); }
+        .empty { text-align:center; padding:60px 20px; color:var(--t); }
+        .empty i { font-size:48px; color:var(--bdr); display:block; margin-bottom:16px; }
+        .empty p { font-weight:700; }
     </style>
 </head>
-
 <body>
-
     <nav class="navbar">
         <div class="brand">Nexa<span>Mart</span></div>
         <div class="nav-links">
             <a href="/delivery/orders" class="nav-link active"><i class="bi bi-truck"></i> My Deliveries</a>
             <a href="/delivery/status" class="nav-link"><i class="bi bi-clipboard-check"></i> Status Update</a>
         </div>
-        <div class="nav-actions">
+        <div class="nav-actions" style="display:flex;align-items:center;gap:16px;">
             <div class="badge-role">DELIVERY 🚚</div>
-            <a href="/logout" class="nav-link"
-                style="color:var(--r); border:2px solid var(--r); background:transparent;"><i
-                    class="bi bi-box-arrow-right"></i> Sign Out</a>
+            <a href="/logout" class="nav-link" style="color:var(--r);border:2px solid var(--r);background:transparent;">
+                <i class="bi bi-box-arrow-right"></i> Sign Out
+            </a>
         </div>
     </nav>
 
-    <div class="main">
-        <div class="content">
-            <div class="page-banner">
-                <div>
-                    <h4>Your Deliveries 📦</h4>
-                    <p>View all orders assigned to you for dispatch.</p>
-                </div>
-                <a href="/delivery/status" class="btn-act tms"><i class="bi bi-arrow-right"></i> Update Status</a>
+    <div class="content">
+        <div class="page-banner">
+            <div>
+                <h4>Your Deliveries 📦</h4>
+                <p>View all orders assigned to you for dispatch.</p>
             </div>
+            <a href="/delivery/status" class="btn-act btn-tms"><i class="bi bi-arrow-right"></i> Status Update</a>
+        </div>
 
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Order ID</th>
-                            <th>Product</th>
-                            <th>Customer / Area</th>
-                            <th>Amount</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:if="${#lists.isEmpty(orders)}">
-                            <td colspan="5">
-                                <div class="empty"><i class="bi bi-truck-flatbed"></i>
-                                    <p>No deliveries assigned currently.</p>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Product</th>
+                        <th>Customer / Area</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Update Status</th>
+                    </tr>
+					<tr th:each="o : ${orders}">
+					    <td th:text="${o.id}"></td>
+					    <td th:text="${o.customerName}"></td>
+					    <td th:text="${o.address}"></td>
+					    <td th:text="${o.status}"></td>
+					</tr>
+                </thead>
+                <tbody>
+                    <tr th:if="${#lists.isEmpty(orders)}">
+                        <td colspan="6">
+                            <div class="empty">
+                                <i class="bi bi-truck-flatbed"></i>
+                                <p>No deliveries assigned to you yet.</p>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr th:each="o : ${orders}">
+
+                        <!-- ORDER ID -->
+                        <td style="font-family:monospace;font-weight:700;" th:text="'#' + ${o.id}"></td>
+
+                        <!-- PRODUCT NAME — from productMap -->
+                        <td>
+                            <div class="p-block">
+                                <span class="p-name"
+                                    th:text="${productMap[o.productid] != null ? productMap[o.productid] : (productMap[o.id] != null ? productMap[o.id] : 'N/A')}">
+                                </span>
+                            </div>
+                        </td>
+
+                        <!-- CUSTOMER / AREA -->
+                        <td>
+                            <div class="p-block">
+                                <span class="p-name" th:text="${o.customerName != null ? o.customerName : 'N/A'}"></span>
+                                <div class="p-dt">
+                                    <i class="bi bi-geo-alt-fill"></i>
+                                    <span th:text="${o.city != null ? o.city + ', ' + o.address : o.address}"></span>
                                 </div>
-                            </td>
-                        </tr>
-                        <tr th:each="o : ${orders}">
-                            <td style="font-family:monospace;font-weight:700;" th:text="'#' + ${o.id}"></td>
+                            </div>
+                        </td>
 
-                            <td>
-                                <div class="p-block">
-                                    <span class="p-name" th:text="${o.product.productName}"></span>
-                                    <span class="p-dt" th:text="${o.orderDate}"></span>
-                                </div>
-                            </td>
+                        <!-- AMOUNT — from priceMap -->
+                        <td style="color:var(--g);font-weight:800;"
+                            th:text="${priceMap[o.productid] != null ? '₹' + priceMap[o.productid] : (priceMap[o.id] != null ? '₹' + priceMap[o.id] : 'N/A')}">
+                        </td>
 
-                            <td>
-                                <div class="p-block">
-                                    <span class="p-name" th:text="${o.customerName}"></span>
-                                    <div style="display:flex;align-items:center;gap:4px;font-size:12px;color:var(--t);">
-                                        <i class="bi bi-geo-alt-fill"></i> <span th:text="${o.city}"></span>
-                                    </div>
-                                </div>
-                            </td>
+                        <!-- CURRENT STATUS -->
+                        <td>
+                            <span th:class="'stat-chip stat-' + ${o.status}"
+                                  th:text="${o.status != null ? o.status : 'PENDING'}">
+                            </span>
+                        </td>
 
-                            <td th:text="'₹' + ${o.totalAmount}" style="color:var(--g);font-weight:800;"></td>
-                            <td><span th:class="'stat-chip stat-' + ${o.status}" th:text="${o.status}"></span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                        <!-- UPDATE STATUS DROPDOWN -->
+                        <td>
+                            <form th:action="@{/delivery/update-status}" method="post">
+                                <input type="hidden" name="orderId" th:value="${o.id}" />
+                                <select name="status" onchange="this.form.submit()" class="status-select">
+                                    <option th:selected="${o.status == 'PENDING'}"   value="PENDING">🕐 Pending</option>
+                                    <option th:selected="${o.status == 'SHIPPED'}"   value="SHIPPED">🚚 Shipped</option>
+                                    <option th:selected="${o.status == 'DELIVERED'}" value="DELIVERED">✅ Delivered</option>
+                                    <option th:selected="${o.status == 'RETURNED'}"  value="RETURNED">↩ Returned</option>
+                                </select>
+                            </form>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-
 </body>
-
 </html>

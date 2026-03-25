@@ -20,7 +20,7 @@ public class User {
 	private String status; 
 	private String password;
 	
-	public long getId() {
+	public  long getId() {
 		return id;
 	}
 	public void setId(long id) {
@@ -62,11 +62,6 @@ public class User {
 	public void setLogintype(String logintype) {
 		this.logintype = logintype;
 	}
-	public String getStatus() {
-		return status;
-	}
-	public void setStatus(String status) {
-		this.status = status;
-	}
+	
 	
 }

@@ -431,6 +431,7 @@
                                 </td>
                             </tr>
                             <tr th:each="req : ${requests}">
+								<a th:href="@{'/approve/' + ${req.id}}">✔</a>
                                 <td th:text="${req.productname}"></td>
                                 <td th:text="${req.productdetails}"
                                     style="color:var(--t);font-size:13px;max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
@@ -457,45 +458,70 @@
             </div>
 
             <!-- ORDERS -->
-            <div class="section" id="orders">
-                <div class="sec-head">🛒 Customer Orders</div>
-                <div class="table-wrap">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Order ID</th>
-                                <th>Customer</th>
-                                <th>Address</th>
-                                <th>Status</th>
-                                <th>Delivery Man</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:if="${#lists.isEmpty(orders)}">
-                                <td colspan="5">
-                                    <div class="empty"><i class="bi bi-cart-x"></i>
-                                        <p>No orders available</p>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr th:each="o : ${orders}">
-                                <td th:text="'#' + ${o.id}"></td>
-                                <td th:text="${o.customerName}"></td>
-                                <td th:text="${o.address} + ', ' + ${o.city} + ' - ' + ${o.pinCode}"
-                                    style="font-size:12px; color:var(--t);"></td>
-                                <td><span class="stat-chip" th:text="${o.status}"></span></td>
-                                <td>
-                                    <span th:if="${o.deliveryMan != null}" class="role-chip"
-                                        th:text="${o.deliveryMan.name}"></span>
-                                    <span th:unless="${o.deliveryMan != null}"
-                                        style="color:var(--r); font-weight:800; font-size:12px;">Unassigned</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+			<div class="section" id="orders">
+			    <div class="sec-head">🛒 Customer Orders</div>
+			    <div class="table-wrap">
+			        <table>
+			            <thead>
+			                <tr>
+			                    <th>Order ID</th>
+			                    <th>Customer</th>
+			                    <th>Address</th>
+			                    <th>Status</th>
+			                    <th>Delivery Man</th>
+			                </tr>
+			            </thead>
+			            <tbody>
+			                <tr th:if="${#lists.isEmpty(orders)}">
+			                    <td colspan="5" style="text-align:center; padding:40px;">No orders found.</td>
+			                </tr>
 
+			                <tr th:each="o : ${orders}">
+			                    <td th:text="'#' + ${o.id}"></td>
+
+			                    <!-- FIX 1 -->
+			                    <td th:text="${o.customerName != null ? o.customerName : 'Unknown User'}"></td>
+
+			                    <!-- FIX 2 -->
+			                    <td th:text="${o.address != null ? o.address : 'No Address'}"></td>
+
+			                    <!-- FIX 3 -->
+								<td>
+								    <form th:action="@{/admin/update-status}" method="post">
+								        <input type="hidden" name="orderId" th:value="${o.id}" />
+
+								        <select name="status" onchange="this.form.submit()" class="stat-chip">
+								            <option th:selected="${o.status == 'PENDING'}" value="PENDING">Pending</option>
+								            <option th:selected="${o.status == 'SHIPPED'}" value="SHIPPED">Shipped</option>
+								            <option th:selected="${o.status == 'DELIVERED'}" value="DELIVERED">Delivered</option>
+								        </select>
+								    </form>
+								</td>
+
+								<td>
+								    <form th:action="@{/admin/assign-delivery}" method="post">
+								        <input type="hidden" name="orderId" th:value="${o.id}" />
+
+								        <select name="deliveryId" onchange="this.form.submit()" class="role-chip">
+
+								            <option value="">Assign</option>
+
+								            <!-- THIS PART IS IMPORTANT -->
+								            <option th:each="d : ${delivery}"
+								                    th:value="${d.id}"
+								                    th:text="${d.name + ' (' + d.email + ')'}"
+								                    th:selected="${o.deliveryid == d.id}">
+								            </option>
+
+								        </select>
+								    </form>
+								</td>
+
+			                </tr>
+			            </tbody>
+			        </table>
+			    </div>
+			</div>
             <!-- ACTIVITY -->
             <div class="section" id="act">
                 <div class="sec-head">⚡ User Activity</div>

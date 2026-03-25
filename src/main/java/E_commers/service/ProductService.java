@@ -19,7 +19,7 @@ public class ProductService {
         return productRepository.findByStatus("PENDING");
     }
 
-    public List<Product> getAllProducts() {
+    public List<Product> getAllProduct() {
         return (List<Product>) productRepository.findAll();
     }
 
@@ -51,5 +51,13 @@ public class ProductService {
             return "Product Deleted Successfully";
         }
         return "Product Not Found";
+    }
+
+    public void save(Product p) {
+        productRepository.save(p); 
+    }
+
+    public List<Product> getProductBySeller(String email) {
+        return productRepository.findBySellerEmail(email);
     }
 }

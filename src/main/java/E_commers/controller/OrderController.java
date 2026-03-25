@@ -44,20 +44,23 @@ public class OrderController {
 
     @GetMapping("/my-orders")
     public String myOrders(HttpSession session, Model model) {
-        String email = (String) session.getAttribute("email");
-        if(email == null) {
+        String username = (String) session.getAttribute("username");
+        if(username == null) {
             return "redirect:/login";
         }
         
-        List<Order> orders = orderService.getOrdersByUserEmail(email);
+        List<Order> orders = orderService.getOrdersByCustomer(username);
         
-        // Pass products so we can show names/images. 
-        // Order only saves productId, but let's grab the actual product for easier template rendering.
+        // FIX: Ensure orders is not null before looping
+        if (orders == null) {
+            orders = new java.util.ArrayList<>(); 
+        }
+        
         java.util.Map<Long, Product> productMap = new java.util.HashMap<>();
-        for(Order o : orders) {
-            if(o.getProductId() != null) {
-                Product p = productService.getProductById(o.getProductId());
-                productMap.put(o.getProductId(), p);
+        for(Order o : orders) { // This is where line 57 was crashing
+            if(o.getProductid() != null) {
+                Product p = productService.getProductById(o.getProductid());
+                productMap.put(o.getProductid(), p);
             }
         }
         
@@ -65,6 +68,17 @@ public class OrderController {
         model.addAttribute("productMap", productMap);
         
         return "customer-orders";
+    }
+    @PostMapping("/update-status")
+    public String updateStatus(@RequestParam Long orderId, @RequestParam String status) {
+        orderService.updateOrderStatus(orderId, status);
+        return "redirect:/orders/seller"; // Or wherever your admin page is
+    }
+
+    @PostMapping("/assign-delivery")
+    public String assignDelivery(@RequestParam Long orderId, @RequestParam(required = false) Long deliveryId) {
+        orderService.assignDelivery(orderId, deliveryId);
+        return "redirect:/orders/seller";
     }
 
     @PostMapping("/buy")
@@ -74,22 +88,23 @@ public class OrderController {
         return "buy-product";
     }
 
-    @PostMapping("/confirm-checkout")
-    public String checkoutCart(
+    @PostMapping("/confirm")
+    public String buyProduct(
+            @RequestParam("productId") Long productId,
             @RequestParam("address") String address,
             @RequestParam("city") String city,
             @RequestParam("pinCode") String pinCode,
-            @RequestParam("phoneNumber") String phoneNumber,
+            @RequestParam("phoneNumber") String phoneNumber, // New parameter
             HttpSession session) {
 
         String username = (String) session.getAttribute("username");
-        String email = (String) session.getAttribute("email");
 
-        if (username == null || email == null) {
+        if (username == null) {
             return "redirect:/login";
         }
 
-        orderService.checkoutCart(email, username, address, city, pinCode, phoneNumber);
+        
+        orderService.placeAutomatedOrder(productId, username, address, city, pinCode, phoneNumber);
 
         return "redirect:/orders/my-orders";
     }

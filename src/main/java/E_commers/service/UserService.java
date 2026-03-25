@@ -67,6 +67,18 @@ public class UserService {
             System.err.println("Activity recording failed: " + e.getMessage());
         }
     }
+    
+ // UserService.java
+    public List<User> getUsersByRole(String role) {
+        return userRepository.findByLogintype(role);
+    }
+
+	public List<User> getUserByid(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 }
 
 

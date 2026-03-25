@@ -106,6 +106,16 @@ public class ProductRequest {
 		this.file = file;
 	}
 
+	public static void save(Product p) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public String getSellerEmail() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 }
 

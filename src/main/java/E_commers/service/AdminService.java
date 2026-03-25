@@ -70,9 +70,6 @@ public class AdminService {
         return (List<ProductRequest>) productRequestRepository.findAll();
     }
 
-    // ===== APPROVE PRODUCT =====
-    // 1. Mark the request APPROVED in ProductRequest table
-    // 2. Copy into Product table so customers can see it
     public void approveProduct(Long id){
         ProductRequest req = productRequestRepository.findById(id).orElseThrow();
         req.setStatus("APPROVED");
@@ -111,6 +108,7 @@ public class AdminService {
                 product.setProductdetails(req.getProductdetails());
                 product.setProductprice(req.getProductprice());
                 product.setProductimage(req.getProductimage());
+                product.setSellername(req.getSellername()); 
                 product.setStatus("APPROVED");
                 productRepository.save(product);
             }

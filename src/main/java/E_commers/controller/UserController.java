@@ -45,12 +45,26 @@ public class UserController {
 
         User u = userService.findByEmail1(email);
 
-        if(u != null && u.getPassword() != null && org.mindrot.jbcrypt.BCrypt.checkpw(password, u.getPassword())) {
+        // ← ADD THIS NULL CHECK
+        if (u == null) {
+            return "redirect:/login?error=notfound";
+        }
+
+        if (u.getPassword() != null && org.mindrot.jbcrypt.BCrypt.checkpw(password, u.getPassword())) {
 
             session.setAttribute("role", u.getLogintype());
-            session.setAttribute("username", u.getName());   // store seller name
-            session.setAttribute("email", u.getEmail());     // store email
+            session.setAttribute("username", u.getName());
+            session.setAttribute("email", u.getEmail());
+            session.setAttribute("userid", u.getId()); // ← make sure this is here
 
+            userService.recordActivity(u.getName(), "Logged in as " + u.getLogintype());
+
+            if (u.getLogintype().equals("ADMIN"))    return "redirect:/admin/dashboard";
+            if (u.getLogintype().equals("SELLER"))   return "redirect:/sellerdashboard";
+            if (u.getLogintype().equals("DELIVERY")) return "redirect:/delivery/orders";
+            if (u.getLogintype().equals("CUSTOMER")) return "redirect:/dashboard";
+        }
+    
             // Record login activity
             userService.recordActivity(u.getName(), "Logged in as " + u.getLogintype());
 
@@ -73,9 +87,9 @@ public class UserController {
             if(u.getLogintype().equals("CUSTOMER")){
                 return "redirect:/dashboard";
             }
-        }
+        
 
-        return "redirect:/login";
+         return "redirect:/login?error=wrongpassword";
     }
     
     

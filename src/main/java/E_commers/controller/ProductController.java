@@ -2,6 +2,8 @@ package E_commers.controller;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,22 +38,28 @@ public class ProductController {
     
     @GetMapping("/product/all")
     public String prodcutpage(Model model, HttpSession session) {
-        String sellerName = (String) session.getAttribute("username");
-        if (sellerName != null) {
-            model.addAttribute("products", productRequestRepository.findBySellername(sellerName));
+        String sellername = (String) session.getAttribute("username");
+        if (sellername != null) {
+            model.addAttribute("product", productRequestRepository.findBySellername(sellername));
         } else {
-            model.addAttribute("products", productRequestRepository.findAll());
+            model.addAttribute("product", productRequestRepository.findAll());
         }
         return "sellerdashboard";
     }
         
     @GetMapping("/sellerdashboard")
     public String viewAllProducts(Model model, HttpSession session) {
-        String sellerName = (String) session.getAttribute("username");
-        if (sellerName != null) {
-            model.addAttribute("products", productRequestRepository.findBySellername(sellerName));
+        String sellername = (String) session.getAttribute("username");
+
+        System.out.println(">>> SESSION SELLER: " + sellername); // debug
+
+        if (sellername != null) {
+            // Show all of THIS seller's products (PENDING, APPROVED, REJECTED)
+            List<Product> product = productRepository.findBySellername(sellername);
+            System.out.println(">>> SELLER PRODUCTS: " + product.size()); // debug
+            model.addAttribute("products", product);
         } else {
-            model.addAttribute("products", productRequestRepository.findAll());
+            model.addAttribute("products", new ArrayList<>());
         }
         return "sellerdashboard";
     }
@@ -115,17 +123,43 @@ public class ProductController {
                 .contentType(MediaType.IMAGE_JPEG)
                 .body(product.getProductimage());
     }
-    @GetMapping("/product/view/{id}")
-    public String viewProduct(@PathVariable Long id, Model model) {
+ // ✅ Add this new mapping for admin inventory page
+    @GetMapping("/product/view/all")
+    public String viewAllProductsAdmin(Model model) {
+        model.addAttribute("products", productRepository.findAll());
+        return "admin-inventory";
+    }
 
-        Product product = productRepository.findById(id).orElse(null);
+   
+    @Autowired
+    private OrderService orderService;
 
-        model.addAttribute("p", product);
-
-        return "see-product";
+    @PostMapping("/orders/assign/{id}")
+    public String assignDelivery(@PathVariable Long id,
+                                 @RequestParam Long deliveryId) {
+        orderService.assignDelivery(id, deliveryId);
+        return "redirect:/orders/seller";
+    }
+    
+    @GetMapping("/seller/products")
+    public List<Product> getSellerProducts(@RequestParam String email) {
+        return productserivce.getProductBySeller(email);
     }
 
 
+    @GetMapping("/product/seller/edit/{id}")
+    public String editSellerProduct(@PathVariable Long id, Model model, HttpSession session) {
+        String sellername = (String) session.getAttribute("username");
+        if (sellername == null) {
+            return "redirect:/login";
+        }
+        Product product = productRepository.findById(id).orElse(null);
+        if (product != null && sellername.equals(product.getSellername())) {
+            model.addAttribute("p", product);
+            return "seller_edit_product";
+        }
+        return "redirect:/sellerdashboard";
+    }
 
     @PostMapping("/product/update")
     public String updateProduct(
@@ -151,31 +185,37 @@ public class ProductController {
             productRepository.save(p);
         }
 
-        return "redirect:/product/all";
+        String sellername = (String) session.getAttribute("username");
+        if (sellername != null) {
+            return "redirect:/sellerdashboard";
+        }
+        return "redirect:/product/view/all";
     }
     @PostMapping("/product/save")
-    public String saveProduct(@ModelAttribute Product product) throws IOException {
+    public String saveProduct(@ModelAttribute Product product, HttpSession session) throws IOException {
 
-        if(product.getFile() != null && !product.getFile().isEmpty()) {
+        if (product.getFile() != null && !product.getFile().isEmpty()) {
             product.setProductimage(product.getFile().getBytes());
         }
 
-        product.setAddproductdate(LocalDate.now());
+        // ← ADD THIS - save seller name from session
+        String sellerName = (String) session.getAttribute("username");
+        if (sellerName != null) {
+            product.setSellername(sellerName);
+        }
+
+        product.setSellerEmail(sellerName);
         product.setStatus("PENDING");
+        productRepository.save(product);
 
         productRepository.save(product);
 
-        return "redirect:/product/all";
-    }
-    @PostMapping("/orders/assign/{id}")
-    public String assignDelivery(@PathVariable Long id,
-                                 @RequestParam Long deliveryId) {
-
-        OrderService orderService = new OrderService();
-		orderService.assignDelivery(id, deliveryId);
-
-        return "redirect:/orders/seller";
+        return "redirect:/sellerdashboard";
     }
     
-
+    @GetMapping("/product")
+    public List<Product> getApprovedProducts() {
+        return productRepository.findByStatus("APPROVED");
+    }
+ 
 }

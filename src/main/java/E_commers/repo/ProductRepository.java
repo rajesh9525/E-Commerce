@@ -13,7 +13,15 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
 	
 	List<Product> findByStatus(String status); 
 		
-	
-	
+	  List<Product> findBySellername(String sellername); 
+	  
+	  List<Product> findBySellerEmailAndStatus(String email, String status);
+	  
     List<Product> findByProductNameContainingIgnoreCase(String keyword);
+
+	List<Product> findBySellernameAndStatus(String sellername, String string);
+
+	List<Product> findBySellerEmail(String email);
+
+	
 }

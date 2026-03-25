@@ -1,89 +1,116 @@
 package E_commers.controller;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import E_commers.model.Order;
+import E_commers.model.Product;
 import E_commers.model.ProductRequest;
 import E_commers.model.User;
 import E_commers.repo.ProductRequestRepository;
 import E_commers.service.AdminService;
+import E_commers.service.OrderService;
 import E_commers.service.UserService;
+import E_commers.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
-@RequestMapping("/admin")
 public class AdminController {
 
     @Autowired
     private AdminService adminservice;
 
     @Autowired
-    private UserService userservice;
+    private OrderService orderService;
 
     @Autowired
-    private ProductRequestRepository productrequstrepository;
+    private UserService userService;
 
-    @GetMapping("/dashboard")
-    public String adminDashboard(Model model) {
+    @Autowired
+    private ProductService productService;
+    
+    @Autowired
+    private ProductRequestRepository productrequestrepository;
 
-        // Sync any previously-approved products to the Product table
-        adminservice.syncApprovedProducts();
+    @GetMapping("/admin/dashboard")
+    public String showAdminDashboard(Model model) {
+        List<User> users = userService.getAllUsers();
+        List<Order> orders = orderService.getAllOrders();
+        List<User> delivery = userService.getUsersByRole("DELIVERY");
 
-        // Registered + Login users
-        model.addAttribute("users", userservice.getAllUsers());
+        System.out.println(">>> DELIVERY USERS FOUND: " + delivery.size());
 
-        List<ProductRequest> pendingProducts =
-                productrequstrepository.findByStatus("PENDING");
+        if (users == null) users = new ArrayList<>();
+        if (orders == null) orders = new ArrayList<>();
+        if (delivery == null) delivery = new ArrayList<>();
 
-        model.addAttribute("requests", pendingProducts);
-
+        model.addAttribute("users", users);
+        model.addAttribute("orders", orders);
+        model.addAttribute("delivery", delivery);
+        model.addAttribute("requests", adminservice.getAllRequests());
         model.addAttribute("activity", adminservice.getAllActivity());
-        
-        model.addAttribute("orders", adminservice.getAllOrders());
 
         return "admin-dashboard";
     }
 
-    @GetMapping("/product-requests")
-    public String productRequests(Model model){
-        model.addAttribute("requests", adminservice.getAllRequests());
-        return "admin/product-approvall";
-    }
-
-    @GetMapping("/activity")
-    public String activity(Model model){
-        model.addAttribute("activity", adminservice.getAllActivity());
-        return "admin/activity";
-    }
-    @GetMapping("/delete/{id}")
+    @GetMapping("/admin/delete/{id}")
     public String deleteUser(@PathVariable Long id) {
-
-        userservice.deleteUserById(id);
-
+        userService.deleteUserById(id);
         return "redirect:/admin/dashboard";
     }
-    @GetMapping("/block/{id}")
+
+    @GetMapping("/admin/block/{id}")
     public String blockUser(@PathVariable Long id) {
-
-        User user = userservice.getUserById(id);
+        User user = userService.getUserById(id);
         user.setStatus("BLOCKED");
-        userservice.saveUser(user);
+        userService.saveUser(user);
+        return "redirect:/admin/dashboard";
+    }
 
+    @PostMapping("/admin/update-status")
+    public String updateOrderStatus(Long orderId, String status) {
+        Order order = orderService.getOrderById(orderId);
+        order.setStatus(status);
+        orderService.save(order);
+        return "redirect:/admin/dashboard";
+    }
+
+    @PostMapping("/admin/assign-delivery")
+    public String assignDelivery(Long orderId, Long deliveryId) {
+        Order order = orderService.getOrderById(orderId);
+        order.setDeliveryid(deliveryId);
+        orderService.save(order);
+        return "redirect:/admin/dashboard";
+    }
+
+    @GetMapping("/admin/approve-product/{id}")
+    public String approveProduct(@PathVariable Long id) {
+        ProductRequest req = productrequestrepository.findById(id).orElse(null);
+        if (req != null) {
+            req.setStatus("APPROVED");
+            productrequestrepository.save(req);
+
+            Product p = new Product();
+            p.setProductName(req.getProductname());
+            p.setProductdetails(req.getProductdetails());
+            p.setProductprice(req.getProductprice());
+            p.setProductimage(req.getProductimage());
+            p.setSellername(req.getSellername());
+            p.setSellerEmail(req.getSellerEmail());
+            p.setStatus("APPROVED");
+            p.setAddproductdate(LocalDate.now());
+            productService.save(p);  // ✅ use injected service
+            
+            
+        }
         return "redirect:/admin/dashboard";
     }
     
-    @GetMapping("/approve-product/{id}")
-    public String approveProduct(@PathVariable Long id) {
-        adminservice.approveProduct(id);
-        return "redirect:/admin/dashboard";
-    }
-
-    @GetMapping("/reject-product/{id}")
-    public String rejectProduct(@PathVariable Long id) {
-        adminservice.rejectProduct(id);
-        return "redirect:/admin/dashboard";
-    }
     
 }
