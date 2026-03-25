@@ -49,7 +49,32 @@ public class AdminController {
         if (users == null) users = new ArrayList<>();
         if (orders == null) orders = new ArrayList<>();
         if (delivery == null) delivery = new ArrayList<>();
+        
+        java.util.Map<Long, Product> productMap = new java.util.HashMap<>();
+        java.util.Map<Long, Double> amountMap = new java.util.HashMap<>();
+        
+        for(Order o : orders) { 
+            double total = 0.0;
+            if(o.getProductid() != null) {
+                Product p = productService.getProductById(o.getProductid());
+                if (p != null) {
+                    productMap.put(o.getProductid(), p);
+                    total = p.getProductprice() * (o.getQuantity() != null ? o.getQuantity() : 1);
+                }
+            } else if (o.getItems() != null && !o.getItems().isEmpty()) {
+                for (E_commers.model.OrderItem item : o.getItems()) {
+                    if (item.getProductId() != null) {
+                        Product p = productService.getProductById(item.getProductId());
+                        if (p!=null) productMap.put(item.getProductId(), p);
+                    }
+                    total += item.getPrice() * item.getQuantity();
+                }
+            }
+            amountMap.put(o.getId(), total);
+        }
 
+        model.addAttribute("productMap", productMap);
+        model.addAttribute("amountMap", amountMap);
         model.addAttribute("users", users);
         model.addAttribute("orders", orders);
         model.addAttribute("delivery", delivery);
