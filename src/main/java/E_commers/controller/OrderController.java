@@ -112,6 +112,9 @@ public class OrderController {
         
         List<Order> orders = orderService.getOrdersByUserEmail(email);
         
+        System.out.println(">>>> [DEBUG] Fetching My-Orders for EMAIL: " + email);
+        System.out.println(">>>> [DEBUG] Total Orders Found: " + (orders != null ? orders.size() : "NULL"));
+        
         // FIX: Ensure orders is not null before looping
         if (orders == null) {
             orders = new java.util.ArrayList<>(); 

@@ -394,7 +394,12 @@
                                 </td>
                                 <td th:text="${u.email}"></td>
                                 <td><span class="role-chip" th:text="${u.logintype}"></span></td>
-                                <td th:text="${u.status}"></td>
+                                <td>
+                                    <span th:if="${u.status == 'BLOCKED'}"
+                                        class="stat-chip stat-REJECTED">Blocked</span>
+                                    <span th:unless="${u.status == 'BLOCKED'}"
+                                        class="stat-chip stat-APPROVED">Active</span>
+                                </td>
                                 <td style="display:flex;gap:8px;">
                                     <a class="btn-act" th:href="@{/admin/block/{id}(id=${u.id})}"><i
                                             class="bi bi-slash-circle"></i> Block</a>
