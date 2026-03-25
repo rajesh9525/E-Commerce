@@ -111,6 +111,12 @@ public class OrderService {
             if(p != null) {
                 p.setStockQuantity(Math.max(0, p.getStockQuantity() - cartItem.getQuantity()));
                 productRepository.save(p);
+                
+                // Add Seller Binding for Cart Orders
+                if(order.getSellerId() == null && p.getSellerEmail() != null) {
+                    User seller = userrepository.findByEmail(p.getSellerEmail());
+                    if (seller != null) order.setSellerId(seller.getId());
+                }
             }
         }
         order.setItems(orderItems);
