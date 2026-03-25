@@ -44,12 +44,12 @@ public class OrderController {
 
     @GetMapping("/my-orders")
     public String myOrders(HttpSession session, Model model) {
-        String username = (String) session.getAttribute("username");
-        if(username == null) {
+        String email = (String) session.getAttribute("email");
+        if(email == null) {
             return "redirect:/login";
         }
         
-        List<Order> orders = orderService.getOrdersByCustomer(username);
+        List<Order> orders = orderService.getOrdersByUserEmail(email);
         
         // FIX: Ensure orders is not null before looping
         if (orders == null) {
@@ -97,14 +97,14 @@ public class OrderController {
             @RequestParam("phoneNumber") String phoneNumber, // New parameter
             HttpSession session) {
 
-        String username = (String) session.getAttribute("username");
+        String email = (String) session.getAttribute("email");
 
-        if (username == null) {
+        if (email == null) {
             return "redirect:/login";
         }
 
         
-        orderService.placeAutomatedOrder(productId, username, address, city, pinCode, phoneNumber);
+        orderService.placeAutomatedOrder(productId, email, address, city, pinCode, phoneNumber);
 
         return "redirect:/orders/my-orders";
     }

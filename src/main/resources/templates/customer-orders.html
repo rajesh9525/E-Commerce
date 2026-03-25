@@ -432,19 +432,19 @@
                     <div class="order-body">
                         <div class="product-img">
                             <!-- Fetch the product from our generated map -->
-                            <img th:if="${productMap[o.productId] != null && productMap[o.productId].productimage != null}"
-                                th:src="@{'/product/image/' + ${o.productId}}">
-                            <i th:unless="${productMap[o.productId] != null && productMap[o.productId].productimage != null}"
+                            <img th:if="${productMap[o.productid] != null && productMap[o.productid].productimage != null}"
+                                th:src="@{'/product/image/' + ${o.productid}}">
+                            <i th:unless="${productMap[o.productid] != null && productMap[o.productid].productimage != null}"
                                 class="bi bi-box"></i>
                         </div>
 
                         <div class="order-details">
                             <div class="p-name"
-                                th:text="${productMap[o.productId] != null ? productMap[o.productId].productName : 'Unknown Product'}">
+                                th:text="${productMap[o.productid] != null ? productMap[o.productid].productName : 'Unknown Product'}">
                             </div>
                             <div class="p-qty" th:text="'Purchased Qty: ' + ${o.quantity}"></div>
                             <div class="p-price"
-                                th:text="${productMap[o.productId] != null ? '₹' + productMap[o.productId].productprice : '₹0.0'}">
+                                th:text="${productMap[o.productid] != null ? '₹' + productMap[o.productid].productprice : '₹0.0'}">
                             </div>
                         </div>
 

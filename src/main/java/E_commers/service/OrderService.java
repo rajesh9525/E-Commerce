@@ -124,11 +124,17 @@ public class OrderService {
 	}
 	
 	// Update this in OrderService.java
-	public void placeAutomatedOrder(Long productId, String username, String address, 
+	public void placeAutomatedOrder(Long productId, String email, String address, 
             String city, String pinCode, String phoneNumber) {
+User user = userrepository.findByEmail(email);
 Order order = new Order();
 order.setProductid(productId);
-order.setCustomerName(username);
+if (user != null) {
+    order.setUser(user);
+    order.setCustomerName(user.getName());
+} else {
+    order.setCustomerName(email);
+}
 order.setAddress(address);
 order.setCity(city);
 order.setPinCode(pinCode);
