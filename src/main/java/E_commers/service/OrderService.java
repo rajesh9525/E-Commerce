@@ -129,6 +129,14 @@ public class OrderService {
 User user = userrepository.findByEmail(email);
 Order order = new Order();
 order.setProductid(productId);
+
+// Added Seller Binding
+Product p = productRepository.findById(productId).orElse(null);
+if (p != null && p.getSellerEmail() != null) {
+    User seller = userrepository.findByEmail(p.getSellerEmail());
+    if (seller != null) order.setSellerId(seller.getId());
+}
+
 if (user != null) {
     order.setUser(user);
     order.setCustomerName(user.getName());

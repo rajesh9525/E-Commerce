@@ -399,10 +399,20 @@
                             <td style="font-family:monospace;font-weight:700;" th:text="'#' + ${o.id}"></td>
 
                             <td>
-                                <div class="p-block">
-                                    <span class="p-name" th:text="${o.product.productName}"></span>
-                                    <span class="p-dt" th:text="'Ordered on ' + ${o.orderDate}"></span>
-                                </div>
+                                <th:block th:if="${o.productid != null}">
+                                    <div class="p-block">
+                                        <span class="p-name"
+                                            th:text="${productMap[o.productid] != null ? productMap[o.productid].productName : 'Unknown'}"></span>
+                                    </div>
+                                </th:block>
+                                <th:block th:if="${o.items != null && !#lists.isEmpty(o.items)}">
+                                    <div class="p-block">
+                                        <span class="p-name" th:each="item : ${o.items}"
+                                            th:text="${item.productName}"></span>
+                                    </div>
+                                </th:block>
+                                <span
+                                    th:if="${o.productid == null && (o.items == null || #lists.isEmpty(o.items))}">N/A</span>
                             </td>
 
                             <td>
@@ -412,25 +422,53 @@
                                 </div>
                             </td>
 
-                            <td th:text="'₹' + ${o.product.productprice}" style="color:var(--g);font-weight:800;"></td>
-                            <td><span th:class="'stat-chip stat-' + ${o.status}" th:text="${o.status}"></span></td>
+                            <td>
+                                <th:block th:if="${o.productid != null}">
+                                    <span
+                                        th:text="${productMap[o.productid] != null ? '₹' + productMap[o.productid].productprice : 'N/A'}"
+                                        style="color:var(--g);font-weight:800;"></span>
+                                </th:block>
+                                <th:block th:if="${o.items != null && !#lists.isEmpty(o.items)}">
+                                    <span th:each="item : ${o.items}" th:text="'₹' + ${item.price}"
+                                        style="color:var(--g);font-weight:800; display:block;"></span>
+                                </th:block>
+                            </td>
 
+                            <!-- Status Dropdown (Pending to Shipped) -->
+                            <td>
+                                <form th:action="@{/orders/update-status}" method="post">
+                                    <input type="hidden" name="orderId" th:value="${o.id}">
+
+                                    <select name="status" onchange="this.form.submit()" class="stat-chip"
+                                        th:classappend="'stat-' + ${o.status}"
+                                        th:if="${o.status == 'PENDING' || o.status == 'SHIPPED'}">
+                                        <option th:selected="${o.status == 'PENDING'}" value="PENDING">Pending</option>
+                                        <option th:selected="${o.status == 'SHIPPED'}" value="SHIPPED">Shipped</option>
+                                    </select>
+
+                                    <span th:if="${o.status != 'PENDING' && o.status != 'SHIPPED'}"
+                                        th:class="'stat-chip stat-' + ${o.status}" th:text="${o.status}"></span>
+                                </form>
+                            </td>
+
+                            <!-- Delivery Assignment -->
                             <td>
                                 <!-- IF NOT ASSIGNED -->
-                                <form th:if="${o.deliveryPartner == null}"
-                                    th:action="@{/orders/assign/{id}(id=${o.id})}" method="post" class="assign-form">
+                                <form th:if="${o.deliveryMan == null}" th:action="@{/orders/assign-delivery}"
+                                    method="post" class="assign-form">
+                                    <input type="hidden" name="orderId" th:value="${o.id}">
                                     <select name="deliveryId" required>
                                         <option value="" disabled selected>Assign partner...</option>
                                         <option th:each="d : ${deliveryPartners}" th:value="${d.id}"
-                                            th:text="${d.name}"></option>
+                                            th:text="${d.name + ' (' + d.email + ')'}"></option>
                                     </select>
                                     <button type="submit" class="btn-assign">Assign</button>
                                 </form>
 
                                 <!-- IF ASSIGNED -->
-                                <div th:if="${o.deliveryPartner != null}" class="assigned-badge">
+                                <div th:if="${o.deliveryMan != null}" class="assigned-badge">
                                     <i class="bi bi-person-check-fill"></i> <span
-                                        th:text="${o.deliveryPartner.name}"></span>
+                                        th:text="${o.deliveryMan.name}"></span>
                                 </div>
                             </td>
                         </tr>

@@ -23,12 +23,39 @@ public class OrderController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private E_commers.service.UserService userService;
+
     @GetMapping("/seller")
-    public String sellerOrders(Model model) {
+    public String sellerOrders(Model model, HttpSession session) {
 
-        Long sellerId = 1L;
+        Long sellerId = (Long) session.getAttribute("userid");
+        if (sellerId == null) return "redirect:/login";
 
-        model.addAttribute("orders", orderService.getSellerOrders(sellerId));
+        List<Order> orders = orderService.getSellerOrders(sellerId);
+        
+        java.util.Map<Long, Product> productMap = new java.util.HashMap<>();
+        for(Order o : orders) { 
+            if(o.getProductid() != null) {
+                Product p = productService.getProductById(o.getProductid());
+                productMap.put(o.getProductid(), p);
+            }
+            if (o.getItems() != null && !o.getItems().isEmpty()) {
+                for (E_commers.model.OrderItem item : o.getItems()) {
+                    if (item.getProductId() != null) {
+                        Product p = productService.getProductById(item.getProductId());
+                        productMap.put(item.getProductId(), p);
+                    }
+                }
+            }
+        }
+        
+        // Suppress generic casting warnings by utilizing raw usage locally or strictly casting to support older interfaces.
+        List<E_commers.model.User> deliveryPartners = (List<E_commers.model.User>) userService.getUsersByRole("DELIVERY");
+
+        model.addAttribute("orders", orders);
+        model.addAttribute("productMap", productMap);
+        model.addAttribute("deliveryPartners", deliveryPartners);
 
         return "seller_orders";
     }
