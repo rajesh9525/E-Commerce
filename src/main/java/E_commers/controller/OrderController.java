@@ -32,7 +32,7 @@ public class OrderController {
         Long sellerId = (Long) session.getAttribute("userid");
         if (sellerId == null) return "redirect:/login";
 
-        List<Order> orders = orderService.getSellerOrders(sellerId);
+        List<Order> orders = orderService.getAllOrders();
         
         java.util.Map<Long, Product> productMap = new java.util.HashMap<>();
         for(Order o : orders) { 
