@@ -438,13 +438,11 @@
                     <div class="order-header">
                         <div class="order-id" th:text="'Order #' + ${o.id}"></div>
                         <form th:action="@{/orders/customer/order/update}" method="post"
-                            style="margin-left:auto; margin-right: 16px;">
+                            style="margin-left:auto; margin-right: 16px;" th:if="${o.status == 'PENDING'}">
                             <input type="hidden" name="orderId" th:value="${o.id}">
-                            <select name="status" onchange="this.form.submit()" class="status-select"
-                                th:if="${o.status != 'CANCELLED' and o.status != 'RETURNED'}">
+                            <select name="status" onchange="this.form.submit()" class="status-select">
                                 <option value="" disabled selected>Manage Order</option>
-                                <option value="CANCELLED" th:if="${o.status == 'PENDING'}">Cancel Order</option>
-                                <option value="RETURNED" th:if="${o.status == 'DELIVERED'}">Return Order</option>
+                                <option value="CANCELLED">Cancel Order</option>
                             </select>
                         </form>
                         <span th:class="'stat-chip stat-' + ${o.status}">
