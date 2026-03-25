@@ -60,9 +60,11 @@ public class OrderController {
         return "seller_orders";
     }
     @GetMapping("/delivery/orders")
-    public String viewDeliveryOrders(Model model) {
+    public String viewDeliveryOrders(Model model, HttpSession session) {
+        Long deliveryId = (Long) session.getAttribute("userid");
+        if (deliveryId == null) return "redirect:/login";
 
-        List<Order> orders = orderService.getAssignedOrders();
+        List<Order> orders = orderService.getOrdersByDeliveryId(deliveryId);
 
         if (orders == null) orders = new java.util.ArrayList<>();
 
