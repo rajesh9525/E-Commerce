@@ -381,6 +381,22 @@
             box-shadow: 4px 4px 0 var(--bdr);
             transform: translateY(-2px);
         }
+
+        .status-select {
+            padding: 7px 12px;
+            border-radius: 8px;
+            border: 2px solid var(--bdr);
+            font-weight: 700;
+            font-size: 12px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        .status-select:focus {
+            outline: none;
+            border-color: var(--b);
+        }
     </style>
 </head>
 
@@ -421,6 +437,16 @@
                 <div class="order-card" th:each="o : ${orders}">
                     <div class="order-header">
                         <div class="order-id" th:text="'Order #' + ${o.id}"></div>
+                        <form th:action="@{/customer/order/update}" method="post"
+                            style="margin-left:auto; margin-right: 16px;">
+                            <input type="hidden" name="orderId" th:value="${o.id}">
+                            <select name="status" onchange="this.form.submit()" class="status-select"
+                                th:if="${o.status != 'CANCELLED' and o.status != 'RETURNED'}">
+                                <option value="" disabled selected>Manage Order</option>
+                                <option value="CANCELLED" th:if="${o.status == 'PENDING'}">Cancel Order</option>
+                                <option value="RETURNED" th:if="${o.status == 'DELIVERED'}">Return Order</option>
+                            </select>
+                        </form>
                         <span th:class="'stat-chip stat-' + ${o.status}">
                             <i th:if="${o.status == 'PLACED'}" class="bi bi-clock"></i>
                             <i th:if="${o.status == 'ASSIGNED'}" class="bi bi-truck"></i>
@@ -429,23 +455,45 @@
                         </span>
                     </div>
 
-                    <div class="order-body">
-                        <div class="product-img">
-                            <!-- Fetch the product from our generated map -->
-                            <img th:if="${productMap[o.productid] != null && productMap[o.productid].productimage != null}"
-                                th:src="@{'/product/image/' + ${o.productid}}">
-                            <i th:unless="${productMap[o.productid] != null && productMap[o.productid].productimage != null}"
-                                class="bi bi-box"></i>
-                        </div>
+                    <div class="order-body" style="justify-content: space-between;">
+                        <div style="display:flex; flex-direction:column; gap:20px; flex:1;">
+                            <!-- SINGLE ITEM ORDER -->
+                            <div th:if="${o.productid != null}" style="display:flex; gap:24px;">
+                                <div class="product-img">
+                                    <!-- Fetch the product from our generated map -->
+                                    <img th:if="${productMap[o.productid] != null && productMap[o.productid].productimage != null}"
+                                        th:src="@{'/product/image/' + ${o.productid}}">
+                                    <i th:unless="${productMap[o.productid] != null && productMap[o.productid].productimage != null}"
+                                        class="bi bi-box"></i>
+                                </div>
+                                <div class="order-details">
+                                    <div class="p-name"
+                                        th:text="${productMap[o.productid] != null ? productMap[o.productid].productName : 'Unknown Product'}">
+                                    </div>
+                                    <div class="p-qty" th:text="'Purchased Qty: ' + ${o.quantity}"></div>
+                                    <div class="p-price"
+                                        th:text="${productMap[o.productid] != null ? '₹' + productMap[o.productid].productprice : '₹0.0'}">
+                                    </div>
+                                </div>
+                            </div>
 
-                        <div class="order-details">
-                            <div class="p-name"
-                                th:text="${productMap[o.productid] != null ? productMap[o.productid].productName : 'Unknown Product'}">
-                            </div>
-                            <div class="p-qty" th:text="'Purchased Qty: ' + ${o.quantity}"></div>
-                            <div class="p-price"
-                                th:text="${productMap[o.productid] != null ? '₹' + productMap[o.productid].productprice : '₹0.0'}">
-                            </div>
+                            <!-- MULTI ITEM ORDER -->
+                            <th:block th:if="${o.items != null && !#lists.isEmpty(o.items)}">
+                                <div th:each="item, stat : ${o.items}" style="display:flex; gap:24px;"
+                                    th:styleappend="${!stat.last ? 'border-bottom: 1px dashed var(--bdr); padding-bottom: 16px;' : ''}">
+                                    <div class="product-img">
+                                        <img th:if="${productMap[item.productId] != null && productMap[item.productId].productimage != null}"
+                                            th:src="@{'/product/image/' + ${item.productId}}">
+                                        <i th:unless="${productMap[item.productId] != null && productMap[item.productId].productimage != null}"
+                                            class="bi bi-box"></i>
+                                    </div>
+                                    <div class="order-details">
+                                        <div class="p-name" th:text="${item.productName}"></div>
+                                        <div class="p-qty" th:text="'Purchased Qty: ' + ${item.quantity}"></div>
+                                        <div class="p-price" th:text="'₹' + ${item.price}"></div>
+                                    </div>
+                                </div>
+                            </th:block>
                         </div>
 
                         <div class="delivery-info">

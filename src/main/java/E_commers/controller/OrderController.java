@@ -62,6 +62,14 @@ public class OrderController {
                 Product p = productService.getProductById(o.getProductid());
                 productMap.put(o.getProductid(), p);
             }
+            if (o.getItems() != null && !o.getItems().isEmpty()) {
+                for (E_commers.model.OrderItem item : o.getItems()) {
+                    if (item.getProductId() != null) {
+                        Product p = productService.getProductById(item.getProductId());
+                        productMap.put(item.getProductId(), p);
+                    }
+                }
+            }
         }
         
         model.addAttribute("orders", orders);
@@ -106,6 +114,19 @@ public class OrderController {
         
         orderService.placeAutomatedOrder(productId, email, address, city, pinCode, phoneNumber);
 
+        return "redirect:/orders/my-orders";
+    }
+
+    @PostMapping("/customer/order/update")
+    public String customerCancelReturn(@RequestParam Long orderId, @RequestParam String status, HttpSession session) {
+        String email = (String) session.getAttribute("email");
+        if(email == null) return "redirect:/login";
+        Order o = orderService.getOrderById(orderId);
+        if (o != null && o.getUser() != null && o.getUser().getEmail().equals(email)) {
+            if ("CANCELLED".equals(status) || "RETURNED".equals(status)) {
+                orderService.updateOrderStatus(orderId, status);
+            }
+        }
         return "redirect:/orders/my-orders";
     }
     
