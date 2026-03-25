@@ -437,7 +437,7 @@
                 <div class="order-card" th:each="o : ${orders}">
                     <div class="order-header">
                         <div class="order-id" th:text="'Order #' + ${o.id}"></div>
-                        <form th:action="@{/customer/order/update}" method="post"
+                        <form th:action="@{/orders/customer/order/update}" method="post"
                             style="margin-left:auto; margin-right: 16px;">
                             <input type="hidden" name="orderId" th:value="${o.id}">
                             <select name="status" onchange="this.form.submit()" class="status-select"
