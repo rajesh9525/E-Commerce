@@ -64,7 +64,41 @@ public class OrderController {
 
         List<Order> orders = orderService.getAssignedOrders();
 
+        if (orders == null) orders = new java.util.ArrayList<>();
+
+        java.util.Map<Long, String> productMap = new java.util.HashMap<>();
+        java.util.Map<Long, Double> amountMap = new java.util.HashMap<>();
+        java.util.Map<Long, Double> priceMap = new java.util.HashMap<>();
+
+        for(Order o : orders) { 
+            double total = 0.0;
+            StringBuilder pNames = new StringBuilder();
+            
+            if(o.getProductid() != null) {
+                Product p = productService.getProductById(o.getProductid());
+                if (p != null) {
+                    pNames.append(p.getProductName());
+                    total = p.getProductprice() * (o.getQuantity() != null ? o.getQuantity() : 1);
+                }
+            } else if (o.getItems() != null && !o.getItems().isEmpty()) {
+                for (E_commers.model.OrderItem item : o.getItems()) {
+                    if (pNames.length() > 0) pNames.append(", ");
+                    if (item.getProductName() != null) {
+                        pNames.append(item.getProductName());
+                    } else if (item.getProductId() != null) {
+                        Product p = productService.getProductById(item.getProductId());
+                        if (p != null) pNames.append(p.getProductName());
+                    }
+                    total += item.getPrice() * item.getQuantity();
+                }
+            }
+            productMap.put(o.getId(), pNames.toString());
+            priceMap.put(o.getId(), total);
+        }
+
         model.addAttribute("orders", orders);
+        model.addAttribute("productMap", productMap);
+        model.addAttribute("priceMap", priceMap);
 
         return "delivery-orders";
     }

@@ -156,7 +156,7 @@ public class ProductController {
         Product product = productRepository.findById(id).orElse(null);
         if (product != null && sellername.equals(product.getSellername())) {
             model.addAttribute("p", product);
-            return "seller_edit_product";
+            return "edit_product";
         }
         return "redirect:/sellerdashboard";
     }
