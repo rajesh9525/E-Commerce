@@ -43,7 +43,18 @@ public class OrderService {
 	 public List<Order> getOrdersByUserEmail(String email) {
         User user = userrepository.findByEmail(email);
         if (user != null) {
-            return orderRepository.findByUserId(user.getId());
+            List<Order> byId = orderRepository.findByUserId(user.getId());
+            List<Order> byName = new ArrayList<>();
+            if (user.getName() != null) {
+                byName = orderRepository.findByCustomerName(user.getName());
+            }
+            
+            // Merge lists using a Set to ensure unique items in case of overlaps
+            java.util.Set<Order> mergedSet = new java.util.LinkedHashSet<>();
+            mergedSet.addAll(byId);
+            mergedSet.addAll(byName);
+            
+            return new ArrayList<>(mergedSet);
         }
         return new ArrayList<>();
 	 }
